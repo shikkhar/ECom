@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -59,5 +58,13 @@ public class QuantityCustomView extends ConstraintLayout {
                 return;
             quantity.setText(String.valueOf(qty + 1));
         });
+    }
+
+    public int getQuantity(){
+        return Integer.valueOf(quantity.getText().toString());
+    }
+
+    public void setQuantity(int qty){
+        quantity.setText(String.valueOf(qty));
     }
 }

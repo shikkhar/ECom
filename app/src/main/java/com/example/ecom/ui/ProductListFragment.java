@@ -6,12 +6,15 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +25,8 @@ import com.example.ecom.R;
 import com.example.ecom.adapters.ProductListAdapter;
 import com.example.ecom.model.Product;
 import com.example.ecom.view_models.ProductSharedViewModel;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,7 +43,7 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
 
     @BindView(R.id.editTextProductFilter)
     EditText filterEditText;
-//    @BindView(R.id.textInputLayoutProductFilter)
+    //    @BindView(R.id.textInputLayoutProductFilter)
 //    TextInputLayout textInputLayout;
     @BindView(R.id.recyclerViewProductList)
     RecyclerView recyclerViewProductList;
@@ -52,6 +57,7 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mAdapter = new ProductListAdapter(this);
+        mAdapter.registerAdapterDataObserver(new ProductAdapterChangesListener());
     }
 
     @Override
@@ -66,6 +72,7 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         navController = Navigation.findNavController(view);
+        filterEditText.addTextChangedListener(new SearchTextWatcher());
         //navController.navigate(R.id.action_productListFragment_to_productDetailFragment);
     }
 
@@ -74,13 +81,15 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
         super.onActivityCreated(savedInstanceState);
         setupRecyclerView();
         productSharedViewModel = ViewModelProviders.of(getActivity()).get(ProductSharedViewModel.class);
+
         productSharedViewModel.getProductLiveData().observe(getViewLifecycleOwner(), products -> {
-            mAdapter.submitList(products);
+            mAdapter.setList(products);
         });
     }
 
     private void setupRecyclerView() {
-        recyclerViewProductList.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerViewProductList.setLayoutManager(layoutManager);
         mAdapter.setClickListener(this);
         recyclerViewProductList.setAdapter(mAdapter);
     }
@@ -92,11 +101,60 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
         navController.navigate(R.id.action_productListFragment_to_productDetailFragment, bundle);
     }
 
+    private class ProductAdapterChangesListener extends RecyclerView.AdapterDataObserver{
+        @Override
+        public void onChanged() {
+            recyclerViewProductList.scrollToPosition(0);
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount) {
+            recyclerViewProductList.scrollToPosition(0);
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) {
+            recyclerViewProductList.scrollToPosition(0);
+        }
+
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            recyclerViewProductList.scrollToPosition(0);
+        }
+
+        @Override
+        public void onItemRangeRemoved(int positionStart, int itemCount) {
+            recyclerViewProductList.scrollToPosition(0);
+        }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            recyclerViewProductList.scrollToPosition(0);
+        }
+    }
+
+    private class SearchTextWatcher implements TextWatcher {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (productSharedViewModel != null)
+                productSharedViewModel.getFilter().filter(s.toString());
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.cartFragment:
-
+            case R.id.action_cart:
                 navController.navigate(R.id.action_productListFragment_to_cartFragment);
                 return true;
 

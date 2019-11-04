@@ -61,7 +61,8 @@ public class ProductDetailFragment extends Fragment {
 
     @OnClick(R.id.buttonBuyNow)
     void onBuyNowClick(){
-
+        if(navController != null)
+            navController.navigate(R.id.action_productDetailFragment_to_cartFragment);
     }
 
 
@@ -130,7 +131,7 @@ public class ProductDetailFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.cartFragment:
+            case R.id.action_cart:
                 navController.navigate(R.id.action_productDetailFragment_to_cartFragment);
                 return true;
                 //return NavigationUI.onNavDestinationSelected(item, navController);

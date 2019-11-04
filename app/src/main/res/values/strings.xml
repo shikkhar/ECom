@@ -9,4 +9,15 @@
     <string name="menu_item_cart">Cart</string>
     <string name="product_filter">Search</string>
     <string name="zero">0</string>
+    <string name="select_address">Select a delivery address</string>
+    <string name="add_new_address">Add a New Address</string>
+    <string name="checkout">Select Delivery Address</string>
+    <string name="deliver_here">Deliver Here</string>
+    <string name="edit_address">Edit Address</string>
+    <string name="final_amount">Final Amount</string>
+    <string name="order_summary">Order Summary</string>
+    <string name="total_mrp">Total MRP (Inc. Taxes)</string>
+    <string name="shipping_charges">Shipping Charges</string>
+    <string name="remove">Remove</string>
+    <string name="payable_amount">Payable Amount</string>
 </resources>

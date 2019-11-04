@@ -17,14 +17,16 @@ import com.example.ecom.R;
 import com.example.ecom.model.Product;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.MyViewHolder> {
+public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.MyViewHolder>{
 
     private Fragment containerFragment;
+    private List<Product> productList;
     private OnItemClickListener onItemClickListener;
 
     public ProductListAdapter(Fragment containerFragment) {
@@ -82,6 +84,10 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
         holder.discountTextView.setText(product.getDiscount() + "% Off");
     }
 
+    public void setList(List<Product> productList){
+        this.productList = productList;
+        submitList(productList);
+    }
 
     public void setClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
@@ -119,4 +125,5 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
             });
         }
     }
+
 }
