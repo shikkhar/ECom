@@ -20,4 +20,5 @@
     <string name="shipping_charges">Shipping Charges</string>
     <string name="remove">Remove</string>
     <string name="payable_amount">Payable Amount</string>
+    <string name="order_total_detail">Click here for details</string>
 </resources>

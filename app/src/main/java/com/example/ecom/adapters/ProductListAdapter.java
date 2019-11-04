@@ -17,7 +17,6 @@ import com.example.ecom.R;
 import com.example.ecom.model.Product;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -73,7 +72,7 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
             Glide.with(containerFragment)
                     .load(product.getImagePath())
                     .centerCrop()
-                    .placeholder(R.drawable.ic_search)
+                    .placeholder(R.drawable.ic_search_dark_24dp)
                     .into(holder.productImageView);
 
         holder.titleTextView.setText(product.getTitle());

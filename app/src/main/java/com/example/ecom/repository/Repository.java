@@ -27,7 +27,7 @@ public class Repository {
 
         List<DeliveryDetail> deliveryDetailList = new ArrayList<>();
 
-        for (int i = 0; i <5 ; i++) {
+        for (int i = 0; i <2 ; i++) {
             Address address = new Address("B521A", "Sushant Lok", "Gurugram", "Haryana", "");
             DeliveryDetail deliveryDetail = new DeliveryDetail("Shikhar Pahwa " + i, address);
             deliveryDetailList.add(deliveryDetail);
@@ -38,7 +38,7 @@ public class Repository {
 
     public List<CartProductDetail> getCartDetails(){
         List<CartProductDetail> cartProductDetailList = new ArrayList<>();
-        for (int i = 1; i < 3 ; i++) {
+        for (int i = 1; i < 7 ; i++) {
 
             Product product = new Product("Product " + i,"Short Description",
                     "Long Description",

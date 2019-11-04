@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -16,9 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import com.example.ecom.R;
@@ -41,8 +45,8 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
     private ProductSharedViewModel productSharedViewModel;
     private ProductListAdapter mAdapter;
 
-    @BindView(R.id.editTextProductFilter)
-    EditText filterEditText;
+    //    @BindView(R.id.editTextProductFilter)
+//    EditText filterEditText;
     //    @BindView(R.id.textInputLayoutProductFilter)
 //    TextInputLayout textInputLayout;
     @BindView(R.id.recyclerViewProductList)
@@ -64,7 +68,7 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.collapsible_toolbar, container, false);
+        return inflater.inflate(R.layout.fragment_product_list, container, false);
     }
 
     @Override
@@ -72,7 +76,7 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         navController = Navigation.findNavController(view);
-        filterEditText.addTextChangedListener(new SearchTextWatcher());
+        //filterEditText.addTextChangedListener(new SearchTextWatcher());
         //navController.navigate(R.id.action_productListFragment_to_productDetailFragment);
     }
 
@@ -101,7 +105,7 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
         navController.navigate(R.id.action_productListFragment_to_productDetailFragment, bundle);
     }
 
-    private class ProductAdapterChangesListener extends RecyclerView.AdapterDataObserver{
+    private class ProductAdapterChangesListener extends RecyclerView.AdapterDataObserver {
         @Override
         public void onChanged() {
             recyclerViewProductList.scrollToPosition(0);
@@ -133,7 +137,7 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
         }
     }
 
-    private class SearchTextWatcher implements TextWatcher {
+    /*private class SearchTextWatcher implements TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -150,7 +154,7 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
                 productSharedViewModel.getFilter().filter(s.toString());
         }
     }
-
+*/
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -161,6 +165,27 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (productSharedViewModel != null)
+                    productSharedViewModel.getFilter().filter(newText);
+                return false;
+            }
+        });
     }
 
 }

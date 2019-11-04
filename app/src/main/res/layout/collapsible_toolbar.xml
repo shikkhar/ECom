@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
-                android:drawableStart="@drawable/ic_search"
+                android:drawableStart="@drawable/ic_search_dark_24dp"
                 android:drawablePadding="4dp"
                 android:hint="@string/product_filter"
                 android:inputType="textPersonName"

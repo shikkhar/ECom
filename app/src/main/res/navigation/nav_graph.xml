@@ -52,10 +52,18 @@
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_action_cart_to_summaryBottomSheetDialoagFragment"
+            app:destination="@id/summaryBottomSheetDialoagFragment" />
     </fragment>
     <fragment
         android:id="@+id/deliveryDetailsFragment"
         android:name="com.example.ecom.ui.DeliveryDetailsFragment"
         android:label="fragment_delivery_details"
         tools:layout="@layout/fragment_delivery_details" />
+    <dialog
+        android:id="@+id/summaryBottomSheetDialoagFragment"
+        android:name="com.example.ecom.ui.SummaryBottomSheetDialoagFragment"
+        android:label="list_item_order_summary"
+        tools:layout="@layout/list_item_order_summary" />
 </navigation>

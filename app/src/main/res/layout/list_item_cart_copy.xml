@@ -10,10 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        app:cardBackgroundColor="@color/textColorLight"
+        app:cardBackgroundColor="@color/colorPrimary"
         app:cardCornerRadius="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRemoveItem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/textColorLight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageViewProduct"
                 app:layout_constraintTop_toTopOf="@+id/imageViewProduct"
@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorAccent"
                 app:layout_constraintStart_toStartOf="@+id/textViewProductTitle"
                 app:layout_constraintTop_toBottomOf="@+id/textViewProductTitle"
                 tools:text="TextView" />
@@ -74,11 +74,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:decreaseQtyImageSrc="@drawable/ic_decrease_qty_dark_24dp"
-                app:increaseQtyImageSrc="@drawable/ic_increase_qty_dark_24dp"
                 app:layout_constraintStart_toStartOf="@+id/textViewFinalPrice"
                 app:layout_constraintTop_toBottomOf="@+id/textViewFinalPrice"
-                app:textColor="@color/colorPrimaryDark" />
+                app:decreaseQtyImageSrc="@drawable/ic_decrease_qty_24dp"
+                app:increaseQtyImageSrc="@drawable/ic_increase_qty_24dp"
+                app:textColor="@color/colorAccent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -87,13 +87,8 @@
         android:id="@+id/buttonRemoveItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:text="@string/remove"
-        android:textColor="@color/colorPrimary"
-        android:textSize="12sp"
-        app:backgroundTint="@color/textColorLight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardViewProduct" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

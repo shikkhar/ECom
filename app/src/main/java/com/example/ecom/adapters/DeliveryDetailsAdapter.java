@@ -16,6 +16,7 @@ import com.example.ecom.R;
 import com.example.ecom.model.Address;
 import com.example.ecom.model.DeliveryDetail;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
 
@@ -30,7 +31,6 @@ public class DeliveryDetailsAdapter extends RecyclerView.Adapter<DeliveryDetails
 
     public DeliveryDetailsAdapter() {
     }
-
 
 
     @NonNull
@@ -50,14 +50,13 @@ public class DeliveryDetailsAdapter extends RecyclerView.Adapter<DeliveryDetails
                 address.getCity() + "\n" +
                 address.getState());
 
-        if(deliveryDetail.getSelected()){
+        if (deliveryDetail.getSelected()) {
+            if (holder.cardView.getStrokeWidth() == 0)
+                holder.cardView.setStrokeWidth(8);
             holder.viewGroupDeliveryButtons.setVisibility(View.VISIBLE);
-            holder.radioButton.setChecked(true);
-        }
-
-        else{
+        } else {
+            holder.cardView.setStrokeWidth(0);
             holder.viewGroupDeliveryButtons.setVisibility(View.GONE);
-            holder.radioButton.setChecked(false);
         }
     }
 
@@ -82,8 +81,9 @@ public class DeliveryDetailsAdapter extends RecyclerView.Adapter<DeliveryDetails
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.radioButton)
-        RadioButton radioButton;
+
+        @BindView(R.id.cardViewDeliveryDetail)
+        MaterialCardView cardView;
         @BindView(R.id.textViewUserName)
         TextView userNameTextView;
         @BindView(R.id.textViewAddress)
@@ -113,38 +113,22 @@ public class DeliveryDetailsAdapter extends RecyclerView.Adapter<DeliveryDetails
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            /*itemView.setFocusableInTouchMode(true);
-            itemView.setFocusable(true);
+            itemView.setOnClickListener(v -> formatRecyclerView());
 
-            itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if(hasFocus){
-                        viewGroupDeliveryButtons.setVisibility(View.VISIBLE);
-                        radioButton.setChecked(true);
-                    }
-                    else{
-                        viewGroupDeliveryButtons.setVisibility(View.GONE);
-                        radioButton.setChecked(false);
-                    }
+        }
 
-                    notifyDataSetChanged();
+        private void formatRecyclerView() {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                for (int i = 0; i < getItemCount(); i++) {
+                    if (i == position)
+                        deliveryDetailList.get(i).setSelected(true);
+                    else
+                        deliveryDetailList.get(i).setSelected(false);
                 }
-            });*/
 
-            itemView.setOnClickListener(v -> {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    for (int i = 0; i < getItemCount(); i++) {
-                        if (i == position)
-                            deliveryDetailList.get(i).setSelected(true);
-                        else
-                            deliveryDetailList.get(i).setSelected(false);
-                    }
-
-                    notifyDataSetChanged();
-                }
-            });
+                notifyDataSetChanged();
+            }
         }
     }
 }

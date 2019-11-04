@@ -8,30 +8,6 @@
     tools:context=".ui.ProductListFragment">
 
 
-    <EditText
-        android:id="@+id/editTextProductFilter"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/rounded_corner_accent_color"
-        android:drawableStart="@drawable/ic_search"
-        android:drawablePadding="4dp"
-        android:hint="@string/product_filter"
-        android:inputType="textPersonName"
-        android:paddingStart="4dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="4dp"
-        android:paddingBottom="4dp"
-        android:singleLine="true"
-        android:textColor="@color/colorPrimaryDark"
-        android:textColorHint="@color/colorPrimaryDark"
-        android:textCursorDrawable="@null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewProductList"
         android:layout_width="0dp"
@@ -40,6 +16,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextProductFilter"
-        tools:listitem="@layout/list_item_products"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/list_item_products" />
 </androidx.constraintlayout.widget.ConstraintLayout>

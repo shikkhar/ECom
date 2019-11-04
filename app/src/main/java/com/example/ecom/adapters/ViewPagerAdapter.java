@@ -40,7 +40,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         Glide.with(context)
                 .load(imageUrls.get(position))
                 .centerCrop()
-                .placeholder(R.drawable.ic_search)
+                .placeholder(R.drawable.ic_search_dark_24dp)
                 .into(imageView);
 
         container.addView(imageView);

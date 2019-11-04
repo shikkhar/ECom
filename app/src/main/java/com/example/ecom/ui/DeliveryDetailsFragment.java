@@ -40,7 +40,6 @@ public class DeliveryDetailsFragment extends Fragment implements DeliveryDetails
     private DeliveryDetailsAdapter mAdapter;
     private NavController navController;
 
-    @BindView(R.id.textViewAddAddress) TextView addAddressTextView;
     @BindView(R.id.recyclerViewAddress) RecyclerView recyclerView;
 
     public DeliveryDetailsFragment() {
@@ -92,6 +91,7 @@ public class DeliveryDetailsFragment extends Fragment implements DeliveryDetails
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
         menu.findItem(R.id.action_cart).setVisible(false);
+        menu.findItem(R.id.action_search).setVisible(false);
         super.onPrepareOptionsMenu(menu);
     }
 }
