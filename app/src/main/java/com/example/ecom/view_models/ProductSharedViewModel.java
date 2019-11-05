@@ -9,10 +9,15 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
+import com.android.volley.VolleyError;
 import com.example.ecom.model.CartProductDetail;
 import com.example.ecom.model.Product;
 import com.example.ecom.repository.Repository;
+import com.example.ecom.utils.VolleySeverRequest;
 
+import org.json.JSONObject;
+
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +68,48 @@ public class ProductSharedViewModel extends ViewModel implements Filterable {
         return cartSummaryLiveD;
     }
 
+
+    private static class FetchProductListCallback implements VolleySeverRequest.VolleyResponseCallback{
+        private WeakReference<MutableLiveData<List<Product>>> weakProductListLiveD;
+
+        public FetchProductListCallback(MutableLiveData<List<Product>> productListLiveD) {
+            this.weakProductListLiveD = new WeakReference<>(productListLiveD);
+        }
+
+        @Override
+        public void onSuccess(JSONObject response) {
+            MutableLiveData<List<Product>> productListLiveD = weakProductListLiveD.get();
+            if(productListLiveD != null){
+                productListLiveD.setValue(null);
+            }
+        }
+
+        @Override
+        public void onFail(VolleyError error) {
+
+        }
+    }
+
+    private static class FetchCartProductsCallback implements VolleySeverRequest.VolleyResponseCallback{
+        private WeakReference<MutableLiveData<List<CartProductDetail>>> weakCartProductListLiveD;
+
+        public FetchCartProductsCallback(MutableLiveData<List<CartProductDetail>> cartProductListLiveD) {
+            this.weakCartProductListLiveD = new WeakReference<>(cartProductListLiveD);
+        }
+
+        @Override
+        public void onSuccess(JSONObject response) {
+            MutableLiveData<List<CartProductDetail>> cartProductListLiveD = weakCartProductListLiveD.get();
+            if(cartProductListLiveD != null){
+                cartProductListLiveD.setValue(null);
+            }
+        }
+
+        @Override
+        public void onFail(VolleyError error) {
+
+        }
+    }
 
     @Override
     public Filter getFilter() {

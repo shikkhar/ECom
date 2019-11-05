@@ -37,10 +37,12 @@ import butterknife.OnClick;
  * A simple {@link Fragment} subclass.
  */
 public class CartFragment extends Fragment {
+    public static final String BUNDLE_KEY_CART_TOTAL = "0";
     private NavController navController;
     private ProductSharedViewModel productSharedViewModel;
     private CartAdapter mAdapter;
     private Animation bounceAnimation;
+    private double cartTotal;
 
     @BindView(R.id.textViewFinalAmount) TextView finalAmountTextView;
     @BindView(R.id.buttonCheckout) MaterialButton checkoutButton;
@@ -48,7 +50,9 @@ public class CartFragment extends Fragment {
     @BindView(R.id.recyclerViewCart) RecyclerView recyclerView;
 
     @OnClick({R.id.label,R.id.textViewFinalAmount,R.id.imageViewCartTotalDetail})
-    void onFinalAmountLabelClick(){
+    void onLabelClick(){
+        Bundle bundle = new Bundle();
+        bundle.putDouble(BUNDLE_KEY_CART_TOTAL, cartTotal);
         navController.navigate(R.id.action_action_cart_to_summaryBottomSheetDialoagFragment);
     }
 
@@ -101,6 +105,7 @@ public class CartFragment extends Fragment {
         });
 
         productSharedViewModel.getCartSummaryLiveData().observe(getViewLifecycleOwner(), value -> {
+            cartTotal = value;
             DecimalFormat df = new DecimalFormat("#.##");
             finalAmountTextView.setText(getString(R.string.Rs) + df.format(value));
             mAdapter.setCartSummary(value);

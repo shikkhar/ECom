@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DeliveryDetailsFragment extends Fragment implements DeliveryDetailsAdapter.OnButtonClick {
+public class DeliveryDetailsFragment extends Fragment implements DeliveryDetailsAdapter.OnClickListener {
 
     private DeliveryDetailsViewModel deliveryDetailsViewModel;
     private DeliveryDetailsAdapter mAdapter;
@@ -79,12 +79,17 @@ public class DeliveryDetailsFragment extends Fragment implements DeliveryDetails
     }
 
     @Override
-    public void onDeliverHereClick(int position) {
+    public void onAddAddressClick() {
 
     }
 
     @Override
-    public void onEditAddressClick(int position) {
+    public void onDeliverHereClick(DeliveryDetail deliveryDetail) {
+
+    }
+
+    @Override
+    public void onEditAddressClick(DeliveryDetail deliveryDetail) {
 
     }
 

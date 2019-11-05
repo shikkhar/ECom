@@ -9,9 +9,9 @@
         android:id="@+id/cardViewProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="1dp"
         app:cardBackgroundColor="@color/colorPrimary"
         app:cardCornerRadius="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -52,11 +52,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                tools:text="TextView"
                 android:textColor="@color/textColor"
                 app:layout_constraintEnd_toEndOf="@+id/textViewProductTitle"
                 app:layout_constraintStart_toStartOf="@+id/textViewProductTitle"
-                app:layout_constraintTop_toBottomOf="@+id/textViewProductTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewProductTitle"
+                tools:text="TextView" />
 
             <TextView
                 android:id="@+id/textViewFinalPrice"
@@ -68,7 +68,7 @@
                 app:layout_constraintStart_toStartOf="@+id/textViewShortDescription"
                 app:layout_constraintTop_toBottomOf="@+id/textViewShortDescription"
                 app:layout_constraintVertical_bias="0.0"
-                tools:text="TextView"/>
+                tools:text="TextView" />
 
 
             <TextView
@@ -81,7 +81,7 @@
                 android:textStyle="italic"
                 app:layout_constraintStart_toEndOf="@+id/textViewFinalPrice"
                 app:layout_constraintTop_toTopOf="@+id/textViewFinalPrice"
-                tools:text="TextView"/>
+                tools:text="TextView" />
 
             <TextView
                 android:id="@+id/textViewDiscount"
@@ -91,7 +91,7 @@
                 android:textColor="@color/textColor"
                 app:layout_constraintStart_toEndOf="@+id/textViewOriginalPrice"
                 app:layout_constraintTop_toTopOf="@+id/textViewOriginalPrice"
-                tools:text="@string/Rs"/>
+                tools:text="@string/Rs" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

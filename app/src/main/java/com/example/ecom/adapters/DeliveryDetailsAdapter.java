@@ -3,13 +3,10 @@ package com.example.ecom.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.Group;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ecom.R;
@@ -24,10 +21,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class DeliveryDetailsAdapter extends RecyclerView.Adapter<DeliveryDetailsAdapter.MyViewHolder> {
+public class DeliveryDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    public static final int VIEW_TYPE_DELIVERY_DETAIL = 0;
+    public static final int VIEW_TYPE_ADD_ADDRESS = 1;
     private List<DeliveryDetail> deliveryDetailList;
-    private OnButtonClick onButtonClick;
+    private OnClickListener onClick;
 
     public DeliveryDetailsAdapter() {
     }
@@ -35,38 +34,60 @@ public class DeliveryDetailsAdapter extends RecyclerView.Adapter<DeliveryDetails
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_delivery_details, parent, false);
-        return new MyViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view;
+
+        if (viewType == VIEW_TYPE_ADD_ADDRESS) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_add_address, parent, false);
+            return new AddAddressViewHolder(view);
+        } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_delivery_details, parent, false);
+            return new DeliveryDetailViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        DeliveryDetail deliveryDetail = deliveryDetailList.get(position);
-        Address address = deliveryDetail.getAddress();
-        holder.userNameTextView.setText(deliveryDetail.getUserName());
-        holder.addressTextView.setText(address.getHouse() + "\n" +
-                address.getLocality() + "\n" +
-                address.getCity() + "\n" +
-                address.getState());
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if(getItemViewType(position) == VIEW_TYPE_DELIVERY_DETAIL) {
+            try {
+                DeliveryDetailViewHolder viewHolder = (DeliveryDetailViewHolder) holder;
+                DeliveryDetail deliveryDetail = deliveryDetailList.get(position);
+                Address address = deliveryDetail.getAddress();
+                viewHolder.userNameTextView.setText(deliveryDetail.getUserName());
+                viewHolder.addressTextView.setText(address.getHouse() + "\n" +
+                        address.getLocality() + "\n" +
+                        address.getCity() + "\n" +
+                        address.getState());
 
-        if (deliveryDetail.getSelected()) {
-            if (holder.cardView.getStrokeWidth() == 0)
-                holder.cardView.setStrokeWidth(8);
-            holder.viewGroupDeliveryButtons.setVisibility(View.VISIBLE);
-        } else {
-            holder.cardView.setStrokeWidth(0);
-            holder.viewGroupDeliveryButtons.setVisibility(View.GONE);
+                if (deliveryDetail.getSelected()) {
+                    if (viewHolder.cardView.getStrokeWidth() == 0)
+                        viewHolder.cardView.setStrokeWidth(8);
+                    viewHolder.viewGroupDeliveryButtons.setVisibility(View.VISIBLE);
+                } else {
+                    viewHolder.cardView.setStrokeWidth(0);
+                    viewHolder.viewGroupDeliveryButtons.setVisibility(View.GONE);
+                }
+            } catch (ClassCastException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
     public int getItemCount() {
-        return deliveryDetailList.size();
+        return deliveryDetailList.size() + 1;
     }
 
-    public void setClickListener(OnButtonClick onButtonClick) {
-        this.onButtonClick = onButtonClick;
+    @Override
+    public int getItemViewType(int position) {
+        if (position == getItemCount() - 1)
+            return VIEW_TYPE_ADD_ADDRESS;
+
+        return VIEW_TYPE_DELIVERY_DETAIL;
+    }
+
+    public void setClickListener(OnClickListener onClick) {
+        this.onClick = onClick;
     }
 
     public void setList(List<DeliveryDetail> deliveryDetailList) {
@@ -74,13 +95,8 @@ public class DeliveryDetailsAdapter extends RecyclerView.Adapter<DeliveryDetails
         notifyDataSetChanged();
     }
 
-    public interface OnButtonClick {
-        void onDeliverHereClick(int position);
 
-        void onEditAddressClick(int position);
-    }
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class DeliveryDetailViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.cardViewDeliveryDetail)
         MaterialCardView cardView;
@@ -99,20 +115,19 @@ public class DeliveryDetailsAdapter extends RecyclerView.Adapter<DeliveryDetails
         void onDeliverHereClick() {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION)
-                onButtonClick.onDeliverHereClick(position);
+                onClick.onDeliverHereClick(deliveryDetailList.get(position));
         }
 
         @OnClick(R.id.buttonEditAddress)
         void onEditAddressClick() {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION)
-                onButtonClick.onEditAddressClick(position);
+                onClick.onEditAddressClick(deliveryDetailList.get(position));
         }
 
-        public MyViewHolder(@NonNull View itemView) {
+        public DeliveryDetailViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
             itemView.setOnClickListener(v -> formatRecyclerView());
 
         }
@@ -120,7 +135,7 @@ public class DeliveryDetailsAdapter extends RecyclerView.Adapter<DeliveryDetails
         private void formatRecyclerView() {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                for (int i = 0; i < getItemCount(); i++) {
+                for (int i = 0; i < getItemCount()-1; i++) {
                     if (i == position)
                         deliveryDetailList.get(i).setSelected(true);
                     else
@@ -130,5 +145,27 @@ public class DeliveryDetailsAdapter extends RecyclerView.Adapter<DeliveryDetails
                 notifyDataSetChanged();
             }
         }
+    }
+
+    public class AddAddressViewHolder extends RecyclerView.ViewHolder{
+
+        @BindView(R.id.textViewAddAddress) TextView addAddressTextView;
+
+        @OnClick(R.id.textViewAddAddress)
+        void onAddAddressClick(){
+            if(onClick != null)
+                onClick.onAddAddressClick();
+        }
+
+        public AddAddressViewHolder(@NonNull View itemView) {
+            super(itemView);
+            ButterKnife.bind(this,itemView);
+        }
+    }
+
+    public interface OnClickListener{
+        void onAddAddressClick();
+        void onDeliverHereClick(DeliveryDetail deliveryDetail);
+        void onEditAddressClick(DeliveryDetail deliveryDetail);
     }
 }

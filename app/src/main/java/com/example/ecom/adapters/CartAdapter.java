@@ -41,7 +41,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHo
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_cart, parent, false);
             return new CartItemViewHolder(view);
        /* } else if (viewType == VIEW_TYPE_SUMMARY) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_order_summary, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_order_summary, parent, false);
             return new SummaryViewHolder(view);
         }*/
 

@@ -65,5 +65,5 @@
         android:id="@+id/summaryBottomSheetDialoagFragment"
         android:name="com.example.ecom.ui.SummaryBottomSheetDialoagFragment"
         android:label="list_item_order_summary"
-        tools:layout="@layout/list_item_order_summary" />
+        tools:layout="@layout/fragment_order_summary" />
 </navigation>
