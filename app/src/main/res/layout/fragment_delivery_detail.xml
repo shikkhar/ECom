@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".ui.DeliveryDetailFragment">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp">
+
+            <EditText
+                android:id="@+id/editTextFullName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/full_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/editTextMobileNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/mobile_number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextFullName" />
+
+            <EditText
+                android:id="@+id/editTextHouseNo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/house_no"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextMobileNumber" />
+
+            <EditText
+                android:id="@+id/editTextLocality"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/locality"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextHouseNo" />
+
+            <EditText
+                android:id="@+id/editTextCity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/city"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextLocality" />
+
+            <EditText
+                android:id="@+id/editTextState"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/state"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextCity" />
+
+            <EditText
+                android:id="@+id/editTextPincode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/pincode"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextState" />
+
+            <EditText
+                android:id="@+id/editTextLandmark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/landmark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextPincode" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

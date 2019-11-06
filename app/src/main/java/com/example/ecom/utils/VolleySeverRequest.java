@@ -6,6 +6,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.ecom.AppController;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -32,7 +33,11 @@ public class VolleySeverRequest {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        volleyResponseCallback.onSuccess(response);
+                        try {
+                            volleyResponseCallback.onSuccess(response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -55,7 +60,11 @@ public class VolleySeverRequest {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        volleyResponseCallback.onSuccess(response);
+                        try {
+                            volleyResponseCallback.onSuccess(response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -78,7 +87,7 @@ public class VolleySeverRequest {
     Volley response Callback Class
      */
     public interface VolleyResponseCallback {
-        void onSuccess(JSONObject response);
+        void onSuccess(JSONObject response) throws JSONException;
 
         void onFail(VolleyError error);
     }

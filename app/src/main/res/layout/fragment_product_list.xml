@@ -8,7 +8,8 @@
     tools:context=".ui.ProductListFragment">
 
 
-    <androidx.recyclerview.widget.RecyclerView
+
+    <com.example.ecom.MyRecyclerView
         android:id="@+id/recyclerViewProductList"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -17,5 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/list_item_products" />
+        tools:listitem="@layout/list_item_products" >
+
+    </com.example.ecom.MyRecyclerView>
 </androidx.constraintlayout.widget.ConstraintLayout>

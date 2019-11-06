@@ -1,5 +1,6 @@
 package com.example.ecom.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,14 +25,15 @@ import butterknife.ButterKnife;
 
 public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.MyViewHolder>{
 
-    private Fragment containerFragment;
+    private Context appContext;
     private List<Product> productList;
     private OnItemClickListener onItemClickListener;
 
-    public ProductListAdapter(Fragment containerFragment) {
+    public ProductListAdapter(Context appContext) {
         super(DIFF_CALLBACK);
-        this.containerFragment = containerFragment;
+        this.appContext = appContext;
     }
+
 
     private static final DiffUtil.ItemCallback<Product> DIFF_CALLBACK = new DiffUtil.ItemCallback<Product>() {
         @Override
@@ -44,7 +46,7 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
             return oldItem.getId() == newItem.getId() &&
                     oldItem.getDiscount() == newItem.getDiscount() &&
                     oldItem.getFinalPrice() == newItem.getFinalPrice() &&
-                    oldItem.getImagePath().equals(newItem.getImagePath()) &&
+                    oldItem.getImagePaths().equals(newItem.getImagePaths()) &&
                     oldItem.getLongDescription().equals(newItem.getLongDescription()) &&
                     oldItem.getOriginalPrice() == newItem.getOriginalPrice() &&
                     oldItem.getShortDescription().equals(newItem.getShortDescription()) &&
@@ -66,11 +68,11 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
 
         String finalPrice = df.format(product.getFinalPrice());
         String originalPrice = df.format(product.getOriginalPrice());
-        String rupeeSymbol = containerFragment.getString(R.string.Rs);
+        String rupeeSymbol = appContext.getString(R.string.Rs);
 
-        if (containerFragment != null)
-            Glide.with(containerFragment)
-                    .load(product.getImagePath())
+        if (appContext != null)
+            Glide.with(appContext)
+                    .load(product.getImagePaths().get(0))
                     .centerCrop()
                     .placeholder(R.drawable.ic_search_dark_24dp)
                     .into(holder.productImageView);
@@ -124,5 +126,6 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
             });
         }
     }
+
 
 }

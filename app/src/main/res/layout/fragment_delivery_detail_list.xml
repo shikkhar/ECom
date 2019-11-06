@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/textColorLight"
-    tools:context=".ui.DeliveryDetailsFragment">
+    tools:context=".ui.DeliveryDetailListFragment">
 
 
     <TextView
@@ -31,5 +31,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/label"
-        tools:listitem="@layout/list_item_delivery_details" />
+        tools:listitem="@layout/list_item_delivery_details_list" />
 </androidx.constraintlayout.widget.ConstraintLayout>

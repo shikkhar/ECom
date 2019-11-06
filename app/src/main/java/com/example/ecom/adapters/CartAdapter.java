@@ -1,13 +1,14 @@
 package com.example.ecom.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -17,6 +18,7 @@ import com.example.ecom.model.CartProductDetail;
 import com.example.ecom.model.Product;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,20 +28,25 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHo
     /*private static final int VIEW_TYPE_PRODUCT = 0;
     private static final int VIEW_TYPE_SUMMARY = 1;*/
 
-    private List<CartProductDetail> cartProductDetailList;
+    private List<CartProductDetail> cartProductDetailList = new ArrayList<>();
+    private OnItemClickListener onItemClickListenerListener;
     private double cartSummary;
-    private Fragment containerFragment;
+    private Context appContext;
 
-    public CartAdapter(Fragment containerFragment) {
-        this.containerFragment = containerFragment;
+    public CartAdapter(Context appContext) {
+        this.appContext = appContext;
     }
 
     @NonNull
     @Override
     public CartAdapter.CartItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        if(appContext == null)
+            appContext = parent.getContext().getApplicationContext();
+
         //if (viewType == VIEW_TYPE_PRODUCT) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_cart, parent, false);
-            return new CartItemViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_cart, parent, false);
+        return new CartItemViewHolder(view);
        /* } else if (viewType == VIEW_TYPE_SUMMARY) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_order_summary, parent, false);
             return new SummaryViewHolder(view);
@@ -53,27 +60,26 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHo
     public void onBindViewHolder(@NonNull CartAdapter.CartItemViewHolder holder, int position) {
         DecimalFormat df = new DecimalFormat("#.##");
         //if (getItemViewType(position) == VIEW_TYPE_PRODUCT) {
-            CartItemViewHolder viewHolder = (CartItemViewHolder) holder;
+        CartItemViewHolder viewHolder = (CartItemViewHolder) holder;
 
-            CartProductDetail cartProductDetail = cartProductDetailList.get(position);
-            Product product = cartProductDetail.getProduct();
+        CartProductDetail cartProductDetail = cartProductDetailList.get(position);
+        Product product = cartProductDetail.getProduct();
 
 
-            String finalPrice = df.format(product.getFinalPrice());
-            String originalPrice = df.format(product.getOriginalPrice());
-            String rupeeSymbol = containerFragment.getString(R.string.Rs);
+        String finalPrice = df.format(product.getFinalPrice());
+        String originalPrice = df.format(product.getOriginalPrice());
+        String rupeeSymbol = appContext.getString(R.string.Rs);
 
-            if (containerFragment != null)
-                Glide.with(containerFragment)
-                        .load(product.getImagePath())
-                        .centerCrop()
-                        .placeholder(R.drawable.ic_search_dark_24dp)
-                        .into(viewHolder.productImageView);
+        Glide.with(appContext)
+                .load(product.getImagePaths().get(0))
+                .centerCrop()
+                .placeholder(R.drawable.ic_search_dark_24dp)
+                .into(viewHolder.productImageView);
 
-            viewHolder.titleTextView.setText(product.getTitle());
-            viewHolder.finalPriceTextView.setText(rupeeSymbol + finalPrice);
-            viewHolder.originalPriceTextView.setText(rupeeSymbol + originalPrice);
-            viewHolder.quantityCustomView.setQuantity(cartProductDetail.getQuantity());
+        viewHolder.titleTextView.setText(product.getTitle());
+        viewHolder.finalPriceTextView.setText(rupeeSymbol + finalPrice);
+        viewHolder.originalPriceTextView.setText(rupeeSymbol + originalPrice);
+        viewHolder.quantityCustomView.setQuantity(cartProductDetail.getQuantity());
         /*} else if (getItemViewType(position) == VIEW_TYPE_SUMMARY) {
             SummaryViewHolder viewHolder = (SummaryViewHolder) holder;
 
@@ -103,8 +109,19 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHo
         notifyDataSetChanged();
     }
 
+    public void setListener(OnItemClickListener onItemClickListenerListener) {
+        this.onItemClickListenerListener = onItemClickListenerListener;
+    }
+
     public void setCartSummary(double cartSummary) {
         this.cartSummary = cartSummary;
+    }
+
+    public interface OnItemClickListener {
+        void updateCartClick(CartProductDetail cartProductDetail);
+
+        //TODO: pass the selected product and remove that instead of passing position
+        void onRemoveClick(int position);
     }
 
     class CartItemViewHolder extends RecyclerView.ViewHolder {
@@ -118,11 +135,20 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHo
         TextView originalPriceTextView;
         @BindView(R.id.customViewQuantity)
         QuantityCustomView quantityCustomView;
-
+        @BindView(R.id.buttonRemoveItem)
+        Button removeButton;
 
         public CartItemViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            removeButton.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+
+                if (onItemClickListenerListener != null && position != RecyclerView.NO_POSITION) {
+                    onItemClickListenerListener.onRemoveClick(position);
+                }
+            });
         }
     }
 
@@ -138,6 +164,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHo
         public SummaryViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
         }
     }
 }

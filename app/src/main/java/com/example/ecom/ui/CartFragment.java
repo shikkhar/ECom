@@ -23,7 +23,9 @@ import android.widget.TextView;
 
 import com.example.ecom.R;
 import com.example.ecom.adapters.CartAdapter;
-import com.example.ecom.view_models.ProductSharedViewModel;
+import com.example.ecom.model.CartProductDetail;
+import com.example.ecom.view_models.CartViewModel;
+import com.example.ecom.view_models.ProductViewModel;
 import com.google.android.material.button.MaterialButton;
 
 import java.text.DecimalFormat;
@@ -36,10 +38,10 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CartFragment extends Fragment {
+public class CartFragment extends Fragment implements CartAdapter.OnItemClickListener {
     public static final String BUNDLE_KEY_CART_TOTAL = "0";
     private NavController navController;
-    private ProductSharedViewModel productSharedViewModel;
+    private CartViewModel cartViewModel;
     private CartAdapter mAdapter;
     private Animation bounceAnimation;
     private double cartTotal;
@@ -58,7 +60,7 @@ public class CartFragment extends Fragment {
 
     @OnClick(R.id.buttonCheckout)
     void onProceedToCheckoutClick(){
-        navController.navigate(R.id.action_cartFragment_to_deliveryDetailsFragment);
+        navController.navigate(R.id.action_cartFragment_to_deliveryDetailsListFragment);
     }
 
     public CartFragment() {
@@ -68,7 +70,8 @@ public class CartFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new CartAdapter(this);
+        setHasOptionsMenu(true);
+        mAdapter = new CartAdapter(getContext().getApplicationContext());
     }
 
     @Override
@@ -97,18 +100,18 @@ public class CartFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        bounceAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.bounce);
+        bounceAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
         //bounceAnimation.setRepeatCount(Animation.INFINITE);
-        productSharedViewModel = ViewModelProviders.of(getActivity()).get(ProductSharedViewModel.class);
-        productSharedViewModel.getCartProductsLiveData().observe(getViewLifecycleOwner(), cartProductDetails -> {
+        cartViewModel = ViewModelProviders.of(getActivity()).get(CartViewModel.class);
+        cartViewModel.getCartProductsLiveData().observe(getViewLifecycleOwner(), cartProductDetails -> {
             mAdapter.setList(cartProductDetails);
         });
 
-        productSharedViewModel.getCartSummaryLiveData().observe(getViewLifecycleOwner(), value -> {
-            cartTotal = value;
+        cartViewModel.getCartSummaryLiveData().observe(getViewLifecycleOwner(), cartSummaryObject -> {
+            cartTotal = cartSummaryObject.getCartTotal();
             DecimalFormat df = new DecimalFormat("#.##");
-            finalAmountTextView.setText(getString(R.string.Rs) + df.format(value));
-            mAdapter.setCartSummary(value);
+            finalAmountTextView.setText(getString(R.string.Rs) + df.format(cartTotal));
+            mAdapter.setCartSummary(cartTotal);
         });
 
     }
@@ -130,5 +133,15 @@ public class CartFragment extends Fragment {
         menu.findItem(R.id.action_cart).setVisible(false);
         menu.findItem(R.id.action_search).setVisible(false);
         super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void updateCartClick(CartProductDetail cartProductDetail) {
+
+    }
+
+    @Override
+    public void onRemoveClick(int position) {
+        cartViewModel.removeFromCart(position);
     }
 }

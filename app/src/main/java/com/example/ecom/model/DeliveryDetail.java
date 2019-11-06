@@ -4,7 +4,7 @@ public class DeliveryDetail {
     private int id;
     private String userName;
     private Address address;
-    private boolean isSelected;
+    private transient boolean isSelected;
 
     public DeliveryDetail(String userName, Address address) {
         this.userName = userName;

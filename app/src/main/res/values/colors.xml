@@ -6,4 +6,5 @@
     <color name="colorAccent">#FFD600</color>
     <color name="textColor">#BDBDBD</color>
     <color name="textColorLight">#EEEEEE</color>
+    <color name="badgeColor">#FF0000</color>
 </resources>

@@ -47,7 +47,7 @@ public class QuantityCustomView extends ConstraintLayout {
 
         decreaseQty.setOnClickListener(v -> {
             int qty = Integer.valueOf(quantity.getText().toString());
-            if(qty == 0)
+            if(qty == 1)
                 return;
             quantity.setText(String.valueOf(qty - 1));
         });

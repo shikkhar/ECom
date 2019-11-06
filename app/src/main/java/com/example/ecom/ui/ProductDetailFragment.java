@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.viewpager.widget.ViewPager;
@@ -17,15 +19,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.ecom.QuantityCustomView;
 import com.example.ecom.R;
 import com.example.ecom.adapters.ViewPagerAdapter;
+import com.example.ecom.model.CartSummary;
 import com.example.ecom.model.Product;
+import com.example.ecom.view_models.CartViewModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,32 +42,53 @@ import static com.example.ecom.ui.ProductListFragment.BUNDLE_KEY_PRODUCT;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProductDetailFragment extends Fragment {
+public class ProductDetailFragment extends BaseCartFragment {
 
+    public static final String REQUEST_ADD_TO_CART = "0";
+    public static final String REQUEST_BUY_NOW = "1";
+
+    private CartViewModel cartViewModel;
     private NavController navController;
     private Product selectedProduct;
     private ViewPagerAdapter mAdapter;
     private List<String> imageUrls = new ArrayList<>();
+    private CartSummary cartSummary;
+    private Menu optionsMenu;
+    private boolean navigateToCart = false;
 
-    @BindView(R.id.viewPagerProductDetail) ViewPager viewPager;
-    @BindView(R.id.tabLayoutProductImages) TabLayout tabLayout;
-    @BindView(R.id.textViewProductTitle) TextView titleTextView;
-    @BindView(R.id.textViewFinalPrice) TextView finalPriceTextView;
-    @BindView(R.id.textViewOriginalPrice) TextView originalPriceTextView;
-    @BindView(R.id.textViewDiscount) TextView discountTextView;
-    @BindView(R.id.textViewDescription) TextView descriptionTextView;
-    @BindView(R.id.buttonAddToCart) MaterialButton addToCartButton;
-    @BindView(R.id.buttonBuyNow) MaterialButton buyNowButton;
+    @BindView(R.id.viewPagerProductDetail)
+    ViewPager viewPager;
+    @BindView(R.id.tabLayoutProductImages)
+    TabLayout tabLayout;
+    @BindView(R.id.textViewProductTitle)
+    TextView titleTextView;
+    @BindView(R.id.textViewFinalPrice)
+    TextView finalPriceTextView;
+    @BindView(R.id.textViewOriginalPrice)
+    TextView originalPriceTextView;
+    @BindView(R.id.textViewDiscount)
+    TextView discountTextView;
+    @BindView(R.id.textViewDescription)
+    TextView descriptionTextView;
+    @BindView(R.id.buttonAddToCart)
+    MaterialButton addToCartButton;
+    @BindView(R.id.buttonBuyNow)
+    MaterialButton buyNowButton;
+    @BindView(R.id.customViewQuantiity)
+    QuantityCustomView quantityCustomView;
 
     @OnClick(R.id.buttonAddToCart)
-    void onAddToCartClick(){
-
+    void onAddToCartClick() {
+        navigateToCart = false;
+        cartViewModel.addToCart(selectedProduct, quantityCustomView.getQuantity());
     }
 
     @OnClick(R.id.buttonBuyNow)
-    void onBuyNowClick(){
-        if(navController != null)
-            navController.navigate(R.id.action_productDetailFragment_to_cartFragment);
+    void onBuyNowClick() {
+        navigateToCart = true;
+        cartViewModel.addToCart(selectedProduct, quantityCustomView.getQuantity());
+        /*if (navController != null)
+            navController.navigate(R.id.action_productDetailFragment_to_cartFragment);*/
     }
 
 
@@ -75,9 +100,13 @@ public class ProductDetailFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        if(bundle != null && bundle.containsKey(BUNDLE_KEY_PRODUCT)){
+        if (bundle != null && bundle.containsKey(BUNDLE_KEY_PRODUCT)) {
             selectedProduct = bundle.getParcelable(BUNDLE_KEY_PRODUCT);
         }
+
+        if (selectedProduct != null)
+            imageUrls = selectedProduct.getImagePaths();
+
         setHasOptionsMenu(true);
     }
 
@@ -114,17 +143,36 @@ public class ProductDetailFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
-         String[] images = new String[]{
+         /*String[] images = new String[]{
                 "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
                 "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
                 "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
                 "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
                 "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-        };
+        };*/
 
-        imageUrls = Arrays.asList(images);
 
         super.onActivityCreated(savedInstanceState);
+
+        cartViewModel = ViewModelProviders.of(getActivity()).get(CartViewModel.class);
+
+        cartViewModel.getCartSummaryLiveData().observe(getViewLifecycleOwner(), new Observer<CartSummary>() {
+            @Override
+            public void onChanged(CartSummary cartSummaryObject) {
+                cartSummary = cartSummaryObject;
+                if (optionsMenu != null)
+                    setCartCount(getContext().getApplicationContext(), optionsMenu, String.valueOf(cartSummary.getItemCount()));
+            }
+        });
+
+        cartViewModel.getAddToCartResult().observe(getViewLifecycleOwner(), aBoolean -> {
+            if(aBoolean && navigateToCart && navController != null) {
+                cartViewModel.setAddToCartResult(false);
+                navController.navigate(R.id.action_productDetailFragment_to_cartFragment);
+            }
+
+        });
+
         mAdapter = new ViewPagerAdapter(getContext(), imageUrls);
         viewPager.setAdapter(mAdapter);
     }
@@ -135,8 +183,8 @@ public class ProductDetailFragment extends Fragment {
             case R.id.action_cart:
                 navController.navigate(R.id.action_productDetailFragment_to_cartFragment);
                 return true;
-                //return NavigationUI.onNavDestinationSelected(item, navController);
-                        //|| super.onOptionsItemSelected(item);
+            //return NavigationUI.onNavDestinationSelected(item, navController);
+            //|| super.onOptionsItemSelected(item);
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -145,7 +193,15 @@ public class ProductDetailFragment extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        optionsMenu = menu;
         menu.findItem(R.id.action_search).setVisible(false);
+
+        if (cartSummary == null)
+            setCartCount(getContext().getApplicationContext(), menu, getString(R.string.zero));
+        else
+            setCartCount(getContext().getApplicationContext(), menu, String.valueOf(cartSummary.getItemCount()));
+
         super.onPrepareOptionsMenu(menu);
     }
+
 }

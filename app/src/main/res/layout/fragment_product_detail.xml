@@ -86,7 +86,7 @@
         tools:text="TextView" />
 
     <com.example.ecom.QuantityCustomView
-        android:id="@+id/quantityCustomView"
+        android:id="@+id/customViewQuantiity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"

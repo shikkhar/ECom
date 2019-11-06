@@ -41,14 +41,14 @@ public class DeliveryDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_add_address, parent, false);
             return new AddAddressViewHolder(view);
         } else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_delivery_details, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_delivery_details_list, parent, false);
             return new DeliveryDetailViewHolder(view);
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if(getItemViewType(position) == VIEW_TYPE_DELIVERY_DETAIL) {
+        if (getItemViewType(position) == VIEW_TYPE_DELIVERY_DETAIL) {
             try {
                 DeliveryDetailViewHolder viewHolder = (DeliveryDetailViewHolder) holder;
                 DeliveryDetail deliveryDetail = deliveryDetailList.get(position);
@@ -75,7 +75,9 @@ public class DeliveryDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemCount() {
-        return deliveryDetailList.size() + 1;
+        if (deliveryDetailList != null)
+            return deliveryDetailList.size() + 1;
+        return 1;
     }
 
     @Override
@@ -135,7 +137,7 @@ public class DeliveryDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         private void formatRecyclerView() {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                for (int i = 0; i < getItemCount()-1; i++) {
+                for (int i = 0; i < getItemCount() - 1; i++) {
                     if (i == position)
                         deliveryDetailList.get(i).setSelected(true);
                     else
@@ -147,25 +149,28 @@ public class DeliveryDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    public class AddAddressViewHolder extends RecyclerView.ViewHolder{
+    public class AddAddressViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.textViewAddAddress) TextView addAddressTextView;
+        @BindView(R.id.textViewAddAddress)
+        TextView addAddressTextView;
 
         @OnClick(R.id.textViewAddAddress)
-        void onAddAddressClick(){
-            if(onClick != null)
+        void onAddAddressClick() {
+            if (onClick != null)
                 onClick.onAddAddressClick();
         }
 
         public AddAddressViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 
-    public interface OnClickListener{
+    public interface OnClickListener {
         void onAddAddressClick();
+
         void onDeliverHereClick(DeliveryDetail deliveryDetail);
+
         void onEditAddressClick(DeliveryDetail deliveryDetail);
     }
 }

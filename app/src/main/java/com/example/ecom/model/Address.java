@@ -5,13 +5,15 @@ public class Address {
     private String locality;
     private String city;
     private String state;
+    private String pincode;
     private String landmark;
 
-    public Address(String house, String locality, String city, String state, String landmark) {
+    public Address(String house, String locality, String city, String state, String pincode, String landmark) {
         this.house = house;
         this.locality = locality;
         this.city = city;
         this.state = state;
+        this.pincode = pincode;
         this.landmark = landmark;
     }
 

@@ -46,8 +46,8 @@
         android:label="fragment_cart"
         tools:layout="@layout/fragment_cart" >
         <action
-            android:id="@+id/action_cartFragment_to_deliveryDetailsFragment"
-            app:destination="@id/deliveryDetailsFragment"
+            android:id="@+id/action_cartFragment_to_deliveryDetailsListFragment"
+            app:destination="@id/deliveryDetailListFragment"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
@@ -57,13 +57,22 @@
             app:destination="@id/summaryBottomSheetDialoagFragment" />
     </fragment>
     <fragment
-        android:id="@+id/deliveryDetailsFragment"
-        android:name="com.example.ecom.ui.DeliveryDetailsFragment"
-        android:label="fragment_delivery_details"
-        tools:layout="@layout/fragment_delivery_details" />
+        android:id="@+id/deliveryDetailListFragment"
+        android:name="com.example.ecom.ui.DeliveryDetailListFragment"
+        android:label="fragment_delivery_detail_list"
+        tools:layout="@layout/fragment_delivery_detail_list">
+        <action
+            android:id="@+id/action_deliveryDetailListFragment_to_deliveryDetailFragment"
+            app:destination="@id/deliveryDetailFragment" />
+    </fragment>
     <dialog
         android:id="@+id/summaryBottomSheetDialoagFragment"
         android:name="com.example.ecom.ui.SummaryBottomSheetDialoagFragment"
         android:label="list_item_order_summary"
         tools:layout="@layout/fragment_order_summary" />
+    <fragment
+        android:id="@+id/deliveryDetailFragment"
+        android:name="com.example.ecom.ui.DeliveryDetailFragment"
+        android:label="fragment_delivery_detail"
+        tools:layout="@layout/fragment_delivery_detail" />
 </navigation>

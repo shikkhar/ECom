@@ -14,23 +14,20 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 
+import com.example.ecom.MyRecyclerView;
 import com.example.ecom.R;
 import com.example.ecom.adapters.ProductListAdapter;
+import com.example.ecom.model.CartSummary;
 import com.example.ecom.model.Product;
-import com.example.ecom.view_models.ProductSharedViewModel;
-
-import java.util.List;
+import com.example.ecom.view_models.CartViewModel;
+import com.example.ecom.view_models.ProductViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,18 +36,22 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProductListFragment extends Fragment implements ProductListAdapter.OnItemClickListener {
+public class ProductListFragment extends BaseCartFragment implements ProductListAdapter.OnItemClickListener {
     public static final String BUNDLE_KEY_PRODUCT = "product_key";
     private NavController navController;
-    private ProductSharedViewModel productSharedViewModel;
+    private ProductViewModel productViewModel;
+    private CartViewModel cartViewModel;
     private ProductListAdapter mAdapter;
+    private ProductAdapterChangesListener adapterChangesListener;
+    private CartSummary cartSummary;
+    private Menu optionsMenu;
 
     //    @BindView(R.id.editTextProductFilter)
-//    EditText filterEditText;
+    //    EditText filterEditText;
     //    @BindView(R.id.textInputLayoutProductFilter)
-//    TextInputLayout textInputLayout;
+    //    TextInputLayout textInputLayout;
     @BindView(R.id.recyclerViewProductList)
-    RecyclerView recyclerViewProductList;
+    MyRecyclerView recyclerViewProductList;
 
     public ProductListFragment() {
         // Required empty public constructor
@@ -60,8 +61,8 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mAdapter = new ProductListAdapter(this);
-        mAdapter.registerAdapterDataObserver(new ProductAdapterChangesListener());
+        mAdapter = new ProductListAdapter(this.getContext().getApplicationContext());
+
     }
 
     @Override
@@ -84,17 +85,29 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setupRecyclerView();
-        productSharedViewModel = ViewModelProviders.of(getActivity()).get(ProductSharedViewModel.class);
+        productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
+        cartViewModel = ViewModelProviders.of(getActivity()).get(CartViewModel.class);
 
-        productSharedViewModel.getProductLiveData().observe(getViewLifecycleOwner(), products -> {
+        productViewModel.getProductLiveData().observe(getViewLifecycleOwner(), products -> {
             mAdapter.setList(products);
+        });
+
+        cartViewModel.getCartSummaryLiveData().observe(getViewLifecycleOwner(), new Observer<CartSummary>() {
+            @Override
+            public void onChanged(CartSummary cartSummaryObject) {
+                cartSummary = cartSummaryObject;
+                if (optionsMenu != null)
+                    setCartCount(getContext().getApplicationContext(), optionsMenu, String.valueOf(cartSummary.getItemCount()));
+            }
         });
     }
 
     private void setupRecyclerView() {
+        adapterChangesListener = new ProductAdapterChangesListener();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerViewProductList.setLayoutManager(layoutManager);
         mAdapter.setClickListener(this);
+        mAdapter.registerAdapterDataObserver(adapterChangesListener);
         recyclerViewProductList.setAdapter(mAdapter);
     }
 
@@ -150,8 +163,8 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
 
         @Override
         public void afterTextChanged(Editable s) {
-            if (productSharedViewModel != null)
-                productSharedViewModel.getFilter().filter(s.toString());
+            if (productViewModel != null)
+                productViewModel.getFilter().filter(s.toString());
         }
     }
 */
@@ -167,9 +180,11 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
         }
     }
 
+
     @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        optionsMenu = menu;
+
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -181,11 +196,45 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (productSharedViewModel != null)
-                    productSharedViewModel.getFilter().filter(newText);
+                if (productViewModel != null)
+                    productViewModel.getFilter().filter(newText);
                 return false;
             }
         });
+
+        if (cartSummary == null)
+            setCartCount(getContext().getApplicationContext(), menu, "0");
+        else
+            setCartCount(getContext().getApplicationContext(), menu, String.valueOf(cartSummary.getItemCount()));
+
+        super.onPrepareOptionsMenu(menu);
     }
 
+
+    /*
+    public void setCartCount(Context context, Menu menu, String count) {
+        MenuItem menuItem = menu.findItem(R.id.action_cart);
+        LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
+
+        CountDrawable badge;
+
+        // Reuse drawable if possible
+        Drawable reuse = icon.findDrawableByLayerId(R.id.ic_count);
+        if (reuse != null && reuse instanceof CountDrawable) {
+            badge = (CountDrawable) reuse;
+        } else {
+            badge = new CountDrawable(context);
+        }
+
+        badge.setCartCount(count);
+        icon.mutate();
+        icon.setDrawableByLayerId(R.id.ic_count, badge);
+    }*/
+
+    @Override
+    public void onDestroyView() {
+        mAdapter.unregisterAdapterDataObserver(adapterChangesListener);
+        mAdapter.setClickListener(null);
+        super.onDestroyView();
+    }
 }

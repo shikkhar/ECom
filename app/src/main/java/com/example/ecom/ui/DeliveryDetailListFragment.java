@@ -15,10 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.ecom.R;
 import com.example.ecom.adapters.DeliveryDetailsAdapter;
@@ -34,15 +32,16 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DeliveryDetailsFragment extends Fragment implements DeliveryDetailsAdapter.OnClickListener {
+public class DeliveryDetailListFragment extends Fragment implements DeliveryDetailsAdapter.OnClickListener {
 
     private DeliveryDetailsViewModel deliveryDetailsViewModel;
     private DeliveryDetailsAdapter mAdapter;
     private NavController navController;
 
-    @BindView(R.id.recyclerViewAddress) RecyclerView recyclerView;
+    @BindView(R.id.recyclerViewAddress)
+    RecyclerView recyclerView;
 
-    public DeliveryDetailsFragment() {
+    public DeliveryDetailListFragment() {
         // Required empty public constructor
     }
 
@@ -57,7 +56,7 @@ public class DeliveryDetailsFragment extends Fragment implements DeliveryDetails
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_delivery_details, container, false);
+        return inflater.inflate(R.layout.fragment_delivery_detail_list, container, false);
     }
 
     @Override
@@ -66,8 +65,12 @@ public class DeliveryDetailsFragment extends Fragment implements DeliveryDetails
         ButterKnife.bind(this, view);
         setupRecyclerView();
         deliveryDetailsViewModel = ViewModelProviders.of(this).get(DeliveryDetailsViewModel.class);
-        deliveryDetailsViewModel.getDeliveryDetailLiveData().observe(getViewLifecycleOwner(), deliveryDetails ->
-            mAdapter.setList(deliveryDetails));
+        deliveryDetailsViewModel.getDeliveryDetailLiveData().observe(getViewLifecycleOwner(), new Observer<List<DeliveryDetail>>() {
+            @Override
+            public void onChanged(List<DeliveryDetail> deliveryDetails) {
+                mAdapter.setList(deliveryDetails);
+            }
+        });
         navController = Navigation.findNavController(view);
     }
 
@@ -80,17 +83,17 @@ public class DeliveryDetailsFragment extends Fragment implements DeliveryDetails
 
     @Override
     public void onAddAddressClick() {
-
-    }
-
-    @Override
-    public void onDeliverHereClick(DeliveryDetail deliveryDetail) {
-
+        navController.navigate(R.id.action_deliveryDetailListFragment_to_deliveryDetailFragment);
     }
 
     @Override
     public void onEditAddressClick(DeliveryDetail deliveryDetail) {
+        //TODO: pass bundle here
+        navController.navigate(R.id.action_deliveryDetailListFragment_to_deliveryDetailFragment);
+    }
 
+    @Override
+    public void onDeliverHereClick(DeliveryDetail deliveryDetail) {
     }
 
     @Override
