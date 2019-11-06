@@ -15,11 +15,11 @@ import java.util.List;
 
 public class ViewPagerAdapter extends PagerAdapter {
 
-    private Context context;
+    private Context appContext;
     private List<String> imageUrls;
 
-    public ViewPagerAdapter(Context context, List<String> imageUrls) {
-        this.context = context;
+    public ViewPagerAdapter(Context appContext, List<String> imageUrls) {
+        this.appContext = appContext;
         this.imageUrls = imageUrls;
     }
 
@@ -36,11 +36,11 @@ public class ViewPagerAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        ImageView imageView = new ImageView(context);
-        Glide.with(context)
+        ImageView imageView = new ImageView(appContext);
+        Glide.with(appContext)
                 .load(imageUrls.get(position))
                 .centerCrop()
-                .placeholder(R.drawable.ic_search_dark_24dp)
+                .placeholder(R.drawable.ic_insert_photo_dark_24dp)
                 .into(imageView);
 
         container.addView(imageView);

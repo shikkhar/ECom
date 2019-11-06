@@ -30,4 +30,5 @@
     <string name="state">State</string>
     <string name="landmark">Landmark</string>
     <string name="pincode">Pincode</string>
+    <string name="quantity">Qty: %1$s</string>
 </resources>

@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 
 import static com.example.ecom.ui.CartFragment.BUNDLE_KEY_CART_TOTAL;
 
-public class SummaryBottomSheetDialoagFragment extends BottomSheetDialogFragment {
+public class SummaryBottomSheetDialogFragment extends BottomSheetDialogFragment {
     private double cartTotal;
 
     @BindView(R.id.textViewTotalMrp) TextView totalMrpTextView;

@@ -19,7 +19,7 @@
             app:exitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_productListFragment_to_cartFragment"
-            app:destination="@id/action_cart"
+            app:destination="@id/fragment_cart"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
@@ -34,14 +34,14 @@
             app:argType="com.example.ecom.model.Product"/>
         <action
             android:id="@+id/action_productDetailFragment_to_cartFragment"
-            app:destination="@id/action_cart"
+            app:destination="@id/fragment_cart"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
-        android:id="@+id/action_cart"
+        android:id="@+id/fragment_cart"
         android:name="com.example.ecom.ui.CartFragment"
         android:label="fragment_cart"
         tools:layout="@layout/fragment_cart" >
@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_action_cart_to_summaryBottomSheetDialoagFragment"
             app:destination="@id/summaryBottomSheetDialoagFragment" />
+        <action
+            android:id="@+id/action_action_cart_to_quantityPickerDialogFragment"
+            app:destination="@id/quantityPickerDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/deliveryDetailListFragment"
@@ -67,7 +70,7 @@
     </fragment>
     <dialog
         android:id="@+id/summaryBottomSheetDialoagFragment"
-        android:name="com.example.ecom.ui.SummaryBottomSheetDialoagFragment"
+        android:name="com.example.ecom.ui.SummaryBottomSheetDialogFragment"
         android:label="list_item_order_summary"
         tools:layout="@layout/fragment_order_summary" />
     <fragment
@@ -75,4 +78,9 @@
         android:name="com.example.ecom.ui.DeliveryDetailFragment"
         android:label="fragment_delivery_detail"
         tools:layout="@layout/fragment_delivery_detail" />
+    <dialog
+        android:id="@+id/quantityPickerDialogFragment"
+        android:name="com.example.ecom.ui.QuantityPickerDialogFragment"
+        android:label="fragment_quanity_picker_dialog"
+        tools:layout="@layout/fragment_quanity_picker_dialog" />
 </navigation>

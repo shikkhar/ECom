@@ -14,7 +14,7 @@ import com.example.ecom.utils.CountDrawable;
 public class BaseCartFragment extends Fragment {
 
     public void setCartCount(Context context, Menu menu, String count) {
-        MenuItem menuItem = menu.findItem(R.id.action_cart);
+        MenuItem menuItem = menu.findItem(R.id.fragment_cart);
         LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
 
         CountDrawable badge;

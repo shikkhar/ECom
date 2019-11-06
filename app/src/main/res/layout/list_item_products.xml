@@ -9,11 +9,12 @@
         android:id="@+id/cardViewProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginBottom="1dp"
-        app:cardBackgroundColor="@color/colorPrimary"
-        app:cardCornerRadius="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,53 +22,58 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <ImageView
                 android:id="@+id/imageViewProduct"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_search_dark_24dp" />
 
             <TextView
-                android:id="@+id/textViewProductTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:textColor="@color/textColorLight"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageViewProduct"
-                app:layout_constraintTop_toTopOf="@+id/imageViewProduct"
-                tools:text="TextView" />
-
-            <TextView
                 android:id="@+id/textViewShortDescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/textColor"
-                app:layout_constraintEnd_toEndOf="@+id/textViewProductTitle"
-                app:layout_constraintStart_toStartOf="@+id/textViewProductTitle"
-                app:layout_constraintTop_toBottomOf="@+id/textViewProductTitle"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/textColorLight"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewProduct"
+                tools:text="TextView" />
+
+            <TextView
+                android:id="@+id/textViewProductTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/textColorLight"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewShortDescription"
                 tools:text="TextView" />
 
             <TextView
                 android:id="@+id/textViewFinalPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/colorAccent"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="8dp"
+                android:textColor="@color/textColorLight"
+                android:textSize="12sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textViewShortDescription"
-                app:layout_constraintTop_toBottomOf="@+id/textViewShortDescription"
-                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/textViewProductTitle"
+                app:layout_constraintTop_toBottomOf="@+id/textViewProductTitle"
                 tools:text="TextView" />
 
 
@@ -77,8 +83,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:foreground="@drawable/shape_strikethrough"
-                android:textColor="@color/textColor"
-                android:textStyle="italic"
+                android:textColor="@color/background"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewFinalPrice"
                 app:layout_constraintStart_toEndOf="@+id/textViewFinalPrice"
                 app:layout_constraintTop_toTopOf="@+id/textViewFinalPrice"
                 tools:text="TextView" />
@@ -88,7 +95,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:textColor="@color/textColor"
+                android:textColor="@color/colorAccent"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewOriginalPrice"
                 app:layout_constraintStart_toEndOf="@+id/textViewOriginalPrice"
                 app:layout_constraintTop_toTopOf="@+id/textViewOriginalPrice"
                 tools:text="@string/Rs" />

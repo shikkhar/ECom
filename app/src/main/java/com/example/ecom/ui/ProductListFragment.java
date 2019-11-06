@@ -11,8 +11,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,10 +26,13 @@ import android.view.inputmethod.EditorInfo;
 import com.example.ecom.MyRecyclerView;
 import com.example.ecom.R;
 import com.example.ecom.adapters.ProductListAdapter;
+import com.example.ecom.adapters.ViewPagerAdapter;
 import com.example.ecom.model.CartSummary;
 import com.example.ecom.model.Product;
 import com.example.ecom.view_models.CartViewModel;
 import com.example.ecom.view_models.ProductViewModel;
+
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +46,7 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
     private NavController navController;
     private ProductViewModel productViewModel;
     private CartViewModel cartViewModel;
+    private ViewPagerAdapter viewPagerAdapter;
     private ProductListAdapter mAdapter;
     private ProductAdapterChangesListener adapterChangesListener;
     private CartSummary cartSummary;
@@ -50,6 +56,8 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
     //    EditText filterEditText;
     //    @BindView(R.id.textInputLayoutProductFilter)
     //    TextInputLayout textInputLayout;
+    @BindView(R.id.viewPagerBanner)
+    ViewPager viewPager;
     @BindView(R.id.recyclerViewProductList)
     MyRecyclerView recyclerViewProductList;
 
@@ -100,12 +108,25 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
                     setCartCount(getContext().getApplicationContext(), optionsMenu, String.valueOf(cartSummary.getItemCount()));
             }
         });
+
+        String[] images = new String[]{
+                "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
+                "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
+                "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
+                "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
+                "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
+        };
+
+        viewPagerAdapter = new ViewPagerAdapter(getContext().getApplicationContext(), Arrays.asList(images));
+        viewPager.setAdapter(viewPagerAdapter);
+
     }
 
     private void setupRecyclerView() {
         adapterChangesListener = new ProductAdapterChangesListener();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerViewProductList.setLayoutManager(layoutManager);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        recyclerViewProductList.setLayoutManager(gridLayoutManager);
         mAdapter.setClickListener(this);
         mAdapter.registerAdapterDataObserver(adapterChangesListener);
         recyclerViewProductList.setAdapter(mAdapter);
@@ -171,7 +192,7 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_cart:
+            case R.id.fragment_cart:
                 navController.navigate(R.id.action_productListFragment_to_cartFragment);
                 return true;
 

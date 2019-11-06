@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.ecom.QuantityCustomView;
 import com.example.ecom.R;
 import com.example.ecom.model.CartProductDetail;
 import com.example.ecom.model.Product;
@@ -24,9 +23,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHolder> {
-    /*private static final int VIEW_TYPE_PRODUCT = 0;
-    private static final int VIEW_TYPE_SUMMARY = 1;*/
+public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int VIEW_TYPE_PRODUCT = 0;
+    private static final int VIEW_TYPE_SUMMARY = 1;
 
     private List<CartProductDetail> cartProductDetailList = new ArrayList<>();
     private OnItemClickListener onItemClickListenerListener;
@@ -39,77 +38,87 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHo
 
     @NonNull
     @Override
-    public CartAdapter.CartItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        if(appContext == null)
+        if (appContext == null)
             appContext = parent.getContext().getApplicationContext();
 
-        //if (viewType == VIEW_TYPE_PRODUCT) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_cart, parent, false);
-        return new CartItemViewHolder(view);
-       /* } else if (viewType == VIEW_TYPE_SUMMARY) {
+        if (viewType == VIEW_TYPE_PRODUCT) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_cart, parent, false);
+            return new CartItemViewHolder(view);
+        } else if (viewType == VIEW_TYPE_SUMMARY) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_order_summary, parent, false);
             return new SummaryViewHolder(view);
-        }*/
+        }
 
-        //return null;
+        return null;
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull CartAdapter.CartItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         DecimalFormat df = new DecimalFormat("#.##");
-        //if (getItemViewType(position) == VIEW_TYPE_PRODUCT) {
-        CartItemViewHolder viewHolder = (CartItemViewHolder) holder;
+        if (getItemViewType(position) == VIEW_TYPE_PRODUCT) {
 
-        CartProductDetail cartProductDetail = cartProductDetailList.get(position);
-        Product product = cartProductDetail.getProduct();
+            try {
+                //if (getItemViewType(position) == VIEW_TYPE_PRODUCT) {
+                CartItemViewHolder viewHolder = (CartItemViewHolder) holder;
+
+                CartProductDetail cartProductDetail = cartProductDetailList.get(position);
+                Product product = cartProductDetail.getProduct();
 
 
-        String finalPrice = df.format(product.getFinalPrice());
-        String originalPrice = df.format(product.getOriginalPrice());
-        String rupeeSymbol = appContext.getString(R.string.Rs);
+                String finalPrice = df.format(product.getFinalPrice());
+                String originalPrice = df.format(product.getOriginalPrice());
+                String rupeeSymbol = appContext.getString(R.string.Rs);
+                String quantity = appContext.getString(R.string.quantity, String.valueOf(cartProductDetail.getQuantity()));
 
-        Glide.with(appContext)
-                .load(product.getImagePaths().get(0))
-                .centerCrop()
-                .placeholder(R.drawable.ic_search_dark_24dp)
-                .into(viewHolder.productImageView);
+                Glide.with(appContext)
+                        .load(product.getImagePaths().get(0))
+                        .centerCrop()
+                        .placeholder(R.drawable.ic_insert_photo_dark_24dp)
+                        .into(viewHolder.productImageView);
 
-        viewHolder.titleTextView.setText(product.getTitle());
-        viewHolder.finalPriceTextView.setText(rupeeSymbol + finalPrice);
-        viewHolder.originalPriceTextView.setText(rupeeSymbol + originalPrice);
-        viewHolder.quantityCustomView.setQuantity(cartProductDetail.getQuantity());
-        /*} else if (getItemViewType(position) == VIEW_TYPE_SUMMARY) {
+                viewHolder.titleTextView.setText(product.getTitle());
+                viewHolder.finalPriceTextView.setText(rupeeSymbol + finalPrice);
+                viewHolder.originalPriceTextView.setText(rupeeSymbol + originalPrice);
+                viewHolder.updateQuantityButton.setText(quantity);
+            } catch (ClassCastException e) {
+                e.printStackTrace();
+            }
+            //viewHolder.discountLabel.setText(discount);
+        } else if (getItemViewType(position) == VIEW_TYPE_SUMMARY) {
             SummaryViewHolder viewHolder = (SummaryViewHolder) holder;
 
             viewHolder.totalMrpTextView.setText(df.format(cartSummary));
             //TODO: Don't hardcode this
             viewHolder.shippingChargesTextView.setText("FREE");
             viewHolder.payableAmountTextView.setText(df.format(cartSummary));
-        }*/
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return cartProductDetailList.size();
+        if (cartProductDetailList == null)
+            return 0;
+        return cartProductDetailList.size() + 1;
     }
 
-    /*@Override
+    @Override
     public int getItemViewType(int position) {
         if (position == getItemCount() - 1)
             return VIEW_TYPE_SUMMARY;
         else
             return VIEW_TYPE_PRODUCT;
-    }*/
+    }
 
     public void setList(List<CartProductDetail> cartProductDetailList) {
         this.cartProductDetailList = cartProductDetailList;
         notifyDataSetChanged();
     }
 
-    public void setListener(OnItemClickListener onItemClickListenerListener) {
+    public void setClickListener(OnItemClickListener onItemClickListenerListener) {
         this.onItemClickListenerListener = onItemClickListenerListener;
     }
 
@@ -118,7 +127,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHo
     }
 
     public interface OnItemClickListener {
-        void updateCartClick(CartProductDetail cartProductDetail);
+        void updateCartClick(int position, CartProductDetail cartProductDetail);
 
         //TODO: pass the selected product and remove that instead of passing position
         void onRemoveClick(int position);
@@ -133,14 +142,24 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHo
         TextView finalPriceTextView;
         @BindView(R.id.textViewOriginalPrice)
         TextView originalPriceTextView;
-        @BindView(R.id.customViewQuantity)
-        QuantityCustomView quantityCustomView;
+        @BindView(R.id.buttonUpdateQuantity)
+        Button updateQuantityButton;
         @BindView(R.id.buttonRemoveItem)
         Button removeButton;
+        /*@BindView(R.id.labelDiscount)
+        Button discountLabel;*/
 
         public CartItemViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            updateQuantityButton.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+
+                if (onItemClickListenerListener != null && position != RecyclerView.NO_POSITION) {
+                    onItemClickListenerListener.updateCartClick(position, cartProductDetailList.get(position));
+                }
+            });
 
             removeButton.setOnClickListener(v -> {
                 int position = getAdapterPosition();
@@ -164,7 +183,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartItemViewHo
         public SummaryViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
         }
     }
 }

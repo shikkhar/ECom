@@ -4,16 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
-    tools:context=".ui.ProductDetailFragment">
+    android:background="@android:color/white"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    tools:appContext=".ui.ProductDetailFragment">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPagerProductDetail"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
@@ -22,7 +24,7 @@
         android:id="@+id/tabLayoutProductImages"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:background="@color/backgroundWithTransparency"
         app:layout_constraintBottom_toBottomOf="@+id/viewPagerProductDetail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,80 +38,113 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.35" />
 
-    <TextView
-        android:id="@+id/textViewProductTitle"
-        android:layout_width="0dp"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        tools:text="TextView"
-        android:textColor="@color/textColorLight"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewPagerProductDetail" />
+        app:cardBackgroundColor="@color/backgroundLight"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        tools:layout_editor_absoluteX="16dp">
 
-    <TextView
-        android:id="@+id/textViewFinalPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        tools:text="TextView"
-        android:textColor="@color/colorAccent"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/textViewProductTitle"
-        app:layout_constraintTop_toBottomOf="@+id/textViewProductTitle" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
 
-    <TextView
-        android:id="@+id/textViewOriginalPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:foreground="@drawable/shape_strikethrough"
-        tools:text="TextView"
-        android:textColor="@color/textColor"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textViewFinalPrice"
-        app:layout_constraintTop_toTopOf="@+id/textViewFinalPrice" />
+            <TextView
+                android:id="@+id/textViewProductTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/textColorLight"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewBrandName"
+                tools:text="Product Title" />
 
-    <TextView
-        android:id="@+id/textViewDiscount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textColor="@color/textColor"
-        android:textSize="18sp"
-        android:textStyle="italic"
-        app:layout_constraintStart_toEndOf="@+id/textViewOriginalPrice"
-        app:layout_constraintTop_toTopOf="@+id/textViewOriginalPrice"
-        tools:text="TextView" />
+            <TextView
+                android:id="@+id/textViewDiscount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/customViewQuantiity"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/textViewOriginalPrice"
+                app:layout_constraintTop_toTopOf="@+id/textViewOriginalPrice"
+                tools:text="TextView" />
 
-    <com.example.ecom.QuantityCustomView
-        android:id="@+id/customViewQuantiity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        app:decreaseQtyImageSrc="@drawable/ic_decrease_qty_24dp"
-        app:increaseQtyImageSrc="@drawable/ic_increase_qty_24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textViewDiscount"
-        app:layout_constraintTop_toTopOf="@+id/textViewDiscount"
-        app:textColor="@color/colorAccent" />
+            <com.example.ecom.QuantityCustomView
+                android:id="@+id/customViewQuantiity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:decreaseQtyImageSrc="@drawable/ic_decrease_qty_dark_24dp"
+                app:increaseQtyImageSrc="@drawable/ic_increase_qty_dark_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textViewDiscount"
+                app:textColor="@color/textColor" />
+
+            <TextView
+                android:id="@+id/textViewFinalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:textColor="@color/textColor"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewProductTitle"
+                tools:text="TextView" />
+
+            <TextView
+                android:id="@+id/textViewBrandName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Brand"
+                android:textColor="@color/textColorLight"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Brand" />
+
+            <TextView
+                android:id="@+id/textViewOriginalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:foreground="@drawable/shape_strikethrough"
+                android:textColor="@color/background"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewFinalPrice"
+                app:layout_constraintStart_toEndOf="@+id/textViewFinalPrice"
+                app:layout_constraintTop_toTopOf="@+id/textViewFinalPrice"
+                tools:text="TextView" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/textViewDescription"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="24dp"
-        android:background="@color/colorPrimary"
-        tools:text="TextView"
+        android:background="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/buttonAddToCart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDiscount" />
+        app:layout_constraintTop_toBottomOf="@+id/materialCardView"
+        tools:text="TextView" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonAddToCart"
@@ -117,13 +152,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/add_to_cart"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/background_light"
+        app:backgroundTint="@color/textColor"
+        app:cornerRadius="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonBuyNow"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="@color/colorPrimaryLight" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonBuyNow"
@@ -132,10 +170,13 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/buy_now"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/background_light"
+        app:backgroundTint="@color/textColor"
+        app:cornerRadius="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/buttonAddToCart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/buttonAddToCart" />
+        app:layout_constraintStart_toEndOf="@+id/buttonAddToCart"
+        app:rippleColor="@color/colorAccent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

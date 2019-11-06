@@ -98,7 +98,7 @@ public class DeliveryDetailListFragment extends Fragment implements DeliveryDeta
 
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
-        menu.findItem(R.id.action_cart).setVisible(false);
+        menu.findItem(R.id.fragment_cart).setVisible(false);
         menu.findItem(R.id.action_search).setVisible(false);
         super.onPrepareOptionsMenu(menu);
     }

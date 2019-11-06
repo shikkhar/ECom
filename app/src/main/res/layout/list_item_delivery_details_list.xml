@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="@color/colorAccent"
+        app:strokeColor="@color/colorPrimaryDark"
         app:strokeWidth="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,10 +52,12 @@
                 android:insetBottom="6dp"
                 android:text="@string/edit_address"
                 android:textColor="@color/colorPrimaryDark"
-                app:backgroundTint="@color/textColor"
+                app:backgroundTint="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/buttonDeliverHere" />
+                app:layout_constraintTop_toBottomOf="@+id/buttonDeliverHere"
+                app:strokeColor="@color/colorPrimaryDark"
+                app:strokeWidth="1dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonDeliverHere"
@@ -65,7 +67,7 @@
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:text="@string/deliver_here"
-                android:textColor="@color/colorAccent"
+                android:textColor="@android:color/white"
                 app:backgroundTint="@color/colorPrimaryDark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -4,18 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:appContext=".ui.MainActivity">
+    android:background="@color/colorAccent"
+    tools:appContext=".ui.ProductListFragment">
 
-    <fragment
-        android:id="@+id/nav_host_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+
+
+    <com.example.ecom.MyRecyclerView
+        android:id="@+id/recyclerViewProductList"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/list_item_products" >
 
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph" />
+    </com.example.ecom.MyRecyclerView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -173,14 +173,14 @@ public class ProductDetailFragment extends BaseCartFragment {
 
         });
 
-        mAdapter = new ViewPagerAdapter(getContext(), imageUrls);
+        mAdapter = new ViewPagerAdapter(getContext().getApplicationContext(), imageUrls);
         viewPager.setAdapter(mAdapter);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_cart:
+            case R.id.fragment_cart:
                 navController.navigate(R.id.action_productDetailFragment_to_cartFragment);
                 return true;
             //return NavigationUI.onNavDestinationSelected(item, navController);

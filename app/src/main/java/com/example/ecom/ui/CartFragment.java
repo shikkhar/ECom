@@ -1,11 +1,13 @@
 package com.example.ecom.ui;
 
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -18,14 +20,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ecom.R;
 import com.example.ecom.adapters.CartAdapter;
 import com.example.ecom.model.CartProductDetail;
 import com.example.ecom.view_models.CartViewModel;
-import com.example.ecom.view_models.ProductViewModel;
 import com.google.android.material.button.MaterialButton;
 
 import java.text.DecimalFormat;
@@ -38,24 +39,30 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CartFragment extends Fragment implements CartAdapter.OnItemClickListener {
+public class CartFragment extends Fragment implements CartAdapter.OnItemClickListener, QuantityPickerDialogFragment.ValueChangeCallback {
     public static final String BUNDLE_KEY_CART_TOTAL = "0";
+    public static final String BUNDLE_KEY_LIST_POSITION = "1";
+    public static final String TAG_QUANTITY_DIALOG_FRAGMENT = "2";
+
     private NavController navController;
     private CartViewModel cartViewModel;
     private CartAdapter mAdapter;
     private Animation bounceAnimation;
+    private QuantityPickerDialogFragment quantityPickerDialogFragment;
     private double cartTotal;
+    private Dialog overlayDialog;
 
     @BindView(R.id.textViewFinalAmount) TextView finalAmountTextView;
     @BindView(R.id.buttonCheckout) MaterialButton checkoutButton;
-    @BindView(R.id.imageViewCartTotalDetail) ImageView cartTotalDetailsImageView;
+    @BindView(R.id.textViewSavings) TextView savingsTextView;
     @BindView(R.id.recyclerViewCart) RecyclerView recyclerView;
 
-    @OnClick({R.id.label,R.id.textViewFinalAmount,R.id.imageViewCartTotalDetail})
+    @OnClick({R.id.label,R.id.textViewFinalAmount,R.id.textViewSavings})
     void onLabelClick(){
-        Bundle bundle = new Bundle();
+        recyclerView.scrollToPosition(cartViewModel.getCartProductsLiveData().getValue().size());
+        /*Bundle bundle = new Bundle();
         bundle.putDouble(BUNDLE_KEY_CART_TOTAL, cartTotal);
-        navController.navigate(R.id.action_action_cart_to_summaryBottomSheetDialoagFragment);
+        navController.navigate(R.id.action_action_cart_to_summaryBottomSheetDialoagFragment);*/
     }
 
     @OnClick(R.id.buttonCheckout)
@@ -93,7 +100,7 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
     private void setupRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        //mAdapter.setClickListener(this);
+        mAdapter.setClickListener(this);
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -104,6 +111,13 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
         //bounceAnimation.setRepeatCount(Animation.INFINITE);
         cartViewModel = ViewModelProviders.of(getActivity()).get(CartViewModel.class);
         cartViewModel.getCartProductsLiveData().observe(getViewLifecycleOwner(), cartProductDetails -> {
+            if(cartProductDetails == null){
+                finalAmountTextView.setVisibility(View.GONE);
+                savingsTextView.setVisibility(View.GONE);
+                checkoutButton.setEnabled(false);
+                //TODO:replace this with string resource
+                Toast.makeText(getContext(), "There are no items in your cart", Toast.LENGTH_LONG).show();
+            }
             mAdapter.setList(cartProductDetails);
         });
 
@@ -116,7 +130,7 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
 
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
         cartTotalDetailsImageView.startAnimation(bounceAnimation);
@@ -126,22 +140,38 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
     public void onPause() {
         cartTotalDetailsImageView.clearAnimation();
         super.onPause();
-    }
+    }*/
 
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
-        menu.findItem(R.id.action_cart).setVisible(false);
+        menu.findItem(R.id.fragment_cart).setVisible(false);
         menu.findItem(R.id.action_search).setVisible(false);
         super.onPrepareOptionsMenu(menu);
     }
 
     @Override
-    public void updateCartClick(CartProductDetail cartProductDetail) {
-
+    public void updateCartClick(int position, CartProductDetail cartProductDetail) {
+        FragmentManager fm = getChildFragmentManager();
+        Fragment fragment = fm.findFragmentByTag(TAG_QUANTITY_DIALOG_FRAGMENT);
+        if (fragment != null)
+            fm.beginTransaction().remove(fragment).commit();
+        quantityPickerDialogFragment = new QuantityPickerDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("position", position);
+        //bundle.putString("reward", reward);
+        quantityPickerDialogFragment.setArguments(bundle);
+        quantityPickerDialogFragment.show(fm, TAG_QUANTITY_DIALOG_FRAGMENT);
+        //navController.navigate(R.id.action_action_cart_to_quantityPickerDialogFragment);
     }
 
     @Override
     public void onRemoveClick(int position) {
-        cartViewModel.removeFromCart(position);
+        //cartViewModel.removeFromCart(position);
+    }
+
+    @Override
+    public void onValueChange(int position, int value) {
+        quantityPickerDialogFragment.dismiss();
+        //cartViewModel.updateCart(null, value);
     }
 }

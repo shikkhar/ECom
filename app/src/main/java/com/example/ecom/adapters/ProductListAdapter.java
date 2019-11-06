@@ -74,7 +74,7 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
             Glide.with(appContext)
                     .load(product.getImagePaths().get(0))
                     .centerCrop()
-                    .placeholder(R.drawable.ic_search_dark_24dp)
+                    .placeholder(R.drawable.ic_insert_photo_dark_24dp)
                     .into(holder.productImageView);
 
         holder.titleTextView.setText(product.getTitle());
