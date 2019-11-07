@@ -52,10 +52,6 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
     private CartSummary cartSummary;
     private Menu optionsMenu;
 
-    //    @BindView(R.id.editTextProductFilter)
-    //    EditText filterEditText;
-    //    @BindView(R.id.textInputLayoutProductFilter)
-    //    TextInputLayout textInputLayout;
     @BindView(R.id.viewPagerBanner)
     ViewPager viewPager;
     @BindView(R.id.recyclerViewProductList)
@@ -124,7 +120,7 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
 
     private void setupRecyclerView() {
         adapterChangesListener = new ProductAdapterChangesListener();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        //LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerViewProductList.setLayoutManager(gridLayoutManager);
         mAdapter.setClickListener(this);
@@ -171,24 +167,6 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
         }
     }
 
-    /*private class SearchTextWatcher implements TextWatcher {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if (productViewModel != null)
-                productViewModel.getFilter().filter(s.toString());
-        }
-    }
-*/
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -231,26 +209,6 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
         super.onPrepareOptionsMenu(menu);
     }
 
-
-    /*
-    public void setCartCount(Context context, Menu menu, String count) {
-        MenuItem menuItem = menu.findItem(R.id.action_cart);
-        LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
-
-        CountDrawable badge;
-
-        // Reuse drawable if possible
-        Drawable reuse = icon.findDrawableByLayerId(R.id.ic_count);
-        if (reuse != null && reuse instanceof CountDrawable) {
-            badge = (CountDrawable) reuse;
-        } else {
-            badge = new CountDrawable(context);
-        }
-
-        badge.setCartCount(count);
-        icon.mutate();
-        icon.setDrawableByLayerId(R.id.ic_count, badge);
-    }*/
 
     @Override
     public void onDestroyView() {

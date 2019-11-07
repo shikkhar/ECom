@@ -75,7 +75,6 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 Glide.with(appContext)
                         .load(product.getImagePaths().get(0))
-                        .centerCrop()
                         .placeholder(R.drawable.ic_insert_photo_dark_24dp)
                         .into(viewHolder.productImageView);
 

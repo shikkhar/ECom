@@ -1,10 +1,12 @@
 package com.example.ecom.ui;
 
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -17,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.ecom.QuantityCustomView;
@@ -55,6 +58,7 @@ public class ProductDetailFragment extends BaseCartFragment {
     private CartSummary cartSummary;
     private Menu optionsMenu;
     private boolean navigateToCart = false;
+    private Dialog overlayDialog;
 
     @BindView(R.id.viewPagerProductDetail)
     ViewPager viewPager;
@@ -76,19 +80,33 @@ public class ProductDetailFragment extends BaseCartFragment {
     MaterialButton buyNowButton;
     @BindView(R.id.customViewQuantiity)
     QuantityCustomView quantityCustomView;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
     @OnClick(R.id.buttonAddToCart)
     void onAddToCartClick() {
+
+        showOverlayDialog();
+
         navigateToCart = false;
         cartViewModel.addToCart(selectedProduct, quantityCustomView.getQuantity());
     }
 
     @OnClick(R.id.buttonBuyNow)
     void onBuyNowClick() {
+        showOverlayDialog();
         navigateToCart = true;
         cartViewModel.addToCart(selectedProduct, quantityCustomView.getQuantity());
         /*if (navController != null)
             navController.navigate(R.id.action_productDetailFragment_to_cartFragment);*/
+    }
+
+    private void showOverlayDialog() {
+        if(overlayDialog == null) {
+            overlayDialog = new Dialog(getContext());
+            overlayDialog.show();
+            progressBar.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -123,8 +141,15 @@ public class ProductDetailFragment extends BaseCartFragment {
         ButterKnife.bind(this, view);
         navController = Navigation.findNavController(view);
         tabLayout.setupWithViewPager(viewPager);
-        DecimalFormat df = new DecimalFormat("#.##");
 
+        bindView();
+
+
+        //navController.navigate(R.id.action_productListFragment_to_productDetailFragment);
+    }
+
+    private void bindView() {
+        DecimalFormat df = new DecimalFormat("#.##");
         String finalPrice = df.format(selectedProduct.getFinalPrice());
         String originalPrice = df.format(selectedProduct.getOriginalPrice());
         String rupeeSymbol = getString(R.string.Rs);
@@ -136,8 +161,6 @@ public class ProductDetailFragment extends BaseCartFragment {
         originalPriceTextView.setText(rupeeSymbol + originalPrice);
         //TODO: replace with a string resource
         discountTextView.setText(selectedProduct.getDiscount() + "% Off");
-
-        //navController.navigate(R.id.action_productListFragment_to_productDetailFragment);
     }
 
     @Override
@@ -165,9 +188,17 @@ public class ProductDetailFragment extends BaseCartFragment {
             }
         });
 
-        cartViewModel.getAddToCartResult().observe(getViewLifecycleOwner(), aBoolean -> {
-            if(aBoolean && navigateToCart && navController != null) {
-                cartViewModel.setAddToCartResult(false);
+        cartViewModel.getAddToCartResult().observe(getViewLifecycleOwner(), event -> {
+
+            if(overlayDialog != null) {
+                progressBar.setVisibility(View.GONE);
+                overlayDialog.dismiss();
+                overlayDialog = null;
+            }
+
+            if(!event.isHasBeenHandled() && event.getContentIfNotHandled() && navigateToCart && navController != null) {
+                //cartViewModel.setAddToCartResult(false);
+                navigateToCart = false;
                 navController.navigate(R.id.action_productDetailFragment_to_cartFragment);
             }
 
@@ -183,8 +214,6 @@ public class ProductDetailFragment extends BaseCartFragment {
             case R.id.fragment_cart:
                 navController.navigate(R.id.action_productDetailFragment_to_cartFragment);
                 return true;
-            //return NavigationUI.onNavDestinationSelected(item, navController);
-            //|| super.onOptionsItemSelected(item);
 
             default:
                 return super.onOptionsItemSelected(item);

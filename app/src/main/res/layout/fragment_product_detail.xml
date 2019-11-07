@@ -161,7 +161,7 @@
         app:layout_constraintEnd_toStartOf="@+id/buttonBuyNow"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:rippleColor="@color/colorPrimaryLight" />
+        app:rippleColor="@color/colorAccent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonBuyNow"
@@ -171,12 +171,13 @@
         android:layout_marginEnd="8dp"
         android:text="@string/buy_now"
         android:textColor="@android:color/background_light"
-        app:backgroundTint="@color/textColor"
+        app:backgroundTint="@color/colorPrimary"
         app:cornerRadius="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/buttonAddToCart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/buttonAddToCart"
-        app:rippleColor="@color/colorAccent" />
+        app:layout_constraintStart_toEndOf="@+id/buttonAddToCart" />
+
+    <include layout="@layout/progress_bar"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

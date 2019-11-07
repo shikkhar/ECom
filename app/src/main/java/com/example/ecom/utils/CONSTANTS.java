@@ -7,7 +7,7 @@ public class CONSTANTS {
         public static final String FETCH_CART_PRODUCTS = "http://www.mocky.io/v2/5dc15a36330000c39b1a517b";
         public static final String FETCH_DELIVERY_DETAIL_LIST = "http://www.mocky.io/v2/5dc14baf33000075921a50b2";
 
-        public static final String ADD_TO_CART = "http://www.mocky.io/v2/5dc1524e330000b3a41a5129";
+        public static final String ADD_TO_CART = "http://www.mocky.io/v2/5dc1524e330000b3a41a5129?mocky-delay=1000ms";
 
         public static final String UPDATE_CART = "http://www.mocky.io/v2/5dc1524e330000b3a41a5129";
 

@@ -37,9 +37,10 @@ public class ViewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         ImageView imageView = new ImageView(appContext);
+        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        //imageView.setBackgroundResource(R.color.backgroundLight);
         Glide.with(appContext)
                 .load(imageUrls.get(position))
-                .centerCrop()
                 .placeholder(R.drawable.ic_insert_photo_dark_24dp)
                 .into(imageView);
 

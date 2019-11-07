@@ -70,10 +70,10 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
         String originalPrice = df.format(product.getOriginalPrice());
         String rupeeSymbol = appContext.getString(R.string.Rs);
 
+        //TODO: replace image path with thumbnail image
         if (appContext != null)
             Glide.with(appContext)
                     .load(product.getImagePaths().get(0))
-                    .centerCrop()
                     .placeholder(R.drawable.ic_insert_photo_dark_24dp)
                     .into(holder.productImageView);
 

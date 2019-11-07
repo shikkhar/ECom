@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#25D12B</color>
+    <color name="colorPrimary">#44D62C</color>
     <color name="colorPrimaryDark">#1C7C1F</color>
     <color name="colorPrimaryLight">#5EE762</color>
-    <color name="colorAccent">#25D12B</color>
+    <color name="colorAccent">#44D62C</color>
     <color name="textColor">#212121</color>
     <color name="textColorLight">#757171</color>
     <color name="badgeColor">#D53737</color>

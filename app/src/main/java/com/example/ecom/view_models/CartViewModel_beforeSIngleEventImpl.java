@@ -12,7 +12,6 @@ import com.example.ecom.model.CartProductDetail;
 import com.example.ecom.model.CartSummary;
 import com.example.ecom.model.Product;
 import com.example.ecom.repository.Repository;
-import com.example.ecom.utils.Event;
 import com.example.ecom.utils.VolleySeverRequest;
 import com.google.gson.Gson;
 
@@ -24,14 +23,14 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartViewModel extends ViewModel{
+public class CartViewModel_beforeSIngleEventImpl extends ViewModel{
     private static final String TAG = "CartViewModel";
     private MutableLiveData<List<CartProductDetail>> cartProductListLiveD = new MutableLiveData<>();
     private LiveData cartSummaryLiveD;
-    private MutableLiveData<Event<Boolean>> addToCartResultLiveD = new MutableLiveData<>();
+    private MutableLiveData<Boolean> addToCartResultLiveD = new MutableLiveData<>();
     private Repository mRepository = new Repository();
 
-    public CartViewModel() {
+    public CartViewModel_beforeSIngleEventImpl() {
         if (cartProductListLiveD.getValue() == null)
             mRepository.getCartDetails(new FetchCartProductsCallback(cartProductListLiveD));
 
@@ -72,13 +71,13 @@ public class CartViewModel extends ViewModel{
         return cartProductListLiveD;
     }
 
-    public LiveData<Event<Boolean>> getAddToCartResult() {
+    public LiveData<Boolean> getAddToCartResult() {
         return addToCartResultLiveD;
     }
 
-    /*public void setAddToCartResult(boolean value){
+    public void setAddToCartResult(boolean value){
         addToCartResultLiveD.setValue(value);
-    }*/
+    }
 
     public LiveData<CartSummary> getCartSummaryLiveData() {
         return cartSummaryLiveD;
@@ -123,11 +122,11 @@ public class CartViewModel extends ViewModel{
 
     private static class AddToCartCallback implements VolleySeverRequest.VolleyResponseCallback {
         private WeakReference<MutableLiveData<List<CartProductDetail>>> weakCartProductListLiveD;
-        private WeakReference<MutableLiveData<Event<Boolean>>> weakAddToCartResultLiveD;
+        private WeakReference<MutableLiveData<Boolean>> weakAddToCartResultLiveD;
         private CartProductDetail cartProductDetail;
 
         public AddToCartCallback(MutableLiveData<List<CartProductDetail>> cartProductListLiveD,
-                                 MutableLiveData<Event<Boolean>> addToCartResultLiveD,
+                                 MutableLiveData<Boolean> addToCartResultLiveD,
                                  CartProductDetail cartProductDetail) {
             this.weakCartProductListLiveD = new WeakReference<>(cartProductListLiveD);
             this.weakAddToCartResultLiveD = new WeakReference<>(addToCartResultLiveD);
@@ -160,19 +159,19 @@ public class CartViewModel extends ViewModel{
                 cartProductListLiveD.setValue(cartProductDetailList);
             }
 
-            MutableLiveData<Event<Boolean>> addToCartResultLiveD = weakAddToCartResultLiveD.get();
+            MutableLiveData<Boolean> addToCartResultLiveD = weakAddToCartResultLiveD.get();
             if (addToCartResultLiveD != null) {
                 //cartProductListLiveD.setValue(temp);
-                addToCartResultLiveD.setValue(new Event<>(true));
+                addToCartResultLiveD.setValue(true);
             }
         }
 
         @Override
         public void onFail(VolleyError error) {
-            MutableLiveData<Event<Boolean>> addToCartResultLiveD = weakAddToCartResultLiveD.get();
+            MutableLiveData<Boolean> addToCartResultLiveD = weakAddToCartResultLiveD.get();
             if (addToCartResultLiveD != null) {
                 //cartProductListLiveD.setValue(temp);
-                addToCartResultLiveD.setValue(new Event<>(false));
+                addToCartResultLiveD.setValue(false);
             }
             Log.d(TAG, "onFail:" +error.getMessage());
         }
