@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:background="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,6 +33,27 @@
         app:tabGravity="center"
         app:tabIndicatorColor="@color/colorAccent"
         app:tabIndicatorHeight="0dp" />
+
+    <ImageView
+        android:id="@+id/imageViewFavoriteGray"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/viewPagerProductDetail"
+        app:srcCompat="@drawable/ic_favorite_gray_24dp" />
+
+    <ImageView
+        android:id="@+id/imageViewFavorite"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:layout_goneMarginTop="8dp"
+        app:layout_goneMarginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewFavoriteGray"
+        app:layout_constraintTop_toTopOf="@+id/imageViewFavoriteGray"
+        app:srcCompat="@drawable/ic_favorite_black_24dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

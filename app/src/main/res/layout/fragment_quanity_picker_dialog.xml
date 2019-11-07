@@ -4,18 +4,53 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
     tools:appContext=".ui.QuantityPickerDialogFragment">
 
     <TextView
-        android:id="@+id/textViewNumber1"
+        android:id="@+id/qtyLabel"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="Select Qty:"
+        android:textAlignment="viewStart"
+        android:textColor="@color/textColor"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewNumber0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="2"
+        android:inputType="textPersonName"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="0 (delete)"
+        android:textAlignment="viewStart"
+        android:textColor="@color/textColorLight"
+        android:textSize="16sp" />
+
+    <View
+        android:id="@+id/divider0"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/textColor" />
+
+    <TextView
+        android:id="@+id/textViewNumber1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="2"
         android:inputType="textPersonName"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:text="1"
-        android:textAlignment="center"
+        android:textAlignment="viewStart"
+        android:textColor="@color/textColorLight"
         android:textSize="16sp" />
 
     <View
@@ -29,12 +64,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="2"
+        android:inputType="textPersonName"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:inputType="textPersonName"
         android:text="2"
-        android:textAlignment="center"
-        android:textSize="16sp"/>
+        android:textColor="@color/textColorLight"
+        android:textAlignment="viewStart"
+        android:textSize="16sp" />
 
     <View
         android:id="@+id/divider2"
@@ -46,13 +82,14 @@
         android:id="@+id/textViewNumber3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
         android:ems="2"
         android:inputType="textPersonName"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:text="3"
-        android:textAlignment="center"
-        android:textSize="16sp"/>
+        android:textColor="@color/textColorLight"
+        android:textAlignment="viewStart"
+        android:textSize="16sp" />
 
     <View
         android:id="@+id/divider3"
@@ -64,13 +101,14 @@
         android:id="@+id/textViewNumber4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:ems="2"
+        android:textColor="@color/textColorLight"
+        android:inputType="textPersonName"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:ems="2"
-        android:inputType="textPersonName"
         android:text="4"
-        android:textSize="16sp"
-        android:textAlignment="center" />
+        android:textAlignment="viewStart"
+        android:textSize="16sp" />
 
     <View
         android:id="@+id/divider4"
@@ -82,13 +120,14 @@
         android:id="@+id/textViewNumber5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
         android:ems="2"
         android:inputType="textPersonName"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:text="5"
-        android:textSize="16sp"
-        android:textAlignment="center" />
+        android:textColor="@color/textColorLight"
+        android:textAlignment="viewStart"
+        android:textSize="16sp" />
 
     <View
         android:id="@+id/divider5"
@@ -100,13 +139,14 @@
         android:id="@+id/textViewNumber6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
         android:ems="2"
         android:inputType="textPersonName"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:text="6"
-        android:textSize="16sp"
-        android:textAlignment="center" />
+        android:textColor="@color/textColorLight"
+        android:textAlignment="viewStart"
+        android:textSize="16sp" />
 
     <View
         android:id="@+id/divider6"
@@ -118,13 +158,14 @@
         android:id="@+id/textViewNumber7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
         android:ems="2"
         android:inputType="textPersonName"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:text="7"
-        android:textSize="16sp"
-        android:textAlignment="center" />
+        android:textColor="@color/textColorLight"
+        android:textAlignment="viewStart"
+        android:textSize="16sp" />
 
     <View
         android:id="@+id/divider7"
@@ -136,13 +177,14 @@
         android:id="@+id/textViewNumber8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
         android:ems="2"
         android:inputType="textPersonName"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:text="8"
-        android:textSize="16sp"
-        android:textAlignment="center" />
+        android:textColor="@color/textColorLight"
+        android:textAlignment="viewStart"
+        android:textSize="16sp" />
 
     <View
         android:id="@+id/divider8"
@@ -154,13 +196,14 @@
         android:id="@+id/textViewNumber9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
         android:ems="2"
         android:inputType="textPersonName"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:text="9"
-        android:textSize="16sp"
-        android:textAlignment="center" />
+        android:textColor="@color/textColorLight"
+        android:textAlignment="viewStart"
+        android:textSize="16sp" />
 
     <View
         android:id="@+id/divider9"
@@ -170,13 +213,14 @@
 
     <TextView
         android:id="@+id/textViewNumber10"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
         android:ems="2"
         android:inputType="textPersonName"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:text="10"
-        android:textSize="16sp"
-        android:textAlignment="center" />
+        android:textColor="@color/textColorLight"
+        android:textAlignment="viewStart"
+        android:textSize="16sp" />
 </LinearLayout>

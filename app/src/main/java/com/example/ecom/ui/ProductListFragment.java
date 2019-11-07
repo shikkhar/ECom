@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,12 +26,14 @@ import android.view.inputmethod.EditorInfo;
 
 import com.example.ecom.MyRecyclerView;
 import com.example.ecom.R;
+import com.example.ecom.adapters.DealsAdapter;
 import com.example.ecom.adapters.ProductListAdapter;
 import com.example.ecom.adapters.ViewPagerAdapter;
 import com.example.ecom.model.CartSummary;
 import com.example.ecom.model.Product;
 import com.example.ecom.view_models.CartViewModel;
 import com.example.ecom.view_models.ProductViewModel;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.Arrays;
 
@@ -47,15 +50,23 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
     private ProductViewModel productViewModel;
     private CartViewModel cartViewModel;
     private ViewPagerAdapter viewPagerAdapter;
-    private ProductListAdapter mAdapter;
+    private ProductListAdapter productListAdapter;
+    private DealsAdapter dealsAdapter;
     private ProductAdapterChangesListener adapterChangesListener;
     private CartSummary cartSummary;
     private Menu optionsMenu;
+    private Handler handler;
+    private int delay = 2500; //milliseconds
+   private int page = 0;
 
     @BindView(R.id.viewPagerBanner)
     ViewPager viewPager;
+    @BindView(R.id.tabLayout)
+    TabLayout tabLayout;
     @BindView(R.id.recyclerViewProductList)
-    MyRecyclerView recyclerViewProductList;
+    MyRecyclerView productListRecyclerView;
+    @BindView(R.id.recyclerViewDeals)
+    RecyclerView dealsRecyclerView;
 
     public ProductListFragment() {
         // Required empty public constructor
@@ -65,7 +76,9 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mAdapter = new ProductListAdapter(this.getContext().getApplicationContext());
+        productListAdapter = new ProductListAdapter(this.getContext().getApplicationContext());
+        dealsAdapter = new DealsAdapter();
+        handler = new Handler();
 
     }
 
@@ -81,9 +94,27 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         navController = Navigation.findNavController(view);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                page = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         //filterEditText.addTextChangedListener(new SearchTextWatcher());
         //navController.navigate(R.id.action_productListFragment_to_productDetailFragment);
     }
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -93,7 +124,7 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
         cartViewModel = ViewModelProviders.of(getActivity()).get(CartViewModel.class);
 
         productViewModel.getProductLiveData().observe(getViewLifecycleOwner(), products -> {
-            mAdapter.setList(products);
+            productListAdapter.setList(products);
         });
 
         cartViewModel.getCartSummaryLiveData().observe(getViewLifecycleOwner(), new Observer<CartSummary>() {
@@ -115,17 +146,34 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
 
         viewPagerAdapter = new ViewPagerAdapter(getContext().getApplicationContext(), Arrays.asList(images));
         viewPager.setAdapter(viewPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        handler.postDelayed(runnable, delay);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacks(runnable);
     }
 
     private void setupRecyclerView() {
         adapterChangesListener = new ProductAdapterChangesListener();
         //LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
-        recyclerViewProductList.setLayoutManager(gridLayoutManager);
-        mAdapter.setClickListener(this);
-        mAdapter.registerAdapterDataObserver(adapterChangesListener);
-        recyclerViewProductList.setAdapter(mAdapter);
+        productListRecyclerView.setLayoutManager(gridLayoutManager);
+        productListAdapter.setClickListener(this);
+        productListAdapter.registerAdapterDataObserver(adapterChangesListener);
+        productListRecyclerView.setAdapter(productListAdapter);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL, false);
+        dealsRecyclerView.setLayoutManager(linearLayoutManager);
+        dealsRecyclerView.setAdapter(dealsAdapter);
     }
 
     @Override
@@ -138,32 +186,32 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
     private class ProductAdapterChangesListener extends RecyclerView.AdapterDataObserver {
         @Override
         public void onChanged() {
-            recyclerViewProductList.scrollToPosition(0);
+            productListRecyclerView.scrollToPosition(0);
         }
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount) {
-            recyclerViewProductList.scrollToPosition(0);
+            productListRecyclerView.scrollToPosition(0);
         }
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) {
-            recyclerViewProductList.scrollToPosition(0);
+            productListRecyclerView.scrollToPosition(0);
         }
 
         @Override
         public void onItemRangeInserted(int positionStart, int itemCount) {
-            recyclerViewProductList.scrollToPosition(0);
+            productListRecyclerView.scrollToPosition(0);
         }
 
         @Override
         public void onItemRangeRemoved(int positionStart, int itemCount) {
-            recyclerViewProductList.scrollToPosition(0);
+            productListRecyclerView.scrollToPosition(0);
         }
 
         @Override
         public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-            recyclerViewProductList.scrollToPosition(0);
+            productListRecyclerView.scrollToPosition(0);
         }
     }
 
@@ -212,8 +260,21 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
 
     @Override
     public void onDestroyView() {
-        mAdapter.unregisterAdapterDataObserver(adapterChangesListener);
-        mAdapter.setClickListener(null);
+        productListAdapter.unregisterAdapterDataObserver(adapterChangesListener);
+        productListAdapter.setClickListener(null);
         super.onDestroyView();
     }
+
+    Runnable runnable = new Runnable() {
+        public void run() {
+            if (viewPagerAdapter.getCount() == page) {
+                page = 0;
+            } else {
+                page++;
+            }
+
+            viewPager.setCurrentItem(page);
+            handler.postDelayed(this, delay);
+        }
+    };
 }

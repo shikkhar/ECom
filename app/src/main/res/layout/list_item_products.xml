@@ -9,9 +9,9 @@
         android:id="@+id/cardViewProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
         app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,26 +21,25 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/imageViewProduct"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
-                android:layout_marginTop="8dp"
-                android:scaleType="fitCenter"
+                android:background="@android:color/white"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_search_dark_24dp" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textViewShortDescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
                 android:textColor="@color/textColorLight"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -57,9 +56,8 @@
                 android:textColor="@color/textColorLight"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/textViewShortDescription"
+                app:layout_constraintStart_toStartOf="@+id/textViewShortDescription"
                 app:layout_constraintTop_toBottomOf="@+id/textViewShortDescription"
                 tools:text="TextView" />
 
@@ -102,6 +100,28 @@
                 app:layout_constraintStart_toEndOf="@+id/textViewOriginalPrice"
                 app:layout_constraintTop_toTopOf="@+id/textViewOriginalPrice"
                 tools:text="@string/Rs" />
+
+            <ImageView
+                android:id="@+id/imageViewFavoriteGray"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textViewDiscount"
+                app:srcCompat="@drawable/ic_favorite_gray_24dp" />
+
+            <ImageView
+                android:id="@+id/imageViewFavorite"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/imageViewFavoriteGray"
+                app:layout_constraintTop_toTopOf="@+id/imageViewFavoriteGray"
+                app:layout_goneMarginEnd="8dp"
+                app:layout_goneMarginTop="8dp"
+                app:srcCompat="@drawable/ic_favorite_black_24dp" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

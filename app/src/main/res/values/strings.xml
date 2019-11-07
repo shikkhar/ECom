@@ -31,4 +31,5 @@
     <string name="landmark">Landmark</string>
     <string name="pincode">Pincode</string>
     <string name="quantity">Qty: %1$s</string>
+    <string name="Favorite">favorite</string>
 </resources>

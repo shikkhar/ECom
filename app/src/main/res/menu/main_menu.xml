@@ -9,6 +9,11 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always|collapseActionView" />
     <item
+        android:id="@+id/action_favorite"
+        android:icon="@drawable/ic_favorite_white_24dp"
+        android:title="@string/Favorite"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/fragment_cart"
         android:icon="@drawable/action_bar_cart_icon"
         android:title="@string/menu_item_cart"

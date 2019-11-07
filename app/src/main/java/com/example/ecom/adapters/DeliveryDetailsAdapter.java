@@ -61,7 +61,7 @@ public class DeliveryDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                 if (deliveryDetail.getSelected()) {
                     if (viewHolder.cardView.getStrokeWidth() == 0)
-                        viewHolder.cardView.setStrokeWidth(8);
+                        viewHolder.cardView.setStrokeWidth(4);
                     viewHolder.viewGroupDeliveryButtons.setVisibility(View.VISIBLE);
                 } else {
                     viewHolder.cardView.setStrokeWidth(0);

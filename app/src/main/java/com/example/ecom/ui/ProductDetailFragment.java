@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -19,7 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.ecom.QuantityCustomView;
@@ -46,9 +45,6 @@ import static com.example.ecom.ui.ProductListFragment.BUNDLE_KEY_PRODUCT;
  * A simple {@link Fragment} subclass.
  */
 public class ProductDetailFragment extends BaseCartFragment {
-
-    public static final String REQUEST_ADD_TO_CART = "0";
-    public static final String REQUEST_BUY_NOW = "1";
 
     private CartViewModel cartViewModel;
     private NavController navController;
@@ -80,8 +76,8 @@ public class ProductDetailFragment extends BaseCartFragment {
     MaterialButton buyNowButton;
     @BindView(R.id.customViewQuantiity)
     QuantityCustomView quantityCustomView;
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
+    @BindView(R.id.frameProgrssBar)
+    FrameLayout frameProgressBar;
 
     @OnClick(R.id.buttonAddToCart)
     void onAddToCartClick() {
@@ -105,7 +101,7 @@ public class ProductDetailFragment extends BaseCartFragment {
         if(overlayDialog == null) {
             overlayDialog = new Dialog(getContext());
             overlayDialog.show();
-            progressBar.setVisibility(View.VISIBLE);
+            frameProgressBar.setVisibility(View.VISIBLE);
         }
     }
 
@@ -191,7 +187,7 @@ public class ProductDetailFragment extends BaseCartFragment {
         cartViewModel.getAddToCartResult().observe(getViewLifecycleOwner(), event -> {
 
             if(overlayDialog != null) {
-                progressBar.setVisibility(View.GONE);
+                frameProgressBar.setVisibility(View.GONE);
                 overlayDialog.dismiss();
                 overlayDialog = null;
             }

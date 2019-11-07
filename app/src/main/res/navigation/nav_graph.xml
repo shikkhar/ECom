@@ -66,7 +66,11 @@
         tools:layout="@layout/fragment_delivery_detail_list">
         <action
             android:id="@+id/action_deliveryDetailListFragment_to_deliveryDetailFragment"
-            app:destination="@id/deliveryDetailFragment" />
+            app:destination="@id/deliveryDetailFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
     <dialog
         android:id="@+id/summaryBottomSheetDialoagFragment"

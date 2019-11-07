@@ -32,6 +32,7 @@ public class QuantityPickerDialogFragment extends DialogFragment implements View
     private ValueChangeCallback valueChangeCallback;
     private int position;
 
+    @BindView(R.id.textViewNumber0) TextView textView0;
     @BindView(R.id.textViewNumber1) TextView textView1;
     @BindView(R.id.textViewNumber2) TextView textView2;
     @BindView(R.id.textViewNumber3) TextView textView3;
@@ -67,6 +68,7 @@ public class QuantityPickerDialogFragment extends DialogFragment implements View
         super.onViewCreated(view, savedInstanceState);
         attachToParentFragment(getParentFragment());
         ButterKnife.bind(this, view);
+        textView0.setOnClickListener(this);
         textView1.setOnClickListener(this);
         textView2.setOnClickListener(this);
         textView3.setOnClickListener(this);
@@ -79,45 +81,6 @@ public class QuantityPickerDialogFragment extends DialogFragment implements View
         textView10.setOnClickListener(this);
     }
 
-
-
-    /* @NonNull
-    @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-
-        attachToParentFragment(getParentFragment());
-
-        final NumberPicker numberPicker = new NumberPicker(getActivity());
-        numberPicker.setMinValue(1);
-        numberPicker.setMaxValue(10);
-
-        numberPicker.setOnValueChangedListener((picker, oldVal, newVal) -> valueChangeCallback.onValueChange(position, newVal));
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-
-        *//*builder.setTitle("Choose Value");
-        builder.setMessage("Choose a number :");
-*//*
-     *//*builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                valueChangeListener.onValueChange(numberPicker,
-                        numberPicker.getValue(), numberPicker.getValue());
-            }
-        });
-
-        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                valueChangeListener.onValueChange(numberPicker,
-                        numberPicker.getValue(), numberPicker.getValue());
-            }
-        });
-*//*
-        builder.setView(numberPicker);
-        return builder.create();
-    }*/
 
     private void attachToParentFragment(Fragment parentFragment) {
         try {
@@ -136,6 +99,9 @@ public class QuantityPickerDialogFragment extends DialogFragment implements View
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.textViewNumber0:
+                valueChangeCallback.onValueChange(position, 0);
+                break;
             case R.id.textViewNumber1:
                 valueChangeCallback.onValueChange(position, Integer.valueOf(textView1.getText().toString()));
                 break;

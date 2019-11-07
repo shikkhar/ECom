@@ -24,7 +24,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartViewModel extends ViewModel{
+public class CartViewModel extends ViewModel {
     private static final String TAG = "CartViewModel";
     private MutableLiveData<List<CartProductDetail>> cartProductListLiveD = new MutableLiveData<>();
     private LiveData cartSummaryLiveD;
@@ -41,30 +41,36 @@ public class CartViewModel extends ViewModel{
 
     private CartSummary generateCartSummary(List<CartProductDetail> cartProducts) {
         double cartTotal = 0;
+        int totalQty = 0;
         for (CartProductDetail cartProduct : cartProducts) {
             Product product = cartProduct.getProduct();
             cartTotal += product.getFinalPrice();
+            totalQty += cartProduct.getQuantity();
         }
 
-        return new CartSummary(cartTotal, cartProducts.size());
+        return new CartSummary(cartTotal, totalQty);
     }
 
-    public void addToCart(Product product, int qty){
+    public void addToCart(Product product, int qty) {
         CartProductDetail cartProductDetail = new CartProductDetail(product, qty);
         mRepository.addToCart(new AddToCartCallback(cartProductListLiveD, addToCartResultLiveD, cartProductDetail), cartProductDetail);
     }
 
-    public void removeFromCart(int position){
+    public void removeFromCart(int position) {
         List<CartProductDetail> cartProductDetails = cartProductListLiveD.getValue();
-        if(cartProductDetails != null) {
+        if (cartProductDetails != null) {
             Product product = cartProductDetails.get(position).getProduct();
-            mRepository.removeFromCart(null, product);
+            mRepository.removeFromCart(new RemoveFromCart(cartProductListLiveD, position), product);
         }
     }
 
-    public void updateCart(Product product, int qty){
-        CartProductDetail cartProductDetail = new CartProductDetail(product, qty);
-        mRepository.addToCart(new AddToCartCallback(cartProductListLiveD, addToCartResultLiveD, cartProductDetail), cartProductDetail);
+    public void updateCart(int position, int qty) {
+        List<CartProductDetail> cartProductDetails = cartProductListLiveD.getValue();
+        if (cartProductDetails != null) {
+            Product product = cartProductDetails.get(position).getProduct();
+            mRepository.updateCart(new UpdateCartCallback(cartProductListLiveD, position, qty), product.getId(), qty);
+        }
+        //mRepository.updateCart(new UpdateCartCallback());
     }
 
 
@@ -83,7 +89,6 @@ public class CartViewModel extends ViewModel{
     public LiveData<CartSummary> getCartSummaryLiveData() {
         return cartSummaryLiveD;
     }
-
 
 
     private static class FetchCartProductsCallback implements VolleySeverRequest.VolleyResponseCallback {
@@ -117,7 +122,7 @@ public class CartViewModel extends ViewModel{
 
         @Override
         public void onFail(VolleyError error) {
-            Log.d(TAG, "onFail:" +error.getMessage());
+            Log.d(TAG, "onFail:" + error.getMessage());
         }
     }
 
@@ -155,8 +160,23 @@ public class CartViewModel extends ViewModel{
             MutableLiveData<List<CartProductDetail>> cartProductListLiveD = weakCartProductListLiveD.get();
             if (cartProductListLiveD != null) {
                 //cartProductListLiveD.setValue(temp);
+                boolean productAlreadyExists = false;
                 List<CartProductDetail> cartProductDetailList = cartProductListLiveD.getValue();
-                cartProductDetailList.add(cartProductDetail);
+                if (cartProductDetailList != null) {
+                    for (int i = 0; i < cartProductDetailList.size(); i++) {
+                        CartProductDetail existingProduct = cartProductDetailList.get(i);
+                        if (existingProduct.getId() == cartProductDetail.getId()) {
+                            productAlreadyExists = true;
+                            int oldQty = existingProduct.getQuantity();
+                            int newQty = cartProductDetail.getQuantity();
+                            cartProductDetailList.get(i).setQuantity(oldQty + newQty);
+                            break;
+                        }
+                    }
+                }
+
+                if (!productAlreadyExists)
+                    cartProductDetailList.add(cartProductDetail);
                 cartProductListLiveD.setValue(cartProductDetailList);
             }
 
@@ -174,35 +194,38 @@ public class CartViewModel extends ViewModel{
                 //cartProductListLiveD.setValue(temp);
                 addToCartResultLiveD.setValue(new Event<>(false));
             }
-            Log.d(TAG, "onFail:" +error.getMessage());
+            Log.d(TAG, "onFail:" + error.getMessage());
         }
     }
 
     private static class UpdateCartCallback implements VolleySeverRequest.VolleyResponseCallback {
         private WeakReference<MutableLiveData<List<CartProductDetail>>> weakCartProductListLiveD;
-        private CartProductDetail cartProductDetail;
+        private int position;
+        private int quantity;
 
         public UpdateCartCallback(MutableLiveData<List<CartProductDetail>> cartProductListLiveD,
-                                  CartProductDetail cartProductDetail) {
+                                  int position,
+                                  int quantity) {
             this.weakCartProductListLiveD = new WeakReference<>(cartProductListLiveD);
-            this.cartProductDetail = cartProductDetail;
+            this.position = position;
+            this.quantity = quantity;
         }
 
         @Override
         public void onSuccess(JSONObject response) throws JSONException {
             //TODO: fire an event to tell that the operation was successful and then reload the cart items.
-            /*MutableLiveData<List<CartProductDetail>> cartProductListLiveD = weakCartProductListLiveD.get();
+            MutableLiveData<List<CartProductDetail>> cartProductListLiveD = weakCartProductListLiveD.get();
             if (cartProductListLiveD != null) {
                 //cartProductListLiveD.setValue(temp);
                 List<CartProductDetail> cartProductDetailList = cartProductListLiveD.getValue();
-                cartProductDetailList.add(cartProductDetail);
+                cartProductDetailList.get(position).setQuantity(quantity);
                 cartProductListLiveD.setValue(cartProductDetailList);
-            }*/
+            }
         }
 
         @Override
         public void onFail(VolleyError error) {
-            Log.d(TAG, "onFail:" +error.getMessage());
+            Log.d(TAG, "onFail:" + error.getMessage());
         }
     }
 
@@ -232,7 +255,7 @@ public class CartViewModel extends ViewModel{
 
         @Override
         public void onFail(VolleyError error) {
-            Log.d(TAG, "onFail:" +error.getMessage());
+            Log.d(TAG, "onFail:" + error.getMessage());
         }
     }
 

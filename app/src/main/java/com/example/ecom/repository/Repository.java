@@ -107,14 +107,14 @@ public class Repository {
 
     }
 
-    public void updateCart(VolleySeverRequest.VolleyResponseCallback responseCallback, CartProductDetail cartProductDetail) {
+    public void updateCart(VolleySeverRequest.VolleyResponseCallback responseCallback, long productId, int quantity) {
 
         VolleySeverRequest serverRequest = new VolleySeverRequest(responseCallback);
         String url = NetworkRequestUrls.UPDATE_CART;
         HashMap<String, String> params = new HashMap<>();
         params.put("userId", null);
-        params.put("productId", String.valueOf(cartProductDetail.getProduct().getId()));
-        params.put("qty", String.valueOf(cartProductDetail.getQuantity()));
+        params.put("productId", String.valueOf(productId));
+        params.put("qty", String.valueOf(quantity));
         serverRequest.makePostRequest(url, params, NetworkRequestTags.UPDATE_CART);
 
     }

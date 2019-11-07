@@ -52,21 +52,25 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
     private double cartTotal;
     private Dialog overlayDialog;
 
-    @BindView(R.id.textViewFinalAmount) TextView finalAmountTextView;
-    @BindView(R.id.buttonCheckout) MaterialButton checkoutButton;
-    @BindView(R.id.textViewSavings) TextView savingsTextView;
-    @BindView(R.id.recyclerViewCart) RecyclerView recyclerView;
+    @BindView(R.id.textViewFinalAmount)
+    TextView finalAmountTextView;
+    @BindView(R.id.buttonCheckout)
+    MaterialButton checkoutButton;
+    @BindView(R.id.textViewSavings)
+    TextView savingsTextView;
+    @BindView(R.id.recyclerViewCart)
+    RecyclerView recyclerView;
 
-    @OnClick({R.id.label,R.id.textViewFinalAmount,R.id.textViewSavings})
-    void onLabelClick(){
-        recyclerView.scrollToPosition(cartViewModel.getCartProductsLiveData().getValue().size());
+    @OnClick({R.id.label, R.id.textViewFinalAmount, R.id.textViewSavings})
+    void onLabelClick() {
+        recyclerView.smoothScrollToPosition(cartViewModel.getCartProductsLiveData().getValue().size());
         /*Bundle bundle = new Bundle();
         bundle.putDouble(BUNDLE_KEY_CART_TOTAL, cartTotal);
         navController.navigate(R.id.action_action_cart_to_summaryBottomSheetDialoagFragment);*/
     }
 
     @OnClick(R.id.buttonCheckout)
-    void onProceedToCheckoutClick(){
+    void onProceedToCheckoutClick() {
         navController.navigate(R.id.action_cartFragment_to_deliveryDetailsListFragment);
     }
 
@@ -111,7 +115,7 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
         //bounceAnimation.setRepeatCount(Animation.INFINITE);
         cartViewModel = ViewModelProviders.of(getActivity()).get(CartViewModel.class);
         cartViewModel.getCartProductsLiveData().observe(getViewLifecycleOwner(), cartProductDetails -> {
-            if(cartProductDetails == null){
+            if (cartProductDetails == null) {
                 finalAmountTextView.setVisibility(View.GONE);
                 savingsTextView.setVisibility(View.GONE);
                 checkoutButton.setEnabled(false);
@@ -157,7 +161,7 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
             fm.beginTransaction().remove(fragment).commit();
         quantityPickerDialogFragment = new QuantityPickerDialogFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("position", position);
+        bundle.putInt(BUNDLE_KEY_LIST_POSITION, position);
         //bundle.putString("reward", reward);
         quantityPickerDialogFragment.setArguments(bundle);
         quantityPickerDialogFragment.show(fm, TAG_QUANTITY_DIALOG_FRAGMENT);
@@ -166,12 +170,15 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
 
     @Override
     public void onRemoveClick(int position) {
-        //cartViewModel.removeFromCart(position);
+        cartViewModel.removeFromCart(position);
     }
 
     @Override
     public void onValueChange(int position, int value) {
         quantityPickerDialogFragment.dismiss();
-        //cartViewModel.updateCart(null, value);
+        if (value == 0)
+            cartViewModel.removeFromCart(position);
+        else
+            cartViewModel.updateCart(position, value);
     }
 }
