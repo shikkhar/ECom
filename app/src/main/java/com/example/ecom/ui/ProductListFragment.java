@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -23,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Toast;
 
 import com.example.ecom.MyRecyclerView;
 import com.example.ecom.R;
@@ -31,6 +33,7 @@ import com.example.ecom.adapters.ProductListAdapter;
 import com.example.ecom.adapters.ViewPagerAdapter;
 import com.example.ecom.model.CartSummary;
 import com.example.ecom.model.Product;
+import com.example.ecom.utils.Event;
 import com.example.ecom.view_models.CartViewModel;
 import com.example.ecom.view_models.ProductViewModel;
 import com.google.android.material.tabs.TabLayout;
@@ -56,8 +59,9 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
     private CartSummary cartSummary;
     private Menu optionsMenu;
     private Handler handler;
+    private AutoScrollRunnable runnable;
     private int delay = 2500; //milliseconds
-   private int page = 0;
+    private int page = 0;
 
     @BindView(R.id.viewPagerBanner)
     ViewPager viewPager;
@@ -67,6 +71,8 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
     MyRecyclerView productListRecyclerView;
     @BindView(R.id.recyclerViewDeals)
     RecyclerView dealsRecyclerView;
+    @BindView(R.id.searchGroup)
+    Group searchGroup;
 
     public ProductListFragment() {
         // Required empty public constructor
@@ -79,6 +85,7 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
         productListAdapter = new ProductListAdapter(this.getContext().getApplicationContext());
         dealsAdapter = new DealsAdapter();
         handler = new Handler();
+        runnable = new AutoScrollRunnable();
 
     }
 
@@ -115,7 +122,6 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
     }
 
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -133,6 +139,15 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
                 cartSummary = cartSummaryObject;
                 if (optionsMenu != null)
                     setCartCount(getContext().getApplicationContext(), optionsMenu, String.valueOf(cartSummary.getItemCount()));
+            }
+        });
+
+        productViewModel.getUpdateOperationStatus().observe(this.getViewLifecycleOwner(), booleanEvent -> {
+            if (!booleanEvent.isHasBeenHandled()) {
+                if (booleanEvent.getContentIfNotHandled())
+                    Toast.makeText(getContext(), "Added to favorites successfully", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getContext(), "Item could not be added to your favorites.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -171,16 +186,21 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
         productListAdapter.registerAdapterDataObserver(adapterChangesListener);
         productListRecyclerView.setAdapter(productListAdapter);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         dealsRecyclerView.setLayoutManager(linearLayoutManager);
         dealsRecyclerView.setAdapter(dealsAdapter);
     }
 
     @Override
-    public void OnItemClick(Product selectedProduct) {
+    public void onItemClick(Product selectedProduct) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(BUNDLE_KEY_PRODUCT, selectedProduct);
         navController.navigate(R.id.action_productListFragment_to_productDetailFragment, bundle);
+    }
+
+    @Override
+    public void onFavIconClick(int position, Product selectedProduct) {
+        productViewModel.updateFavoriteStatus(position, selectedProduct);
     }
 
     private class ProductAdapterChangesListener extends RecyclerView.AdapterDataObserver {
@@ -245,6 +265,12 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
             public boolean onQueryTextChange(String newText) {
                 if (productViewModel != null)
                     productViewModel.getFilter().filter(newText);
+
+                if (!newText.trim().isEmpty())
+                    searchGroup.setVisibility(View.GONE);
+                else
+                    searchGroup.setVisibility(View.VISIBLE);
+
                 return false;
             }
         });
@@ -265,7 +291,8 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
         super.onDestroyView();
     }
 
-    Runnable runnable = new Runnable() {
+    private class AutoScrollRunnable implements Runnable{
+        @Override
         public void run() {
             if (viewPagerAdapter.getCount() == page) {
                 page = 0;
@@ -276,5 +303,6 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
             viewPager.setCurrentItem(page);
             handler.postDelayed(this, delay);
         }
-    };
+    }
+
 }

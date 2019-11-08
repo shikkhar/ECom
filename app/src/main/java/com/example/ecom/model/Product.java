@@ -1,7 +1,10 @@
 package com.example.ecom.model;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +20,9 @@ public class Product implements Parcelable {
     private double originalPrice;
     private double finalPrice;
     private int discount;
+    private boolean isFavorite;
 
-    public Product(String title, String shortDescription, String longDescription, List<String> imagePaths, String thumbnailImagePath, double originalPrice, double finalPrice, int discount) {
+    public Product(String title, String shortDescription, String longDescription, List<String> imagePaths, String thumbnailImagePath, double originalPrice, double finalPrice, int discount, boolean isFavorite) {
         this.title = title;
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
@@ -27,13 +31,13 @@ public class Product implements Parcelable {
         this.originalPrice = originalPrice;
         this.finalPrice = finalPrice;
         this.discount = discount;
-        this.id = 1;
+        this.isFavorite = isFavorite;
     }
 
-    /*public Product(long id, String title, String shortDescription, String longDescription, List<String> imagePaths, double originalPrice, double finalPrice, int discount) {
-        this(title,shortDescription,longDescription,imagePaths,originalPrice,finalPrice,discount);
+    public Product(long id, String title, String shortDescription, String longDescription, List<String> imagePaths, String thumbnailImagePath, double originalPrice, double finalPrice, int discount, boolean isFavorite) {
+        this(title,shortDescription,longDescription,imagePaths, thumbnailImagePath, originalPrice,finalPrice,discount, isFavorite);
         this.id = id;
-    }*/
+    }
 
     public long getId() {
         return id;
@@ -99,7 +103,23 @@ public class Product implements Parcelable {
         this.discount = discount;
     }
 
+    public String getThumbnailImagePath() {
+        return thumbnailImagePath;
+    }
 
+    public void setThumbnailImagePath(String thumbnailImagePath) {
+        this.thumbnailImagePath = thumbnailImagePath;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     protected Product(Parcel in) {
         id = in.readLong();
         title = in.readString();
@@ -115,6 +135,7 @@ public class Product implements Parcelable {
         originalPrice = in.readDouble();
         finalPrice = in.readDouble();
         discount = in.readInt();
+        isFavorite = in.readBoolean();
     }
 
     @Override
@@ -122,6 +143,7 @@ public class Product implements Parcelable {
         return 0;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
@@ -138,10 +160,12 @@ public class Product implements Parcelable {
         dest.writeDouble(originalPrice);
         dest.writeDouble(finalPrice);
         dest.writeInt(discount);
+        dest.writeBoolean(isFavorite);
     }
 
     @SuppressWarnings("unused")
     public static final Parcelable.Creator<Product> CREATOR = new Parcelable.Creator<Product>() {
+        @RequiresApi(api = Build.VERSION_CODES.Q)
         @Override
         public Product createFromParcel(Parcel in) {
             return new Product(in);

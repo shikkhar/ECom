@@ -14,6 +14,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import com.example.ecom.R;
 import com.example.ecom.utils.CountDrawable;

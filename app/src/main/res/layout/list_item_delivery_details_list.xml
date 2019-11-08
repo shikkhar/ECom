@@ -27,6 +27,8 @@
                 android:id="@+id/textViewUserName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -39,6 +41,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:minLines="4"
+                android:textColor="@color/textColorLight"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textViewUserName"
                 app:layout_constraintTop_toBottomOf="@+id/textViewUserName"
@@ -48,17 +52,16 @@
                 android:id="@+id/buttonEditAddress"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:insetTop="12dp"
+                android:insetTop="6dp"
                 android:insetBottom="6dp"
                 android:text="@string/edit_address"
-                android:textColor="@color/textColor"
-                app:backgroundTint="@android:color/white"
+                android:textColor="@android:color/white"
+                app:backgroundTint="@color/textColor"
                 app:cornerRadius="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/buttonDeliverHere"
-                app:strokeColor="@color/textColor"
-                app:strokeWidth="1dp" />
+                app:strokeWidth="2dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonDeliverHere"
@@ -69,11 +72,11 @@
                 android:paddingBottom="8dp"
                 android:text="@string/deliver_here"
                 android:textColor="@android:color/white"
-                app:backgroundTint="@color/textColor"
                 app:cornerRadius="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewAddress" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewAddress"
+                app:strokeColor="@color/colorPrimary" />
 
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/viewGroupDeliveryButtons"

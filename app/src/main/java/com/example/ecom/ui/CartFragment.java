@@ -103,6 +103,7 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
 
     private void setupRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        //layoutManager.setReverseLayout(true);
         recyclerView.setLayoutManager(layoutManager);
         mAdapter.setClickListener(this);
         recyclerView.setAdapter(mAdapter);

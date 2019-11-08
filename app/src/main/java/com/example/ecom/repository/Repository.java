@@ -23,7 +23,7 @@ public class Repository {
         String url = NetworkRequestUrls.FETCH_PRODUCT_LIST;
         serverRequest.makeGetRequest(url, NetworkRequestTags.FETCH_PRODUCT_LIST);
 
-        /*//dummy objects
+        //dummy objects
         List<Product> productList = new ArrayList<>();
 
         for (int i = 1; i < 25; i++) {
@@ -34,13 +34,13 @@ public class Repository {
                     "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
                     "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"};
 
-            productList.add(new Product("Product " + i, "Short Description",
+            productList.add(new Product((Long.valueOf(i)), "Product " + i, "Short Description",
                     "Long Description",
-                    Arrays.asList(imagePaths),
-                    100, 75, 25));
+                    Arrays.asList(imagePaths), imagePaths[0],
+                    100, 75, 25, false));
         }
 
-        String json = new Gson().toJson(productList);*/
+        String json = new Gson().toJson(productList);
         //return productList;
     }
 
@@ -61,6 +61,19 @@ public class Repository {
 
         String json = new Gson().toJson(deliveryDetailList);*/
         //return deliveryDetailList;
+    }
+
+    public void updateFavoriteStatus(VolleySeverRequest.VolleyResponseCallback responseCallback,
+                                     long productId,
+                                     boolean isFavorite){
+        VolleySeverRequest serverRequest = new VolleySeverRequest(responseCallback);
+        String url = NetworkRequestUrls.UPDATE_FAVORITE_STATUS;
+        HashMap<String, String> params = new HashMap<>();
+        params.put("userId", null);
+        params.put("productId", String.valueOf(productId));
+        params.put("isFavorite", String.valueOf(isFavorite));
+        serverRequest.makePostRequest(url, params, NetworkRequestTags.UPDATE_FAVORITE_STATUS);
+
     }
 
     public void getCartDetails(VolleySeverRequest.VolleyResponseCallback responseCallback) {

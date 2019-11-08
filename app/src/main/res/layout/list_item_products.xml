@@ -26,7 +26,7 @@
             <ImageView
                 android:id="@+id/imageViewProduct"
                 android:layout_width="0dp"
-                android:layout_height="80dp"
+                android:layout_height="100dp"
                 android:background="@android:color/white"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -102,25 +102,26 @@
                 tools:text="@string/Rs" />
 
             <ImageView
-                android:id="@+id/imageViewFavoriteGray"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginEnd="8dp"
-                android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textViewDiscount"
-                app:srcCompat="@drawable/ic_favorite_gray_24dp" />
-
-            <ImageView
                 android:id="@+id/imageViewFavorite"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@+id/imageViewFavoriteGray"
-                app:layout_constraintTop_toTopOf="@+id/imageViewFavoriteGray"
-                app:layout_goneMarginEnd="8dp"
-                app:layout_goneMarginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageViewProduct"
                 app:srcCompat="@drawable/ic_favorite_black_24dp" />
+
+            <ImageView
+                android:id="@+id/imageViewFavoriteGray"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageViewProduct"
+                app:srcCompat="@drawable/ic_favorite_gray_24dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

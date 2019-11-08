@@ -11,6 +11,7 @@
     <color name="backgroundDark">#616161</color>
     <color name="backgroundLight">#EEEEEE</color>
     <color name="backgroundWithTransparency">#6A616161</color>"
+    <color name="colorYellow">#FFEE00</color>
 
 
     //dark theme colors

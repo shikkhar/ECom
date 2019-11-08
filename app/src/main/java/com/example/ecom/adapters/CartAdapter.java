@@ -99,7 +99,7 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        if (cartProductDetailList == null)
+        if (cartProductDetailList == null || cartProductDetailList.size() == 0)
             return 0;
         return cartProductDetailList.size() + 1;
     }

@@ -13,6 +13,7 @@ import com.android.volley.VolleyError;
 import com.example.ecom.model.CartProductDetail;
 import com.example.ecom.model.Product;
 import com.example.ecom.repository.Repository;
+import com.example.ecom.utils.Event;
 import com.example.ecom.utils.VolleySeverRequest;
 import com.google.gson.Gson;
 
@@ -28,6 +29,7 @@ public class ProductViewModel extends ViewModel implements Filterable {
     private static final String TAG = "ProductViewModel";
     private List<Product> fullProductList = new ArrayList<>();
     private MutableLiveData<List<Product>> productListLiveD = new MutableLiveData<>();
+    private MutableLiveData<Event<Boolean>> isUpdateSuccessful = new MutableLiveData<>();
     private Repository mRepository = new Repository();
 
     public ProductViewModel() {
@@ -48,8 +50,15 @@ public class ProductViewModel extends ViewModel implements Filterable {
         mRepository.getAllProducts(new FetchProductListCallback(productListLiveD, fullProductList));
     }
 
+    public void updateFavoriteStatus(int position, Product product) {
+        mRepository.updateFavoriteStatus(new UpdateFavoriteCallback(productListLiveD, isUpdateSuccessful), product.getId(), !product.isFavorite());
+    }
+
     public LiveData<List<Product>> getProductLiveData() {
         return productListLiveD;
+    }
+    public LiveData<Event<Boolean>> getUpdateOperationStatus() {
+        return isUpdateSuccessful;
     }
 
 
@@ -85,6 +94,58 @@ public class ProductViewModel extends ViewModel implements Filterable {
         @Override
         public void onFail(VolleyError error) {
             Log.d(TAG, "onFail: " + error.getMessage());
+        }
+    }
+
+    private static class UpdateFavoriteCallback implements VolleySeverRequest.VolleyResponseCallback {
+        private WeakReference<MutableLiveData<List<Product>>> weakProductListLiveD;
+        private WeakReference<MutableLiveData<Event<Boolean>>> weakIsUpdateSuccessful;
+        private int position;
+        private Product product;
+        private List<Product> fullProductList;
+
+        public UpdateFavoriteCallback(MutableLiveData<List<Product>> productListLiveD,
+                                      MutableLiveData<Event<Boolean>> isUpdateSuccessful
+                                     /* int position,
+                                      Product product,
+                                      List<Product> fullProductList*/) {
+            this.weakProductListLiveD = new WeakReference<>(productListLiveD);
+            this.weakIsUpdateSuccessful = new WeakReference<>(isUpdateSuccessful);
+           /* this.position = position;
+            this.product = product;
+            this.fullProductList = fullProductList;*/
+
+        }
+
+        @Override
+        public void onSuccess(JSONObject response) throws JSONException {
+            //TODO: issue a Toast Message that update was successful
+            MutableLiveData<Event<Boolean>> isUpdateSuccessful = weakIsUpdateSuccessful.get();
+
+            if(isUpdateSuccessful != null){
+                isUpdateSuccessful.setValue(new Event<>(true));
+            }
+
+            /*MutableLiveData<List<Product>> productListLiveD = weakProductListLiveD.get();
+            if (productListLiveD != null) {
+                List<Product> currentList = productListLiveD.getValue();
+                if (currentList != null){
+                    if( product.getId() == currentList.get(position).getId()){
+
+                    }
+                }
+                    productListLiveD.setValue(fullProductList);
+            }*/
+        }
+
+        @Override
+        public void onFail(VolleyError error) {
+            Log.d(TAG, "onFail: " + error.getMessage());
+            MutableLiveData<Event<Boolean>> isUpdateSuccessful = weakIsUpdateSuccessful.get();
+
+            if(isUpdateSuccessful != null){
+                isUpdateSuccessful.setValue(new Event<>(false));
+            }
         }
     }
 

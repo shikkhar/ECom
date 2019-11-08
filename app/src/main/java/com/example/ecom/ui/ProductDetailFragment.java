@@ -28,6 +28,7 @@ import com.example.ecom.model.CartSummary;
 import com.example.ecom.model.Product;
 import com.example.ecom.view_models.CartViewModel;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import java.text.DecimalFormat;
@@ -98,7 +99,7 @@ public class ProductDetailFragment extends BaseCartFragment {
     }
 
     private void showOverlayDialog() {
-        if(overlayDialog == null) {
+        if (overlayDialog == null) {
             overlayDialog = new Dialog(getContext());
             overlayDialog.show();
             frameProgressBar.setVisibility(View.VISIBLE);
@@ -186,16 +187,19 @@ public class ProductDetailFragment extends BaseCartFragment {
 
         cartViewModel.getAddToCartResult().observe(getViewLifecycleOwner(), event -> {
 
-            if(overlayDialog != null) {
+            if (overlayDialog != null) {
                 frameProgressBar.setVisibility(View.GONE);
                 overlayDialog.dismiss();
                 overlayDialog = null;
             }
 
-            if(!event.isHasBeenHandled() && event.getContentIfNotHandled() && navigateToCart && navController != null) {
+            if (!event.isHasBeenHandled() && event.getContentIfNotHandled() && navigateToCart && navController != null) {
                 //cartViewModel.setAddToCartResult(false);
                 navigateToCart = false;
                 navController.navigate(R.id.action_productDetailFragment_to_cartFragment);
+            } else {
+                if (getView() != null)
+                    Snackbar.make(getView(), "Add to cart successful", Snackbar.LENGTH_SHORT).show();
             }
 
         });

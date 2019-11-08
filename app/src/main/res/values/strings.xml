@@ -11,7 +11,7 @@
     <string name="zero">0</string>
     <string name="one">1</string>
     <string name="select_address">Select a delivery address</string>
-    <string name="add_new_address">Add a New Address</string>
+    <string name="add_new_address">Add More</string>
     <string name="checkout">Select Delivery Address</string>
     <string name="deliver_here">Deliver Here</string>
     <string name="edit_address">Edit Address</string>
@@ -32,4 +32,5 @@
     <string name="pincode">Pincode</string>
     <string name="quantity">Qty: %1$s</string>
     <string name="Favorite">favorite</string>
+    <string name="add_address">Add Address</string>
 </resources>

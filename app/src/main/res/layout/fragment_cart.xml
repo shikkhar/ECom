@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundDark"
+    android:background="@android:color/white"
     tools:appContext=".ui.CartFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -22,11 +22,10 @@
         android:id="@+id/buttonCheckout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
         android:text="@string/checkout"
         android:textColor="@android:color/white"
-        app:backgroundTint="@color/textColor"
+        app:backgroundTint="@color/colorPrimary"
+        app:cornerRadius="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -35,13 +34,13 @@
         android:id="@+id/label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
+        android:background="@color/textColor"
         android:paddingStart="16dp"
         android:paddingTop="6dp"
         android:paddingEnd="16dp"
         android:paddingBottom="6dp"
         android:text="@string/final_amount"
-        android:textColor="@color/textColor"
+        android:textColor="@android:color/white"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/buttonCheckout"
@@ -50,27 +49,11 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textViewFinalAmount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:paddingStart="16dp"
-        android:paddingTop="6dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="6dp"
-        android:textAlignment="textEnd"
-        android:textColor="@color/textColor"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/label"
-        tools:text="TextView" />
-
-    <TextView
         android:id="@+id/textViewSavings"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:background="@color/textColor"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         android:text="You're saving Rs.100 on this order"
@@ -81,5 +64,23 @@
         app:layout_constraintBottom_toTopOf="@+id/label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewFinalAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/textColor"
+        android:paddingStart="16dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="6dp"
+        android:textAlignment="textEnd"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/label"
+        tools:text="TextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
