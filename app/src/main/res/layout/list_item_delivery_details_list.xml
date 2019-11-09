@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="@color/colorPrimary"
+        app:strokeColor="@color/colorAccent"
         app:strokeWidth="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +27,7 @@
                 android:id="@+id/textViewUserName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textColor"
+                android:textColor="@color/textColorDark"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:minLines="4"
-                android:textColor="@color/textColorLight"
+                android:textColor="@color/textColor"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textViewUserName"
@@ -51,12 +51,12 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonEditAddress"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/button_height"
                 android:insetTop="6dp"
                 android:insetBottom="6dp"
                 android:text="@string/edit_address"
                 android:textColor="@android:color/white"
-                app:backgroundTint="@color/textColor"
+                app:backgroundTint="@color/textColorDark"
                 app:cornerRadius="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +66,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonDeliverHere"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/button_height"
                 android:layout_marginTop="16dp"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"

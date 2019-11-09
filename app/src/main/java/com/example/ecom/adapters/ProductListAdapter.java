@@ -24,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.MyViewHolder>{
+public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.MyViewHolder> {
 
     private Context appContext;
     private List<Product> productList;
@@ -35,23 +35,26 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
         this.appContext = appContext;
     }
 
-
     private static final DiffUtil.ItemCallback<Product> DIFF_CALLBACK = new DiffUtil.ItemCallback<Product>() {
         @Override
         public boolean areItemsTheSame(@NonNull Product oldItem, @NonNull Product newItem) {
+            //return false;
             return oldItem.getId() == newItem.getId();
         }
 
         @Override
         public boolean areContentsTheSame(@NonNull Product oldItem, @NonNull Product newItem) {
-            return oldItem.getId() == newItem.getId() &&
+            boolean isContentSame =  oldItem.getId() == newItem.getId() &&
                     oldItem.getDiscount() == newItem.getDiscount() &&
                     oldItem.getFinalPrice() == newItem.getFinalPrice() &&
                     oldItem.getImagePaths().equals(newItem.getImagePaths()) &&
                     oldItem.getLongDescription().equals(newItem.getLongDescription()) &&
                     oldItem.getOriginalPrice() == newItem.getOriginalPrice() &&
                     oldItem.getShortDescription().equals(newItem.getShortDescription()) &&
-                    oldItem.getTitle().equals(newItem.getTitle());
+                    oldItem.getTitle().equals(newItem.getTitle()) &&
+                    oldItem.isFavorite() == newItem.isFavorite();
+
+            return isContentSame;
         }
     };
 
@@ -85,20 +88,22 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
         //TODO: replace with a string resource
         holder.discountTextView.setText(product.getDiscount() + "% Off");
 
-        if(product.isFavorite()){
+        if (product.isFavorite()) {
             holder.favoriteImageView.setVisibility(View.VISIBLE);
             holder.grayFavoriteImageView.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             holder.favoriteImageView.setVisibility(View.GONE);
             holder.grayFavoriteImageView.setVisibility(View.VISIBLE);
         }
     }
 
-    public void setList(List<Product> productList){
+    public void setList(List<Product> productList) {
         this.productList = productList;
+        //notifyDataSetChanged();
+        //submitList(null);
         submitList(productList);
     }
+
 
     public void setClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
@@ -106,6 +111,7 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
 
     public interface OnItemClickListener {
         void onItemClick(Product selectedProduct);
+
         void onFavIconClick(int position, Product selectedProduct);
     }
 
@@ -128,21 +134,20 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
         ImageView favoriteImageView;
 
         @OnClick({R.id.imageViewFavoriteGray, R.id.imageViewFavorite})
-        void onFavIconClick(){
+        void onFavIconClick() {
             if (onItemClickListener != null) {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    Product product = getItem(position);
-                    if(product.isFavorite()){
+                    Product product = productList.get(position);
+                    if (product.isFavorite()) {
                         this.favoriteImageView.setVisibility(View.GONE);
                         this.grayFavoriteImageView.setVisibility(View.VISIBLE);
                         //product.setFavorite(!product.isFavorite());
-                    }
-                    else{
+                    } else {
                         this.favoriteImageView.setVisibility(View.VISIBLE);
                         this.grayFavoriteImageView.setVisibility(View.GONE);
                     }
-                    productList.get(position).setFavorite(!product.isFavorite());
+                    product.setFavorite(!product.isFavorite());
                     submitList(productList);
                     onItemClickListener.onFavIconClick(position, product);
                 }
@@ -157,12 +162,11 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
                 if (onItemClickListener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-                        onItemClickListener.onItemClick(getItem(position));
+                        Product product = productList.get(position);
+                        onItemClickListener.onItemClick(product);
                     }
                 }
             });
         }
     }
-
-
 }

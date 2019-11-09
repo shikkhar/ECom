@@ -33,12 +33,14 @@ import com.example.ecom.adapters.ProductListAdapter;
 import com.example.ecom.adapters.ViewPagerAdapter;
 import com.example.ecom.model.CartSummary;
 import com.example.ecom.model.Product;
-import com.example.ecom.utils.Event;
+import com.example.ecom.utils.UpdateOperationResult;
 import com.example.ecom.view_models.CartViewModel;
 import com.example.ecom.view_models.ProductViewModel;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -104,7 +106,6 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
@@ -114,7 +115,6 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
         //filterEditText.addTextChangedListener(new SearchTextWatcher());
@@ -130,6 +130,7 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
         cartViewModel = ViewModelProviders.of(getActivity()).get(CartViewModel.class);
 
         productViewModel.getProductLiveData().observe(getViewLifecycleOwner(), products -> {
+            //productListRecyclerView.setVisibility(View.VISIBLE);
             productListAdapter.setList(products);
         });
 
@@ -144,10 +145,21 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
 
         productViewModel.getUpdateOperationStatus().observe(this.getViewLifecycleOwner(), booleanEvent -> {
             if (!booleanEvent.isHasBeenHandled()) {
-                if (booleanEvent.getContentIfNotHandled())
-                    Toast.makeText(getContext(), "Added to favorites successfully", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(getContext(), "Item could not be added to your favorites.", Toast.LENGTH_SHORT).show();
+                UpdateOperationResult updateOperationResult = booleanEvent.getContentIfNotHandled();
+                Product product = updateOperationResult.getProduct();
+                if (updateOperationResult.isSuccessful()) {
+                    if (product.isFavorite())
+                        Toast.makeText(getContext(), "Added to favorites successfully", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(getContext(), "Removed from favorites successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    /*List<Product> temp = productViewModel.getProductLiveData().getValue();
+                    List<Product> temp1 = new ArrayList<>(temp);*/
+                    //product.setFavorite(!product.isFavorite());
+                    //productListAdapter.setList(productViewModel.getProductLiveData().getValue());
+                    //TODO: call adapter method to revert icon change
+                    Toast.makeText(getContext(), "Favorites could not be updated", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -256,6 +268,7 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -263,13 +276,14 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if (!newText.trim().isEmpty()) {
+                    searchGroup.setVisibility(View.GONE);
+                    //productListRecyclerView.setVisibility(View.GONE);
+                } else
+                    searchGroup.setVisibility(View.VISIBLE);
+
                 if (productViewModel != null)
                     productViewModel.getFilter().filter(newText);
-
-                if (!newText.trim().isEmpty())
-                    searchGroup.setVisibility(View.GONE);
-                else
-                    searchGroup.setVisibility(View.VISIBLE);
 
                 return false;
             }
@@ -291,7 +305,7 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
         super.onDestroyView();
     }
 
-    private class AutoScrollRunnable implements Runnable{
+    private class AutoScrollRunnable implements Runnable {
         @Override
         public void run() {
             if (viewPagerAdapter.getCount() == page) {

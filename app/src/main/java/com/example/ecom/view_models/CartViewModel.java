@@ -113,6 +113,7 @@ public class CartViewModel extends ViewModel {
                     cartProductDetailList.add(cartProduct);
                 }
             }
+
             MutableLiveData<List<CartProductDetail>> cartProductListLiveD = weakCartProductListLiveD.get();
             if (cartProductListLiveD != null) {
                 //cartProductListLiveD.setValue(temp);

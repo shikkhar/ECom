@@ -17,7 +17,7 @@
         android:paddingBottom="8dp"
         android:text="Select Qty:"
         android:textAlignment="viewStart"
-        android:textColor="@color/textColor"
+        android:textColor="@color/textColorDark"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -31,14 +31,14 @@
         android:paddingBottom="8dp"
         android:text="0 (delete)"
         android:textAlignment="viewStart"
-        android:textColor="@color/textColorLight"
+        android:textColor="@color/textColor"
         android:textSize="16sp" />
 
     <View
         android:id="@+id/divider0"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/textColor" />
+        android:background="@color/textColorDark" />
 
     <TextView
         android:id="@+id/textViewNumber1"
@@ -50,14 +50,14 @@
         android:paddingBottom="8dp"
         android:text="1"
         android:textAlignment="viewStart"
-        android:textColor="@color/textColorLight"
+        android:textColor="@color/textColor"
         android:textSize="16sp" />
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/textColor" />
+        android:background="@color/textColorDark" />
 
     <TextView
         android:id="@+id/textViewNumber2"
@@ -68,7 +68,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:text="2"
-        android:textColor="@color/textColorLight"
+        android:textColor="@color/textColor"
         android:textAlignment="viewStart"
         android:textSize="16sp" />
 
@@ -76,7 +76,7 @@
         android:id="@+id/divider2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/textColor" />
+        android:background="@color/textColorDark" />
 
     <TextView
         android:id="@+id/textViewNumber3"
@@ -87,7 +87,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:text="3"
-        android:textColor="@color/textColorLight"
+        android:textColor="@color/textColor"
         android:textAlignment="viewStart"
         android:textSize="16sp" />
 
@@ -95,14 +95,14 @@
         android:id="@+id/divider3"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/textColor" />
+        android:background="@color/textColorDark" />
 
     <TextView
         android:id="@+id/textViewNumber4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="2"
-        android:textColor="@color/textColorLight"
+        android:textColor="@color/textColor"
         android:inputType="textPersonName"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
@@ -114,7 +114,7 @@
         android:id="@+id/divider4"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/textColor" />
+        android:background="@color/textColorDark" />
 
     <TextView
         android:id="@+id/textViewNumber5"
@@ -125,7 +125,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:text="5"
-        android:textColor="@color/textColorLight"
+        android:textColor="@color/textColor"
         android:textAlignment="viewStart"
         android:textSize="16sp" />
 
@@ -133,7 +133,7 @@
         android:id="@+id/divider5"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/textColor" />
+        android:background="@color/textColorDark" />
 
     <TextView
         android:id="@+id/textViewNumber6"
@@ -144,7 +144,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:text="6"
-        android:textColor="@color/textColorLight"
+        android:textColor="@color/textColor"
         android:textAlignment="viewStart"
         android:textSize="16sp" />
 
@@ -152,7 +152,7 @@
         android:id="@+id/divider6"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/textColor" />
+        android:background="@color/textColorDark" />
 
     <TextView
         android:id="@+id/textViewNumber7"
@@ -163,7 +163,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:text="7"
-        android:textColor="@color/textColorLight"
+        android:textColor="@color/textColor"
         android:textAlignment="viewStart"
         android:textSize="16sp" />
 
@@ -171,7 +171,7 @@
         android:id="@+id/divider7"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/textColor" />
+        android:background="@color/textColorDark" />
 
     <TextView
         android:id="@+id/textViewNumber8"
@@ -182,7 +182,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:text="8"
-        android:textColor="@color/textColorLight"
+        android:textColor="@color/textColor"
         android:textAlignment="viewStart"
         android:textSize="16sp" />
 
@@ -190,7 +190,7 @@
         android:id="@+id/divider8"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/textColor" />
+        android:background="@color/textColorDark" />
 
     <TextView
         android:id="@+id/textViewNumber9"
@@ -201,7 +201,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:text="9"
-        android:textColor="@color/textColorLight"
+        android:textColor="@color/textColor"
         android:textAlignment="viewStart"
         android:textSize="16sp" />
 
@@ -209,7 +209,7 @@
         android:id="@+id/divider9"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/textColor" />
+        android:background="@color/textColorDark" />
 
     <TextView
         android:id="@+id/textViewNumber10"
@@ -220,7 +220,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:text="10"
-        android:textColor="@color/textColorLight"
+        android:textColor="@color/textColor"
         android:textAlignment="viewStart"
         android:textSize="16sp" />
 </LinearLayout>

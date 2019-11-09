@@ -18,7 +18,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ecom.QuantityCustomView;
@@ -69,8 +72,8 @@ public class ProductDetailFragment extends BaseCartFragment {
     TextView originalPriceTextView;
     @BindView(R.id.textViewDiscount)
     TextView discountTextView;
-    @BindView(R.id.textViewDescription)
-    TextView descriptionTextView;
+    @BindView(R.id.webViewDescription)
+    WebView descriptionTextView;
     @BindView(R.id.buttonAddToCart)
     MaterialButton addToCartButton;
     @BindView(R.id.buttonBuyNow)
@@ -79,10 +82,28 @@ public class ProductDetailFragment extends BaseCartFragment {
     QuantityCustomView quantityCustomView;
     @BindView(R.id.frameProgrssBar)
     FrameLayout frameProgressBar;
+    @BindView(R.id.editTextPincode)
+    EditText enterPincodeEditText;
+    @BindView(R.id.imageViewFavoriteGray)
+    ImageView grayFavoriteImageView;
+    @BindView(R.id.imageViewFavorite)
+    ImageView favoriteImageView;
+
+    @OnClick({R.id.imageViewFavoriteGray, R.id.imageViewFavorite})
+    void onFavIconClick() {
+        if (selectedProduct.isFavorite()) {
+            this.favoriteImageView.setVisibility(View.GONE);
+            this.grayFavoriteImageView.setVisibility(View.VISIBLE);
+            //product.setFavorite(!product.isFavorite());
+        } else {
+            this.favoriteImageView.setVisibility(View.VISIBLE);
+            this.grayFavoriteImageView.setVisibility(View.GONE);
+        }
+        //selectedProduct.setFavorite(!selectedProduct.isFavorite());
+    }
 
     @OnClick(R.id.buttonAddToCart)
     void onAddToCartClick() {
-
         showOverlayDialog();
 
         navigateToCart = false;
@@ -129,7 +150,7 @@ public class ProductDetailFragment extends BaseCartFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_product_detail, container, false);
+        return inflater.inflate(R.layout.fragment_product_detail_collapsible, container, false);
     }
 
     @Override
@@ -138,10 +159,7 @@ public class ProductDetailFragment extends BaseCartFragment {
         ButterKnife.bind(this, view);
         navController = Navigation.findNavController(view);
         tabLayout.setupWithViewPager(viewPager);
-
         bindView();
-
-
         //navController.navigate(R.id.action_productListFragment_to_productDetailFragment);
     }
 
@@ -153,11 +171,31 @@ public class ProductDetailFragment extends BaseCartFragment {
 
 
         titleTextView.setText(selectedProduct.getTitle());
-        descriptionTextView.setText(selectedProduct.getShortDescription());
+        descriptionTextView.loadUrl("file:///android_asset/sample.html");
+        /*InputStream is = null;
+        try {
+            is = getActivity().getAssets().open("sample.html");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int size = is.available();
+        byte[] buffer = new byte[size];
+        is.read(buffer);
+        is.close();
+        String str = new String(buffer);*/
+        //descriptionTextView.setText(Html.fromHtml(str));
         finalPriceTextView.setText(rupeeSymbol + finalPrice);
         originalPriceTextView.setText(rupeeSymbol + originalPrice);
         //TODO: replace with a string resource
         discountTextView.setText(selectedProduct.getDiscount() + "% Off");
+        if (selectedProduct.isFavorite()) {
+            this.favoriteImageView.setVisibility(View.VISIBLE);
+            this.grayFavoriteImageView.setVisibility(View.GONE);
+            //product.setFavorite(!product.isFavorite());
+        } else {
+            this.favoriteImageView.setVisibility(View.GONE);
+            this.grayFavoriteImageView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -193,13 +231,18 @@ public class ProductDetailFragment extends BaseCartFragment {
                 overlayDialog = null;
             }
 
-            if (!event.isHasBeenHandled() && event.getContentIfNotHandled() && navigateToCart && navController != null) {
+            if (!event.isHasBeenHandled() && event.getContentIfNotHandled() && navController != null) {
                 //cartViewModel.setAddToCartResult(false);
-                navigateToCart = false;
-                navController.navigate(R.id.action_productDetailFragment_to_cartFragment);
-            } else {
-                if (getView() != null)
-                    Snackbar.make(getView(), "Add to cart successful", Snackbar.LENGTH_SHORT).show();
+                if (navigateToCart) {
+                    navigateToCart = false;
+                    navController.navigate(R.id.action_productDetailFragment_to_cartFragment);
+                } else {
+                    if (getView() != null)
+                        Snackbar.make(getView(), "Add to cart successful", Snackbar.LENGTH_LONG).setAction("See Cart", v -> {
+                            navigateToCart = false;
+                            navController.navigate(R.id.action_productDetailFragment_to_cartFragment);
+                        }).show();
+                }
             }
 
         });

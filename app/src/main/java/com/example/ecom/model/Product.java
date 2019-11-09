@@ -39,6 +39,20 @@ public class Product implements Parcelable {
         this.id = id;
     }
 
+    public Product(Product product)
+    {
+       new Product(product.getId(),
+               product.getTitle(),
+               product.getShortDescription(),
+               product.longDescription,
+               product.getImagePaths(),
+               product.getThumbnailImagePath(),
+               product.getOriginalPrice(),
+               product.getFinalPrice(),
+               product.getDiscount(),
+               product.isFavorite());
+    }
+
     public long getId() {
         return id;
     }

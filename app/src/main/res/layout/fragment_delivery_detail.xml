@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="@color/textColor"
+        app:strokeColor="@color/textColorDark"
         app:strokeWidth="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -101,10 +101,10 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonAddAddress"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height"
         android:layout_marginTop="16dp"
         android:text="@string/add_address"
-        app:backgroundTint="@color/textColor"
+        app:backgroundTint="@color/textColorDark"
         app:cornerRadius="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/materialCardView2"

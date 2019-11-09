@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="badge_count_textsize">10dp</dimen>
+    <dimen name="button_height">47dp</dimen>
+    <dimen name="button_small_height">30dp</dimen>
 </resources>

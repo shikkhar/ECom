@@ -87,7 +87,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textColor="@color/textColorLight"
+                    android:textColor="@color/textColor"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -116,7 +116,7 @@
                     app:increaseQtyImageSrc="@drawable/ic_increase_qty_dark_24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/textViewDiscount"
-                    app:textColor="@color/textColor" />
+                    app:textColor="@color/textColorDark" />
 
                 <TextView
                     android:id="@+id/textViewFinalPrice"
@@ -124,7 +124,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="8dp"
-                    android:textColor="@color/textColor"
+                    android:textColor="@color/textColorDark"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -138,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Brand"
-                    android:textColor="@color/textColorLight"
+                    android:textColor="@color/textColor"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -151,7 +151,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:foreground="@drawable/shape_strikethrough"
-                    android:textColor="@color/background"
+                    android:textColor="@color/textColorLight"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/textViewFinalPrice"
                     app:layout_constraintStart_toEndOf="@+id/textViewFinalPrice"
@@ -162,7 +162,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
-            android:id="@+id/textViewDescription"
+            android:id="@+id/webViewDescription"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
@@ -177,13 +177,13 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonAddToCart"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:text="@string/add_to_cart"
             android:textColor="@android:color/background_light"
-            app:backgroundTint="@color/textColor"
+            app:backgroundTint="@color/textColorDark"
             app:cornerRadius="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/buttonBuyNow"
@@ -195,7 +195,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonBuyNow"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:text="@string/buy_now"

@@ -4,12 +4,13 @@
     <color name="colorPrimaryDark">#1C7C1F</color>
     <color name="colorPrimaryLight">#5EE762</color>
     <color name="colorAccent">#44D62C</color>
-    <color name="textColor">#212121</color>
-    <color name="textColorLight">#757171</color>
+    <color name="textColorDark">#212121</color>
+    <color name="textColor">#757171</color>
+    <color name="textColorLight">#BDBDBD</color>
     <color name="badgeColor">#D53737</color>
     <color name="background">#BDBDBD</color>
     <color name="backgroundDark">#616161</color>
-    <color name="backgroundLight">#EEEEEE</color>
+    <color name="backgroundLight">#ECECEC</color>
     <color name="backgroundWithTransparency">#6A616161</color>"
     <color name="colorYellow">#FFEE00</color>
 

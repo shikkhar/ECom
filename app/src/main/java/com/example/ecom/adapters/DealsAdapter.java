@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ecom.R;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.MyViewHolder> {
     @NonNull
@@ -23,7 +24,10 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
+        if(position %2 == 0)
+            holder.imageView.setImageResource(R.drawable.mobycoins);
+        else
+            holder.imageView.setImageResource(R.drawable.offers);
     }
 
     @Override
@@ -38,6 +42,8 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.MyViewHolder
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }
+

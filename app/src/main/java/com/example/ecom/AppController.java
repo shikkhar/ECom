@@ -2,9 +2,12 @@ package com.example.ecom;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Typeface;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+
+import java.lang.reflect.Field;
 
 public class AppController extends Application {
 
@@ -26,4 +29,5 @@ public class AppController extends Application {
             mRequestQueue = Volley.newRequestQueue(getApplicationContext());
         return mRequestQueue;
     }
+
 }
