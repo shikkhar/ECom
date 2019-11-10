@@ -128,8 +128,15 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
 
         cartViewModel.getCartSummaryLiveData().observe(getViewLifecycleOwner(), cartSummaryObject -> {
             cartTotal = cartSummaryObject.getCartTotal();
+            int savings = cartSummaryObject.getSavings();
             DecimalFormat df = new DecimalFormat("#.##");
             finalAmountTextView.setText(getString(R.string.Rs) + df.format(cartTotal));
+            if(savings == 0)
+                savingsTextView.setVisibility(View.GONE);
+            else {
+                savingsTextView.setText(getString(R.string.savings, getString(R.string.Rs), String.valueOf(savings)));
+                savingsTextView.setVisibility(View.VISIBLE);
+            }
             mAdapter.setCartSummary(cartTotal);
         });
 

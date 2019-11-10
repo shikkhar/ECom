@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.Group;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -70,11 +71,13 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
     @BindView(R.id.recyclerViewProductList)
-    MyRecyclerView productListRecyclerView;
+    RecyclerView productListRecyclerView;
     @BindView(R.id.recyclerViewDeals)
     RecyclerView dealsRecyclerView;
     @BindView(R.id.searchGroup)
     Group searchGroup;
+    @BindView(R.id.nestedScrollView)
+    NestedScrollView nestedScrollView;
 
     public ProductListFragment() {
         // Required empty public constructor
@@ -153,11 +156,6 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
                     else
                         Toast.makeText(getContext(), "Removed from favorites successfully", Toast.LENGTH_SHORT).show();
                 } else {
-                    /*List<Product> temp = productViewModel.getProductLiveData().getValue();
-                    List<Product> temp1 = new ArrayList<>(temp);*/
-                    //product.setFavorite(!product.isFavorite());
-                    //productListAdapter.setList(productViewModel.getProductLiveData().getValue());
-                    //TODO: call adapter method to revert icon change
                     Toast.makeText(getContext(), "Favorites could not be updated", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -206,44 +204,44 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
     @Override
     public void onItemClick(Product selectedProduct) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(BUNDLE_KEY_PRODUCT, selectedProduct);
+        bundle.putParcelable(BUNDLE_KEY_PRODUCT, new Product(selectedProduct));
         navController.navigate(R.id.action_productListFragment_to_productDetailFragment, bundle);
     }
 
     @Override
-    public void onFavIconClick(int position, Product selectedProduct) {
-        productViewModel.updateFavoriteStatus(position, selectedProduct);
+    public void onFavIconClick(Product selectedProduct) {
+        productViewModel.updateFavoriteStatus(selectedProduct);
     }
 
     private class ProductAdapterChangesListener extends RecyclerView.AdapterDataObserver {
         @Override
         public void onChanged() {
-            productListRecyclerView.scrollToPosition(0);
+            nestedScrollView.scrollTo(0,0);
         }
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount) {
-            productListRecyclerView.scrollToPosition(0);
+            //nestedScrollView.scrollTo(0,0);
         }
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) {
-            productListRecyclerView.scrollToPosition(0);
+           // nestedScrollView.scrollTo(0,0);
         }
 
         @Override
         public void onItemRangeInserted(int positionStart, int itemCount) {
-            productListRecyclerView.scrollToPosition(0);
+            nestedScrollView.scrollTo(0,0);
         }
 
         @Override
         public void onItemRangeRemoved(int positionStart, int itemCount) {
-            productListRecyclerView.scrollToPosition(0);
+            nestedScrollView.scrollTo(0,0);
         }
 
         @Override
         public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-            productListRecyclerView.scrollToPosition(0);
+            nestedScrollView.scrollTo(0,0);
         }
     }
 

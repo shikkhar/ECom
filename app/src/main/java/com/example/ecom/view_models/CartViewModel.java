@@ -13,6 +13,7 @@ import com.example.ecom.model.CartSummary;
 import com.example.ecom.model.Product;
 import com.example.ecom.repository.Repository;
 import com.example.ecom.utils.Event;
+import com.example.ecom.utils.UpdateOperationResult;
 import com.example.ecom.utils.VolleySeverRequest;
 import com.google.gson.Gson;
 
@@ -29,6 +30,7 @@ public class CartViewModel extends ViewModel {
     private MutableLiveData<List<CartProductDetail>> cartProductListLiveD = new MutableLiveData<>();
     private LiveData cartSummaryLiveD;
     private MutableLiveData<Event<Boolean>> addToCartResultLiveD = new MutableLiveData<>();
+    private MutableLiveData<Event<UpdateOperationResult>> isUpdateSuccessful = new MutableLiveData<>();
     private Repository mRepository = new Repository();
 
     public CartViewModel() {
@@ -42,13 +44,15 @@ public class CartViewModel extends ViewModel {
     private CartSummary generateCartSummary(List<CartProductDetail> cartProducts) {
         double cartTotal = 0;
         int totalQty = 0;
+        double savings = 0;
         for (CartProductDetail cartProduct : cartProducts) {
             Product product = cartProduct.getProduct();
             cartTotal += product.getFinalPrice();
             totalQty += cartProduct.getQuantity();
+            savings += ((product.getOriginalPrice() - product.getFinalPrice()) * cartProduct.getQuantity());
         }
 
-        return new CartSummary(cartTotal, totalQty);
+        return new CartSummary(cartTotal, totalQty, (int) savings);
     }
 
     public void addToCart(Product product, int qty) {
@@ -73,6 +77,10 @@ public class CartViewModel extends ViewModel {
         //mRepository.updateCart(new UpdateCartCallback());
     }
 
+    public void updateFavoriteStatus(Product product) {
+        mRepository.updateFavoriteStatus(new CartViewModel.UpdateFavoriteCallback(isUpdateSuccessful, product), product.getId(), product.isFavorite());
+    }
+
 
     public LiveData<List<CartProductDetail>> getCartProductsLiveData() {
         return cartProductListLiveD;
@@ -88,6 +96,10 @@ public class CartViewModel extends ViewModel {
 
     public LiveData<CartSummary> getCartSummaryLiveData() {
         return cartSummaryLiveD;
+    }
+
+    public LiveData<Event<UpdateOperationResult>> getUpdateOperationStatus() {
+        return isUpdateSuccessful;
     }
 
 
@@ -165,10 +177,10 @@ public class CartViewModel extends ViewModel {
                 List<CartProductDetail> cartProductDetailList = cartProductListLiveD.getValue();
                 if (cartProductDetailList != null) {
                     for (int i = 0; i < cartProductDetailList.size(); i++) {
-                        CartProductDetail existingProduct = cartProductDetailList.get(i);
-                        if (existingProduct.getId() == cartProductDetail.getId()) {
+                        Product existingProduct = cartProductDetailList.get(i).getProduct();
+                        if (existingProduct.getId() == cartProductDetail.getProduct().getId()) {
                             productAlreadyExists = true;
-                            int oldQty = existingProduct.getQuantity();
+                            int oldQty = cartProductDetailList.get(i).getQuantity();
                             int newQty = cartProductDetail.getQuantity();
                             cartProductDetailList.get(i).setQuantity(oldQty + newQty);
                             break;
@@ -260,4 +272,37 @@ public class CartViewModel extends ViewModel {
         }
     }
 
+    private static class UpdateFavoriteCallback implements VolleySeverRequest.VolleyResponseCallback {
+        private WeakReference<MutableLiveData<List<Product>>> weakProductListLiveD;
+        private WeakReference<MutableLiveData<Event<UpdateOperationResult>>> weakIsUpdateSuccessful;
+        private Product product;
+
+        public UpdateFavoriteCallback(MutableLiveData<Event<UpdateOperationResult>> isUpdateSuccessful,
+                                      Product product) {
+            this.weakIsUpdateSuccessful = new WeakReference<>(isUpdateSuccessful);
+            this.product = product;
+
+        }
+
+        @Override
+        public void onSuccess(JSONObject response) throws JSONException {
+            MutableLiveData<Event<UpdateOperationResult>> isUpdateSuccessful = weakIsUpdateSuccessful.get();
+
+            if (isUpdateSuccessful != null) {
+                isUpdateSuccessful.setValue(new Event<>(new UpdateOperationResult(true, product)));
+            }
+
+        }
+
+        @Override
+        public void onFail(VolleyError error) {
+            Log.d(TAG, "onFail: " + error.getMessage());
+            MutableLiveData<Event<UpdateOperationResult>> isUpdateSuccessful = weakIsUpdateSuccessful.get();
+
+            if (isUpdateSuccessful != null) {
+                //product.setFavorite(!product.isFavorite());
+                isUpdateSuccessful.setValue(new Event<>(new UpdateOperationResult(false, product)));
+            }
+        }
+    }
 }

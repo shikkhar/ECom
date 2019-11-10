@@ -33,7 +33,7 @@ import butterknife.ButterKnife;
  * A simple {@link Fragment} subclass.
  */
 public class DeliveryDetailListFragment extends Fragment implements DeliveryDetailsAdapter.OnClickListener {
-
+    public static final String BUNDLE_KEY_DELIVERY_DETAIL = "delivery_detail";
     private DeliveryDetailsViewModel deliveryDetailsViewModel;
     private DeliveryDetailsAdapter mAdapter;
     private NavController navController;
@@ -83,13 +83,15 @@ public class DeliveryDetailListFragment extends Fragment implements DeliveryDeta
 
     @Override
     public void onAddAddressClick() {
-        navController.navigate(R.id.action_deliveryDetailListFragment_to_deliveryDetailFragment);
+        navController.navigate(R.id.action_deliveryDetailListFragment_to_addDeliveryDetailFragment);
     }
 
     @Override
     public void onEditAddressClick(DeliveryDetail deliveryDetail) {
         //TODO: pass bundle here
-        navController.navigate(R.id.action_deliveryDetailListFragment_to_deliveryDetailFragment);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(BUNDLE_KEY_DELIVERY_DETAIL, new DeliveryDetail(deliveryDetail));
+        navController.navigate(R.id.action_deliveryDetailListFragment_to_editDeliveryDetailFragment, bundle);
     }
 
     @Override
@@ -102,4 +104,6 @@ public class DeliveryDetailListFragment extends Fragment implements DeliveryDeta
         menu.findItem(R.id.action_search).setVisible(false);
         super.onPrepareOptionsMenu(menu);
     }
+
+
 }

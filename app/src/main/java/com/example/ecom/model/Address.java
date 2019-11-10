@@ -1,6 +1,11 @@
 package com.example.ecom.model;
 
-public class Address {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.HashMap;
+
+public class Address implements Parcelable {
     private String house;
     private String locality;
     private String city;
@@ -16,6 +21,7 @@ public class Address {
         this.pincode = pincode;
         this.landmark = landmark;
     }
+
 
     public String getHouse() {
         return house;
@@ -56,4 +62,49 @@ public class Address {
     public void setLandmark(String landmark) {
         this.landmark = landmark;
     }
+
+    public String getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(String pincode) {
+        this.pincode = pincode;
+    }
+
+    protected Address(Parcel in) {
+        house = in.readString();
+        locality = in.readString();
+        city = in.readString();
+        state = in.readString();
+        pincode = in.readString();
+        landmark = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(house);
+        dest.writeString(locality);
+        dest.writeString(city);
+        dest.writeString(state);
+        dest.writeString(pincode);
+        dest.writeString(landmark);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Address> CREATOR = new Parcelable.Creator<Address>() {
+        @Override
+        public Address createFromParcel(Parcel in) {
+            return new Address(in);
+        }
+
+        @Override
+        public Address[] newArray(int size) {
+            return new Address[size];
+        }
+    };
 }

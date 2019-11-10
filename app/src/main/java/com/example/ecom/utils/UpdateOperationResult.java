@@ -5,12 +5,10 @@ import com.example.ecom.model.Product;
 public class UpdateOperationResult {
     private boolean isSuccessful;
     private Product product;
-    private int position;
 
-    public UpdateOperationResult(boolean isSuccessful, Product product, int position) {
+    public UpdateOperationResult(boolean isSuccessful, Product product) {
         this.isSuccessful = isSuccessful;
         this.product = product;
-        this.position =  position;
     }
 
     public boolean isSuccessful() {
@@ -29,11 +27,4 @@ public class UpdateOperationResult {
         this.product = product;
     }
 
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
 }

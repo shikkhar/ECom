@@ -41,10 +41,10 @@ public class Product implements Parcelable {
 
     public Product(Product product)
     {
-       new Product(product.getId(),
+       this(product.getId(),
                product.getTitle(),
                product.getShortDescription(),
-               product.longDescription,
+               product.getLongDescription(),
                product.getImagePaths(),
                product.getThumbnailImagePath(),
                product.getOriginalPrice(),

@@ -58,6 +58,7 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         DecimalFormat df = new DecimalFormat("#.##");
+        String rupeeSymbol = appContext.getString(R.string.Rs);
         if (getItemViewType(position) == VIEW_TYPE_PRODUCT) {
 
             try {
@@ -70,12 +71,11 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 String finalPrice = df.format(product.getFinalPrice());
                 String originalPrice = df.format(product.getOriginalPrice());
-                String rupeeSymbol = appContext.getString(R.string.Rs);
                 String quantity = appContext.getString(R.string.quantity, String.valueOf(cartProductDetail.getQuantity()));
 
                 Glide.with(appContext)
                         .load(product.getImagePaths().get(0))
-                        .placeholder(R.drawable.ic_insert_photo_dark_24dp)
+                        .placeholder(R.drawable.ic_insert_photo_24dp)
                         .into(viewHolder.productImageView);
 
                 viewHolder.titleTextView.setText(product.getTitle());
@@ -89,10 +89,10 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (getItemViewType(position) == VIEW_TYPE_SUMMARY) {
             SummaryViewHolder viewHolder = (SummaryViewHolder) holder;
 
-            viewHolder.totalMrpTextView.setText(df.format(cartSummary));
+            viewHolder.totalMrpTextView.setText(rupeeSymbol+df.format(cartSummary));
             //TODO: Don't hardcode this
             viewHolder.shippingChargesTextView.setText("FREE");
-            viewHolder.payableAmountTextView.setText(df.format(cartSummary));
+            viewHolder.payableAmountTextView.setText(rupeeSymbol+df.format(cartSummary));
         }
 
     }

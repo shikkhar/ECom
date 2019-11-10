@@ -41,7 +41,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         //imageView.setBackgroundResource(R.color.backgroundLight);
         Glide.with(appContext)
                 .load(imageUrls.get(position))
-                .placeholder(R.drawable.ic_insert_photo_dark_24dp)
+                .placeholder(R.drawable.ic_insert_photo_24dp)
                 .into(imageView);
 
         container.addView(imageView);

@@ -18,6 +18,7 @@ import com.example.ecom.R;
 import com.example.ecom.model.Product;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,7 +28,7 @@ import butterknife.OnClick;
 public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.MyViewHolder> {
 
     private Context appContext;
-    private List<Product> productList;
+    //private List<Product> productList;
     private OnItemClickListener onItemClickListener;
 
     public ProductListAdapter(Context appContext) {
@@ -78,7 +79,7 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
         if (appContext != null)
             Glide.with(appContext)
                     .load(product.getImagePaths().get(0))
-                    .placeholder(R.drawable.ic_insert_photo_dark_24dp)
+                    .placeholder(R.drawable.ic_insert_photo_24dp)
                     .into(holder.productImageView);
 
         holder.titleTextView.setText(product.getTitle());
@@ -98,10 +99,11 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
     }
 
     public void setList(List<Product> productList) {
-        this.productList = productList;
+        //this.productList = productList;
         //notifyDataSetChanged();
         //submitList(null);
-        submitList(productList);
+        List<Product> list = new ArrayList<>(productList);
+        submitList(list);
     }
 
 
@@ -112,7 +114,7 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
     public interface OnItemClickListener {
         void onItemClick(Product selectedProduct);
 
-        void onFavIconClick(int position, Product selectedProduct);
+        void onFavIconClick(Product selectedProduct);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -138,7 +140,7 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
             if (onItemClickListener != null) {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    Product product = productList.get(position);
+                    Product product = getItem(position);
                     if (product.isFavorite()) {
                         this.favoriteImageView.setVisibility(View.GONE);
                         this.grayFavoriteImageView.setVisibility(View.VISIBLE);
@@ -148,8 +150,8 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
                         this.grayFavoriteImageView.setVisibility(View.GONE);
                     }
                     product.setFavorite(!product.isFavorite());
-                    submitList(productList);
-                    onItemClickListener.onFavIconClick(position, product);
+                    //submitList(productList);
+                    onItemClickListener.onFavIconClick(product);
                 }
             }
         }
@@ -162,7 +164,7 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
                 if (onItemClickListener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-                        Product product = productList.get(position);
+                        Product product = getItem(position);
                         onItemClickListener.onItemClick(product);
                     }
                 }

@@ -35,4 +35,5 @@
     <string name="add_address">Add Address</string>
     <string name="check_delivery">Check Delivery</string>
     <string name="enter_pincode">Enter Pincode</string>
+    <string name="savings">You\'re saving %1$s%2$s on this order</string>
 </resources>

@@ -2,6 +2,7 @@ package com.example.ecom.ui;
 
 
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,16 +20,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ecom.QuantityCustomView;
 import com.example.ecom.R;
 import com.example.ecom.adapters.ViewPagerAdapter;
 import com.example.ecom.model.CartSummary;
 import com.example.ecom.model.Product;
+import com.example.ecom.utils.UpdateOperationResult;
 import com.example.ecom.view_models.CartViewModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -84,6 +88,8 @@ public class ProductDetailFragment extends BaseCartFragment {
     FrameLayout frameProgressBar;
     @BindView(R.id.editTextPincode)
     EditText enterPincodeEditText;
+    @BindView(R.id.buttonCheckDelivery)
+    Button checkDeliveryButton;
     @BindView(R.id.imageViewFavoriteGray)
     ImageView grayFavoriteImageView;
     @BindView(R.id.imageViewFavorite)
@@ -99,7 +105,8 @@ public class ProductDetailFragment extends BaseCartFragment {
             this.favoriteImageView.setVisibility(View.VISIBLE);
             this.grayFavoriteImageView.setVisibility(View.GONE);
         }
-        //selectedProduct.setFavorite(!selectedProduct.isFavorite());
+        selectedProduct.setFavorite(!selectedProduct.isFavorite());
+        cartViewModel.updateFavoriteStatus(selectedProduct);
     }
 
     @OnClick(R.id.buttonAddToCart)
@@ -171,6 +178,7 @@ public class ProductDetailFragment extends BaseCartFragment {
 
 
         titleTextView.setText(selectedProduct.getTitle());
+        descriptionTextView.setBackgroundColor(Color.TRANSPARENT);
         descriptionTextView.loadUrl("file:///android_asset/sample.html");
         /*InputStream is = null;
         try {
@@ -245,6 +253,29 @@ public class ProductDetailFragment extends BaseCartFragment {
                 }
             }
 
+        });
+
+        cartViewModel.getUpdateOperationStatus().observe(this.getViewLifecycleOwner(), booleanEvent -> {
+            if (!booleanEvent.isHasBeenHandled()) {
+                UpdateOperationResult updateOperationResult = booleanEvent.getContentIfNotHandled();
+                Product product = updateOperationResult.getProduct();
+                if (updateOperationResult.isSuccessful()) {
+                    if (product.isFavorite())
+                        Toast.makeText(getContext(), "Added to favorites successfully", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(getContext(), "Removed from favorites successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    product.setFavorite(!product.isFavorite());
+                    Toast.makeText(getContext(), "Favorites could not be updated", Toast.LENGTH_SHORT).show();
+                    if(!product.isFavorite()){
+                        this.favoriteImageView.setVisibility(View.GONE);
+                        this.grayFavoriteImageView.setVisibility(View.VISIBLE);
+                    }else {
+                        this.favoriteImageView.setVisibility(View.VISIBLE);
+                        this.grayFavoriteImageView.setVisibility(View.GONE);
+                    }
+                }
+            }
         });
 
         mAdapter = new ViewPagerAdapter(getContext().getApplicationContext(), imageUrls);

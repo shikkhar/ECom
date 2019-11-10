@@ -1,436 +1,136 @@
 {
   "data": [
     {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 1,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 1"
+      "id": 0,
+      "product": {
+        "discount": 25,
+        "finalPrice": 75.0,
+        "id": 1,
+        "imagePaths": [
+          "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
+        ],
+        "isFavorite": false,
+        "longDescription": "Long Description",
+        "originalPrice": 100.0,
+        "shortDescription": "Brand",
+        "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
+        "title": "Product 1"
+      },
+      "quantity": 1
     },
     {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 2,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 2"
+      "id": 0,
+      "product": {
+        "discount": 25,
+        "finalPrice": 75.0,
+        "id": 2,
+        "imagePaths": [
+          "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
+        ],
+        "isFavorite": false,
+        "longDescription": "Long Description",
+        "originalPrice": 100.0,
+        "shortDescription": "Brand",
+        "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
+        "title": "Product 2"
+      },
+      "quantity": 2
     },
     {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 3,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 3"
+      "id": 0,
+      "product": {
+        "discount": 25,
+        "finalPrice": 75.0,
+        "id": 3,
+        "imagePaths": [
+          "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
+        ],
+        "isFavorite": false,
+        "longDescription": "Long Description",
+        "originalPrice": 100.0,
+        "shortDescription": "Brand",
+        "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
+        "title": "Product 3"
+      },
+      "quantity": 3
     },
     {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 4,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 4"
+      "id": 0,
+      "product": {
+        "discount": 25,
+        "finalPrice": 75.0,
+        "id": 4,
+        "imagePaths": [
+          "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
+        ],
+        "isFavorite": false,
+        "longDescription": "Long Description",
+        "originalPrice": 100.0,
+        "shortDescription": "Brand",
+        "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
+        "title": "Product 4"
+      },
+      "quantity": 4
     },
     {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 5,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 5"
+      "id": 0,
+      "product": {
+        "discount": 25,
+        "finalPrice": 75.0,
+        "id": 5,
+        "imagePaths": [
+          "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
+        ],
+        "isFavorite": false,
+        "longDescription": "Long Description",
+        "originalPrice": 100.0,
+        "shortDescription": "Brand",
+        "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
+        "title": "Product 5"
+      },
+      "quantity": 5
     },
     {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 6,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 6"
-    },
-    {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 7,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 7"
-    },
-    {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 8,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 8"
-    },
-    {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 9,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 9"
-    },
-    {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 10,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 10"
-    },
-    {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 11,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 11"
-    },
-    {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 12,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 12"
-    },
-    {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 13,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 13"
-    },
-    {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 14,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 14"
-    },
-    {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 15,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 15"
-    },
-    {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 16,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 16"
-    },
-    {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 17,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 17"
-    },
-    {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 18,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 18"
-    },
-    {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 19,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 19"
-    },
-    {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 20,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 20"
-    },
-    {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 21,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 21"
-    },
-    {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 22,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 22"
-    },
-    {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 23,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 23"
-    },
-    {
-      "discount": 25,
-      "finalPrice": 75.0,
-      "id": 24,
-      "imagePaths": [
-        "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-        "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-      ],
-      "isFavorite": false,
-      "longDescription": "Long Description",
-      "originalPrice": 100.0,
-      "shortDescription": "Short Description",
-      "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-      "title": "Product 24"
+      "id": 0,
+      "product": {
+        "discount": 25,
+        "finalPrice": 75.0,
+        "id": 6,
+        "imagePaths": [
+          "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
+        ],
+        "isFavorite": false,
+        "longDescription": "Long Description",
+        "originalPrice": 100.0,
+        "shortDescription": "Brand",
+        "thumbnailImagePath": "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
+        "title": "Product 6"
+      },
+      "quantity": 6
     }
   ]
 }

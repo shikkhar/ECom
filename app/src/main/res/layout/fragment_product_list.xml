@@ -5,14 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundLight"
+    android:focusableInTouchMode="false"
     tools:appContext=".ui.ProductListFragment">
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="match_parent"
+        android:id="@+id/nestedScrollView"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/backgroundLight"
         android:fillViewport="true"
+        android:focusableInTouchMode="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +25,8 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/backgroundLight">
+            android:background="@color/backgroundLight"
+            android:focusableInTouchMode="false">
 
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/searchGroup"
@@ -85,13 +88,11 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewDeals"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="4dp"
                 android:background="@color/backgroundLight"
-                android:visibility="gone"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider">
@@ -121,24 +122,21 @@
                 app:layout_constraintStart_toStartOf="@+id/labelPopularProducts"
                 app:layout_constraintTop_toBottomOf="@+id/labelPopularProducts" />
 
-            <com.example.ecom.MyRecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewProductList"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
                 android:layout_marginTop="16dp"
                 android:background="@color/backgroundLight"
+                android:nestedScrollingEnabled="false"
                 android:paddingBottom="16dp"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider1"
                 app:layout_constraintVertical_bias="0.0"
                 app:layout_goneMarginTop="4dp"
-                tools:listitem="@layout/list_item_products">
-
-            </com.example.ecom.MyRecyclerView>
+                tools:listitem="@layout/list_item_products" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

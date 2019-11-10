@@ -54,10 +54,12 @@ public class DeliveryDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 DeliveryDetail deliveryDetail = deliveryDetailList.get(position);
                 Address address = deliveryDetail.getAddress();
                 viewHolder.userNameTextView.setText(deliveryDetail.getUserName());
-                viewHolder.addressTextView.setText(address.getHouse() + "\n" +
-                        address.getLocality() + "\n" +
-                        address.getCity() + "\n" +
-                        address.getState());
+                viewHolder.houseTextView.setText(address.getHouse());
+                viewHolder.localityTextView.setText(address.getLocality());
+                viewHolder.cityTextView.setText(address.getCity());
+                viewHolder.stateTextView.setText(address.getState());
+                //viewHolder.pincodeTextView.setText(address.getPincode());
+                viewHolder.contactNumberTextView.setText(deliveryDetail.getContactNumber());
 
                 if (deliveryDetail.getSelected()) {
                     if (viewHolder.cardView.getStrokeWidth() == 0)
@@ -104,8 +106,18 @@ public class DeliveryDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         MaterialCardView cardView;
         @BindView(R.id.textViewUserName)
         TextView userNameTextView;
-        @BindView(R.id.textViewAddress)
-        TextView addressTextView;
+        @BindView(R.id.textViewHouse)
+        TextView houseTextView;
+        @BindView(R.id.textViewLocality)
+        TextView localityTextView;
+        @BindView(R.id.textViewCity)
+        TextView cityTextView;
+        @BindView(R.id.textViewState)
+        TextView stateTextView;
+//        @BindView(R.id.textViewPincode)
+//        TextView pincodeTextView;
+        @BindView(R.id.textViewContactNumber)
+        TextView contactNumberTextView;
         @BindView(R.id.buttonDeliverHere)
         MaterialButton deliverHereButton;
         @BindView(R.id.buttonEditAddress)

@@ -27,55 +27,106 @@
                 android:id="@+id/textViewUserName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
                 android:textColor="@color/textColorDark"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/buttonDeliverHere"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="TextView" />
 
             <TextView
-                android:id="@+id/textViewAddress"
+                android:id="@+id/textViewHouse"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:minLines="4"
                 android:textColor="@color/textColor"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/textViewUserName"
                 app:layout_constraintStart_toStartOf="@+id/textViewUserName"
                 app:layout_constraintTop_toBottomOf="@+id/textViewUserName"
+                tools:text="TextView" />
+
+            <TextView
+                android:id="@+id/textViewLocality"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/textViewHouse"
+                app:layout_constraintStart_toStartOf="@+id/textViewUserName"
+                app:layout_constraintTop_toBottomOf="@+id/textViewHouse"
+                tools:text="TextView" />
+
+            <TextView
+                android:id="@+id/textViewCity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/textViewLocality"
+                app:layout_constraintStart_toStartOf="@+id/textViewUserName"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLocality"
+                tools:text="TextView" />
+
+            <TextView
+                android:id="@+id/textViewState"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/textViewCity"
+                app:layout_constraintStart_toStartOf="@+id/textViewUserName"
+                app:layout_constraintTop_toBottomOf="@+id/textViewCity"
+                tools:text="TextView" />
+
+            <TextView
+                android:id="@+id/textViewContactNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/textViewState"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/textViewUserName"
+                app:layout_constraintTop_toBottomOf="@+id/textViewState"
                 tools:text="TextView" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonEditAddress"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/button_height"
-                android:insetTop="6dp"
-                android:insetBottom="6dp"
+                android:layout_height="wrap_content"
+                android:insetTop="12dp"
+                android:insetBottom="12dp"
                 android:text="@string/edit_address"
                 android:textColor="@android:color/white"
+                android:textSize="10sp"
                 app:backgroundTint="@color/textColorDark"
                 app:cornerRadius="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/buttonDeliverHere"
                 app:strokeWidth="2dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonDeliverHere"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/button_height"
-                android:layout_marginTop="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintVertical_chainStyle="packed"
+                android:insetTop="12dp"
+                android:insetBottom="12dp"
                 android:text="@string/deliver_here"
                 android:textColor="@android:color/white"
+                android:textSize="10sp"
                 app:cornerRadius="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewAddress"
+                app:layout_constraintBottom_toTopOf="@+id/buttonEditAddress"
+                app:layout_constraintEnd_toEndOf="@+id/buttonEditAddress"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/buttonEditAddress"
+                app:layout_constraintTop_toTopOf="parent"
                 app:strokeColor="@color/colorPrimary" />
 
             <androidx.constraintlayout.widget.Group
