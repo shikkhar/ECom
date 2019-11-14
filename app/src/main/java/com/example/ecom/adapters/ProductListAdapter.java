@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,7 +47,7 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
 
         @Override
         public boolean areContentsTheSame(@NonNull Product oldItem, @NonNull Product newItem) {
-            boolean isContentSame =  oldItem.getId() == newItem.getId() &&
+            boolean isContentSame = oldItem.getId() == newItem.getId() &&
                     oldItem.getDiscount() == newItem.getDiscount() &&
                     oldItem.getFinalPrice() == newItem.getFinalPrice() &&
                     oldItem.getImagePaths().equals(newItem.getImagePaths()) &&
@@ -142,12 +144,16 @@ public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.
                 if (position != RecyclerView.NO_POSITION) {
                     Product product = getItem(position);
                     if (product.isFavorite()) {
+                        Animation animZoomOut = AnimationUtils.loadAnimation(appContext, R.anim.zoom_out);
+                        favoriteImageView.startAnimation(animZoomOut);
                         this.favoriteImageView.setVisibility(View.GONE);
                         this.grayFavoriteImageView.setVisibility(View.VISIBLE);
                         //product.setFavorite(!product.isFavorite());
                     } else {
                         this.favoriteImageView.setVisibility(View.VISIBLE);
                         this.grayFavoriteImageView.setVisibility(View.GONE);
+                        Animation animZoomIn = AnimationUtils.loadAnimation(appContext, R.anim.zoom_in);
+                        favoriteImageView.startAnimation(animZoomIn);
                     }
                     product.setFavorite(!product.isFavorite());
                     //submitList(productList);

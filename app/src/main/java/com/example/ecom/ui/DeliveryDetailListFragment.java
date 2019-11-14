@@ -2,28 +2,27 @@ package com.example.ecom.ui;
 
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.example.ecom.R;
 import com.example.ecom.adapters.DeliveryDetailsAdapter;
 import com.example.ecom.model.DeliveryDetail;
+import com.example.ecom.repository.Repository;
 import com.example.ecom.view_models.DeliveryDetailsViewModel;
-
-import java.util.List;
+import com.example.ecom.view_models.MainActivityViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,8 +32,7 @@ import butterknife.ButterKnife;
  * A simple {@link Fragment} subclass.
  */
 public class DeliveryDetailListFragment extends Fragment implements DeliveryDetailsAdapter.OnClickListener {
-    public static final String BUNDLE_KEY_DELIVERY_DETAIL = "delivery_detail";
-    private DeliveryDetailsViewModel deliveryDetailsViewModel;
+    static final String BUNDLE_KEY_DELIVERY_DETAIL = "delivery_detail";
     private DeliveryDetailsAdapter mAdapter;
     private NavController navController;
 
@@ -64,14 +62,19 @@ public class DeliveryDetailListFragment extends Fragment implements DeliveryDeta
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         setupRecyclerView();
-        deliveryDetailsViewModel = ViewModelProviders.of(this).get(DeliveryDetailsViewModel.class);
-        deliveryDetailsViewModel.getDeliveryDetailLiveData().observe(getViewLifecycleOwner(), new Observer<List<DeliveryDetail>>() {
-            @Override
-            public void onChanged(List<DeliveryDetail> deliveryDetails) {
-                mAdapter.setList(deliveryDetails);
-            }
-        });
+        DeliveryDetailsViewModel deliveryDetailsViewModel = ViewModelProviders.of(this).get(DeliveryDetailsViewModel.class);
+        deliveryDetailsViewModel.setRepository(new Repository());
+        deliveryDetailsViewModel.getAllDeliveryDetails();
+        deliveryDetailsViewModel.getDeliveryDetailLiveData().observe(getViewLifecycleOwner(), deliveryDetails ->
+                mAdapter.setList(deliveryDetails));
         navController = Navigation.findNavController(view);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        MainActivityViewModel mainActivityViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
+        mainActivityViewModel.setActionBarTitle(getResources().getString(R.string.title_action_bar_delivery_details));
     }
 
     private void setupRecyclerView() {
@@ -88,7 +91,6 @@ public class DeliveryDetailListFragment extends Fragment implements DeliveryDeta
 
     @Override
     public void onEditAddressClick(DeliveryDetail deliveryDetail) {
-        //TODO: pass bundle here
         Bundle bundle = new Bundle();
         bundle.putParcelable(BUNDLE_KEY_DELIVERY_DETAIL, new DeliveryDetail(deliveryDetail));
         navController.navigate(R.id.action_deliveryDetailListFragment_to_editDeliveryDetailFragment, bundle);
@@ -99,11 +101,20 @@ public class DeliveryDetailListFragment extends Fragment implements DeliveryDeta
     }
 
     @Override
-    public void onPrepareOptionsMenu(@NonNull Menu menu) {
-        menu.findItem(R.id.fragment_cart).setVisible(false);
-        menu.findItem(R.id.action_search).setVisible(false);
-        super.onPrepareOptionsMenu(menu);
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                navController.popBackStack();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
-
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.fragment_cart).setVisible(false);
+        menu.findItem(R.id.action_favorite).setVisible(false);
+    }
 }

@@ -34,7 +34,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/buttonDeliverHere"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="TextView" />
+                tools:text="TextView"
+                android:layout_marginRight="16dp" />
 
             <TextView
                 android:id="@+id/textViewHouse"

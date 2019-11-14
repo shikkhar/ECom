@@ -3,6 +3,8 @@ package com.example.ecom.ui;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,9 +13,23 @@ import androidx.fragment.app.Fragment;
 import com.example.ecom.R;
 import com.example.ecom.utils.CountDrawable;
 
-public class BaseCartFragment extends Fragment {
+public class BaseFragment extends Fragment {
 
-    public void setCartCount(Context context, Menu menu, String count) {
+    boolean checkConnectivity(Context appContext) {
+        boolean isConnected = false;
+        if(appContext != null) {
+            ConnectivityManager cm =
+                    (ConnectivityManager) appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            isConnected = activeNetwork != null &&
+                    activeNetwork.isConnectedOrConnecting();
+        }
+
+        return isConnected;
+    }
+
+    void setCartCount(Context context, Menu menu, String count) {
         MenuItem menuItem = menu.findItem(R.id.fragment_cart);
         LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
 

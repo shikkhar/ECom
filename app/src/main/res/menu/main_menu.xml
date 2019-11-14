@@ -2,20 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
+    <!--<item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search_24dp"
         android:title="@string/product_filter"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="always|collapseActionView" />
+        app:showAsAction="always|collapseActionView" />-->
     <item
         android:id="@+id/action_favorite"
         android:icon="@drawable/ic_favorite_white_24dp"
+        android:orderInCategory="2"
         android:title="@string/Favorite"
         app:showAsAction="always" />
     <item
         android:id="@+id/fragment_cart"
         android:icon="@drawable/action_bar_cart_icon"
+        android:orderInCategory="3"
         android:title="@string/menu_item_cart"
         app:showAsAction="always" />
 

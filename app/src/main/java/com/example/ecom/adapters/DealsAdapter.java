@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,13 +33,17 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.MyViewHolder
 
     @Override
     public int getItemCount() {
-        return 10;
+        return 6;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.imageView)
         ImageView imageView;
+        @BindView(R.id.textViewDealTitle)
+        TextView dealTitleTextView;
+        @BindView(R.id.textViewDealSummary)
+        TextView dealSummaryTextView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);

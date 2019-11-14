@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -16,17 +17,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ecom.R;
 import com.example.ecom.adapters.CartAdapter;
 import com.example.ecom.model.CartProductDetail;
+import com.example.ecom.utils.Event;
+import com.example.ecom.utils.UpdateOperationResult;
 import com.example.ecom.view_models.CartViewModel;
+import com.example.ecom.view_models.MainActivityViewModel;
 import com.google.android.material.button.MaterialButton;
 
 import java.text.DecimalFormat;
@@ -46,8 +52,8 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
 
     private NavController navController;
     private CartViewModel cartViewModel;
+    private MainActivityViewModel mainActivityViewModel;
     private CartAdapter mAdapter;
-    private Animation bounceAnimation;
     private QuantityPickerDialogFragment quantityPickerDialogFragment;
     private double cartTotal;
     private Dialog overlayDialog;
@@ -59,14 +65,12 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
     @BindView(R.id.textViewSavings)
     TextView savingsTextView;
     @BindView(R.id.recyclerViewCart)
-    RecyclerView recyclerView;
+    RecyclerView recyclerView;@BindView(R.id.frameProgrssBar)
+    FrameLayout frameProgressBar;
 
     @OnClick({R.id.label, R.id.textViewFinalAmount, R.id.textViewSavings})
     void onLabelClick() {
         recyclerView.smoothScrollToPosition(cartViewModel.getCartProductsLiveData().getValue().size());
-        /*Bundle bundle = new Bundle();
-        bundle.putDouble(BUNDLE_KEY_CART_TOTAL, cartTotal);
-        navController.navigate(R.id.action_action_cart_to_summaryBottomSheetDialoagFragment);*/
     }
 
     @OnClick(R.id.buttonCheckout)
@@ -112,10 +116,18 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        bounceAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
-        //bounceAnimation.setRepeatCount(Animation.INFINITE);
+
+        mainActivityViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
+        mainActivityViewModel.setActionBarTitle(getResources().getString(R.string.title_action_bar_cart));
+
         cartViewModel = ViewModelProviders.of(getActivity()).get(CartViewModel.class);
         cartViewModel.getCartProductsLiveData().observe(getViewLifecycleOwner(), cartProductDetails -> {
+            if (overlayDialog != null) {
+                frameProgressBar.setVisibility(View.GONE);
+                overlayDialog.dismiss();
+                overlayDialog = null;
+            }
+
             if (cartProductDetails == null) {
                 finalAmountTextView.setVisibility(View.GONE);
                 savingsTextView.setVisibility(View.GONE);
@@ -140,24 +152,37 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
             mAdapter.setCartSummary(cartTotal);
         });
 
+        cartViewModel.getUpdateOperationStatus().observe(getViewLifecycleOwner(), updateOperationResultEvent -> {
+            if (overlayDialog != null) {
+                frameProgressBar.setVisibility(View.GONE);
+                overlayDialog.dismiss();
+                overlayDialog = null;
+            }
+        });
+
     }
 
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        cartTotalDetailsImageView.startAnimation(bounceAnimation);
-    }
 
     @Override
-    public void onPause() {
-        cartTotalDetailsImageView.clearAnimation();
-        super.onPause();
-    }*/
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //TODO: replace this with fragment manager's pop back stack
+                navController.popBackStack();
+                return true;
+            case R.id.action_favorite:
+                navController.navigate(R.id.action_fragment_cart_to_favoritesFragment);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
         menu.findItem(R.id.fragment_cart).setVisible(false);
-        menu.findItem(R.id.action_search).setVisible(false);
+        //menu.findItem(R.id.action_search).setVisible(false);
         super.onPrepareOptionsMenu(menu);
     }
 
@@ -170,23 +195,32 @@ public class CartFragment extends Fragment implements CartAdapter.OnItemClickLis
         quantityPickerDialogFragment = new QuantityPickerDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(BUNDLE_KEY_LIST_POSITION, position);
-        //bundle.putString("reward", reward);
         quantityPickerDialogFragment.setArguments(bundle);
         quantityPickerDialogFragment.show(fm, TAG_QUANTITY_DIALOG_FRAGMENT);
-        //navController.navigate(R.id.action_action_cart_to_quantityPickerDialogFragment);
     }
 
     @Override
     public void onRemoveClick(int position) {
+        showOverlayDialog();
         cartViewModel.removeFromCart(position);
     }
 
     @Override
     public void onValueChange(int position, int value) {
         quantityPickerDialogFragment.dismiss();
+        showOverlayDialog();
+
         if (value == 0)
             cartViewModel.removeFromCart(position);
         else
             cartViewModel.updateCart(position, value);
+    }
+
+    private void showOverlayDialog() {
+        if (overlayDialog == null) {
+            overlayDialog = new Dialog(getContext());
+            overlayDialog.show();
+            frameProgressBar.setVisibility(View.VISIBLE);
+        }
     }
 }

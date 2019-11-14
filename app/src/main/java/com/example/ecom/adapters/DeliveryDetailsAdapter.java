@@ -58,7 +58,6 @@ public class DeliveryDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 viewHolder.localityTextView.setText(address.getLocality());
                 viewHolder.cityTextView.setText(address.getCity());
                 viewHolder.stateTextView.setText(address.getState());
-                //viewHolder.pincodeTextView.setText(address.getPincode());
                 viewHolder.contactNumberTextView.setText(deliveryDetail.getContactNumber());
 
                 if (deliveryDetail.getSelected()) {

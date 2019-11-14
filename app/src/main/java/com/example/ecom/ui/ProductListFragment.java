@@ -1,7 +1,17 @@
 package com.example.ecom.ui;
 
 
+import android.app.ActionBar;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,39 +19,30 @@ import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.Group;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
-import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Toast;
-
-import com.example.ecom.MyRecyclerView;
 import com.example.ecom.R;
 import com.example.ecom.adapters.DealsAdapter;
 import com.example.ecom.adapters.ProductListAdapter;
 import com.example.ecom.adapters.ViewPagerAdapter;
 import com.example.ecom.model.CartSummary;
 import com.example.ecom.model.Product;
+import com.example.ecom.repository.Repository;
+import com.example.ecom.utils.OperationResult;
 import com.example.ecom.utils.UpdateOperationResult;
 import com.example.ecom.view_models.CartViewModel;
+import com.example.ecom.view_models.MainActivityViewModel;
 import com.example.ecom.view_models.ProductViewModel;
 import com.google.android.material.tabs.TabLayout;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,11 +51,12 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProductListFragment extends BaseCartFragment implements ProductListAdapter.OnItemClickListener {
+public class ProductListFragment extends BaseFragment implements ProductListAdapter.OnItemClickListener {
     public static final String BUNDLE_KEY_PRODUCT = "product_key";
     private NavController navController;
     private ProductViewModel productViewModel;
     private CartViewModel cartViewModel;
+    private MainActivityViewModel mainActivityViewModel;
     private ViewPagerAdapter viewPagerAdapter;
     private ProductListAdapter productListAdapter;
     private DealsAdapter dealsAdapter;
@@ -63,6 +65,7 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
     private Menu optionsMenu;
     private Handler handler;
     private AutoScrollRunnable runnable;
+    private SearchView searchView;
     private int delay = 2500; //milliseconds
     private int page = 0;
 
@@ -78,6 +81,8 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
     Group searchGroup;
     @BindView(R.id.nestedScrollView)
     NestedScrollView nestedScrollView;
+    @BindView(R.id.swipeToRefresh)
+    SwipeRefreshLayout swipeRefresh;
 
     public ProductListFragment() {
         // Required empty public constructor
@@ -87,11 +92,14 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
         productListAdapter = new ProductListAdapter(this.getContext().getApplicationContext());
         dealsAdapter = new DealsAdapter();
+        productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
+        productViewModel.setRepository(new Repository());
+        productViewModel.getAllProducts();
         handler = new Handler();
         runnable = new AutoScrollRunnable();
-
     }
 
     @Override
@@ -120,8 +128,17 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
             public void onPageScrollStateChanged(int state) {
             }
         });
-        //filterEditText.addTextChangedListener(new SearchTextWatcher());
-        //navController.navigate(R.id.action_productListFragment_to_productDetailFragment);
+
+        String[] images = new String[]{
+                "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
+                "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
+                "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
+                "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
+                "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
+        };
+        viewPagerAdapter = new ViewPagerAdapter(getContext().getApplicationContext(), Arrays.asList(images));
+        viewPager.setAdapter(viewPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
 
@@ -129,21 +146,22 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setupRecyclerView();
-        productViewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
+
+        mainActivityViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
+        mainActivityViewModel.setActionBarTitle(getResources().getString(R.string.title_action_bar_home));
+
         cartViewModel = ViewModelProviders.of(getActivity()).get(CartViewModel.class);
 
-        productViewModel.getProductLiveData().observe(getViewLifecycleOwner(), products -> {
-            //productListRecyclerView.setVisibility(View.VISIBLE);
-            productListAdapter.setList(products);
-        });
+        //productViewModel.setRepository(new Repository());
+        //productViewModel.getAllProducts();
 
-        cartViewModel.getCartSummaryLiveData().observe(getViewLifecycleOwner(), new Observer<CartSummary>() {
-            @Override
-            public void onChanged(CartSummary cartSummaryObject) {
-                cartSummary = cartSummaryObject;
-                if (optionsMenu != null)
-                    setCartCount(getContext().getApplicationContext(), optionsMenu, String.valueOf(cartSummary.getItemCount()));
-            }
+        productViewModel.getProductLiveData().observe(getViewLifecycleOwner(), products ->
+            productListAdapter.setList(products));
+
+        cartViewModel.getCartSummaryLiveData().observe(getViewLifecycleOwner(), cartSummaryObject -> {
+            cartSummary = cartSummaryObject;
+            if (optionsMenu != null)
+                setCartCount(getContext().getApplicationContext(), optionsMenu, String.valueOf(cartSummary.getItemCount()));
         });
 
         productViewModel.getUpdateOperationStatus().observe(this.getViewLifecycleOwner(), booleanEvent -> {
@@ -161,18 +179,19 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
             }
         });
 
-        String[] images = new String[]{
-                "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-                "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-                "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-                "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-                "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-        };
+        productViewModel.getOperationResult().observe(getViewLifecycleOwner(), operationResultEvent -> {
+            if(!operationResultEvent.isHasBeenHandled()){
+                OperationResult operationResult = operationResultEvent.getContentIfNotHandled();
+                if(operationResult != null){
+                    swipeRefresh.setRefreshing(false);
+                }
+            }
+        });
 
-        viewPagerAdapter = new ViewPagerAdapter(getContext().getApplicationContext(), Arrays.asList(images));
-        viewPager.setAdapter(viewPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
-
+        swipeRefresh.setOnRefreshListener(() -> {
+            productViewModel.getAllProducts();
+            cartViewModel.getAllCartDetails();
+        });
     }
 
     @Override
@@ -204,8 +223,16 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
     @Override
     public void onItemClick(Product selectedProduct) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(BUNDLE_KEY_PRODUCT, new Product(selectedProduct));
+        bundle.putParcelable(BUNDLE_KEY_PRODUCT, selectedProduct);
+        hideSearchView();
+
         navController.navigate(R.id.action_productListFragment_to_productDetailFragment, bundle);
+    }
+
+    private void hideSearchView() {
+        //searchView.onActionViewCollapsed();
+       /* if(!searchView.isIconified())
+            searchView.setIconified(true);*/
     }
 
     @Override
@@ -216,7 +243,7 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
     private class ProductAdapterChangesListener extends RecyclerView.AdapterDataObserver {
         @Override
         public void onChanged() {
-            nestedScrollView.scrollTo(0,0);
+            nestedScrollView.scrollTo(0, 0);
         }
 
         @Override
@@ -226,22 +253,22 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) {
-           // nestedScrollView.scrollTo(0,0);
+            // nestedScrollView.scrollTo(0,0);
         }
 
         @Override
         public void onItemRangeInserted(int positionStart, int itemCount) {
-            nestedScrollView.scrollTo(0,0);
+            nestedScrollView.scrollTo(0, 0);
         }
 
         @Override
         public void onItemRangeRemoved(int positionStart, int itemCount) {
-            nestedScrollView.scrollTo(0,0);
+            nestedScrollView.scrollTo(0, 0);
         }
 
         @Override
         public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-            nestedScrollView.scrollTo(0,0);
+            nestedScrollView.scrollTo(0, 0);
         }
     }
 
@@ -249,7 +276,13 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.fragment_cart:
+                hideSearchView();
                 navController.navigate(R.id.action_productListFragment_to_cartFragment);
+                return true;
+
+            case R.id.action_favorite:
+                hideSearchView();
+                navController.navigate(R.id.action_productListFragment_to_favoritesFragment);
                 return true;
 
             default:
@@ -263,7 +296,7 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
         optionsMenu = menu;
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView = (SearchView) searchItem.getActionView();
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
@@ -295,6 +328,10 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
         super.onPrepareOptionsMenu(menu);
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.search_menu, menu);
+    }
 
     @Override
     public void onDestroyView() {
@@ -302,6 +339,7 @@ public class ProductListFragment extends BaseCartFragment implements ProductList
         productListAdapter.setClickListener(null);
         super.onDestroyView();
     }
+
 
     private class AutoScrollRunnable implements Runnable {
         @Override

@@ -32,7 +32,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_search_dark_24dp" />
+                app:srcCompat="@drawable/ic_search_dark_24dp"
+                android:layout_marginLeft="8dp" />
 
             <TextView
                 android:id="@+id/textViewProductTitle"
@@ -67,7 +68,8 @@
                 android:textStyle="italic"
                 app:layout_constraintStart_toEndOf="@+id/textViewFinalPrice"
                 app:layout_constraintTop_toTopOf="@+id/textViewFinalPrice"
-                tools:text="TextView" />
+                tools:text="TextView"
+                android:layout_marginLeft="8dp" />
 
             <com.example.ecom.QuantityCustomView
                 android:id="@+id/customViewQuantity"

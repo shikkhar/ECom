@@ -21,7 +21,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@android:color/white"
+                android:background="@color/backgroundLight"
                 app:layout_collapseMode="parallax">
 
                 <androidx.viewpager.widget.ViewPager
@@ -55,7 +55,8 @@
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/viewPagerProductDetail"
-                    app:srcCompat="@drawable/ic_favorite_gray_24dp" />
+                    app:srcCompat="@drawable/ic_favorite_gray_24dp"
+                    android:layout_marginRight="8dp" />
 
                 <ImageView
                     android:id="@+id/imageViewFavorite"
@@ -72,6 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="4dp"
                     app:layout_constraintEnd_toEndOf="@+id/viewPagerProductDetail"
                     app:layout_constraintStart_toStartOf="@+id/viewPagerProductDetail"
                     app:layout_constraintTop_toBottomOf="@+id/viewPagerProductDetail">
@@ -106,7 +108,8 @@
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toEndOf="@+id/textViewOriginalPrice"
                             app:layout_constraintTop_toTopOf="@+id/textViewOriginalPrice"
-                            tools:text="TextView" />
+                            tools:text="TextView"
+                            android:layout_marginLeft="8dp" />
 
                         <com.example.ecom.QuantityCustomView
                             android:id="@+id/customViewQuantiity"
@@ -156,9 +159,40 @@
                             app:layout_constraintBottom_toBottomOf="@+id/textViewFinalPrice"
                             app:layout_constraintStart_toEndOf="@+id/textViewFinalPrice"
                             app:layout_constraintTop_toTopOf="@+id/textViewFinalPrice"
-                            tools:text="TextView" />
+                            tools:text="TextView"
+                            android:layout_marginLeft="8dp" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    app:cardCornerRadius="4dp"
+                    app:layout_constraintEnd_toEndOf="@+id/materialCardView"
+                    app:layout_constraintStart_toStartOf="@+id/materialCardView"
+                    app:layout_constraintTop_toBottomOf="@+id/materialCardView">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="2dp"
+                            android:text="Options"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:layout_marginLeft="8dp" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -204,7 +238,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/buttonCheckDelivery"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginRight="4dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonCheckDelivery"
@@ -223,7 +258,8 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/editTextPincode"
                 app:strokeColor="@color/textColorDark"
-                app:strokeWidth="1dp" />
+                app:strokeWidth="1dp"
+                android:layout_marginLeft="4dp" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -253,7 +289,9 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:rippleColor="@color/colorAccent" />
+            app:rippleColor="@color/colorAccent"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="2dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonBuyNow"
@@ -270,10 +308,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/buttonAddToCart"
-            app:layout_constraintTop_toTopOf="@+id/buttonAddToCart" />
+            app:layout_constraintTop_toTopOf="@+id/buttonAddToCart"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="4dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <include layout="@layout/progress_bar" />
+    <include
+        layout="@layout/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="64dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

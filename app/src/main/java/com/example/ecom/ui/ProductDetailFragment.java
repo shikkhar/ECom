@@ -8,7 +8,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -16,9 +15,12 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +36,7 @@ import com.example.ecom.model.CartSummary;
 import com.example.ecom.model.Product;
 import com.example.ecom.utils.UpdateOperationResult;
 import com.example.ecom.view_models.CartViewModel;
+import com.example.ecom.view_models.MainActivityViewModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -52,7 +55,7 @@ import static com.example.ecom.ui.ProductListFragment.BUNDLE_KEY_PRODUCT;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProductDetailFragment extends BaseCartFragment {
+public class ProductDetailFragment extends BaseFragment {
 
     private CartViewModel cartViewModel;
     private NavController navController;
@@ -63,6 +66,8 @@ public class ProductDetailFragment extends BaseCartFragment {
     private Menu optionsMenu;
     private boolean navigateToCart = false;
     private Dialog overlayDialog;
+    private MainActivityViewModel mainActivityViewModel;
+    //private SearchView searchView;
 
     @BindView(R.id.viewPagerProductDetail)
     ViewPager viewPager;
@@ -98,12 +103,15 @@ public class ProductDetailFragment extends BaseCartFragment {
     @OnClick({R.id.imageViewFavoriteGray, R.id.imageViewFavorite})
     void onFavIconClick() {
         if (selectedProduct.isFavorite()) {
-            this.favoriteImageView.setVisibility(View.GONE);
+            Animation animZoomOut = AnimationUtils.loadAnimation(getContext().getApplicationContext(), R.anim.zoom_out);
+            favoriteImageView.startAnimation(animZoomOut);
             this.grayFavoriteImageView.setVisibility(View.VISIBLE);
-            //product.setFavorite(!product.isFavorite());
+            this.favoriteImageView.setVisibility(View.GONE);
         } else {
             this.favoriteImageView.setVisibility(View.VISIBLE);
             this.grayFavoriteImageView.setVisibility(View.GONE);
+            Animation animZoomIn = AnimationUtils.loadAnimation(getContext().getApplicationContext(), R.anim.zoom_in);
+            favoriteImageView.startAnimation(animZoomIn);
         }
         selectedProduct.setFavorite(!selectedProduct.isFavorite());
         cartViewModel.updateFavoriteStatus(selectedProduct);
@@ -112,7 +120,6 @@ public class ProductDetailFragment extends BaseCartFragment {
     @OnClick(R.id.buttonAddToCart)
     void onAddToCartClick() {
         showOverlayDialog();
-
         navigateToCart = false;
         cartViewModel.addToCart(selectedProduct, quantityCustomView.getQuantity());
     }
@@ -180,18 +187,7 @@ public class ProductDetailFragment extends BaseCartFragment {
         titleTextView.setText(selectedProduct.getTitle());
         descriptionTextView.setBackgroundColor(Color.TRANSPARENT);
         descriptionTextView.loadUrl("file:///android_asset/sample.html");
-        /*InputStream is = null;
-        try {
-            is = getActivity().getAssets().open("sample.html");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        int size = is.available();
-        byte[] buffer = new byte[size];
-        is.read(buffer);
-        is.close();
-        String str = new String(buffer);*/
-        //descriptionTextView.setText(Html.fromHtml(str));
+
         finalPriceTextView.setText(rupeeSymbol + finalPrice);
         originalPriceTextView.setText(rupeeSymbol + originalPrice);
         //TODO: replace with a string resource
@@ -208,27 +204,17 @@ public class ProductDetailFragment extends BaseCartFragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-
-         /*String[] images = new String[]{
-                "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-                "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-                "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-                "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-                "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-        };*/
-
-
         super.onActivityCreated(savedInstanceState);
+
+        mainActivityViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
+        mainActivityViewModel.setActionBarTitle(getResources().getString(R.string.title_action_bar_product_detail));
 
         cartViewModel = ViewModelProviders.of(getActivity()).get(CartViewModel.class);
 
-        cartViewModel.getCartSummaryLiveData().observe(getViewLifecycleOwner(), new Observer<CartSummary>() {
-            @Override
-            public void onChanged(CartSummary cartSummaryObject) {
-                cartSummary = cartSummaryObject;
-                if (optionsMenu != null)
-                    setCartCount(getContext().getApplicationContext(), optionsMenu, String.valueOf(cartSummary.getItemCount()));
-            }
+        cartViewModel.getCartSummaryLiveData().observe(getViewLifecycleOwner(), cartSummaryObject -> {
+            cartSummary = cartSummaryObject;
+            if (optionsMenu != null)
+                setCartCount(getContext().getApplicationContext(), optionsMenu, String.valueOf(cartSummary.getItemCount()));
         });
 
         cartViewModel.getAddToCartResult().observe(getViewLifecycleOwner(), event -> {
@@ -267,10 +253,10 @@ public class ProductDetailFragment extends BaseCartFragment {
                 } else {
                     product.setFavorite(!product.isFavorite());
                     Toast.makeText(getContext(), "Favorites could not be updated", Toast.LENGTH_SHORT).show();
-                    if(!product.isFavorite()){
+                    if (!product.isFavorite()) {
                         this.favoriteImageView.setVisibility(View.GONE);
                         this.grayFavoriteImageView.setVisibility(View.VISIBLE);
-                    }else {
+                    } else {
                         this.favoriteImageView.setVisibility(View.VISIBLE);
                         this.grayFavoriteImageView.setVisibility(View.GONE);
                     }
@@ -285,8 +271,15 @@ public class ProductDetailFragment extends BaseCartFragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                navController.popBackStack();
+                return true;
             case R.id.fragment_cart:
                 navController.navigate(R.id.action_productDetailFragment_to_cartFragment);
+                return true;
+
+            case R.id.action_favorite:
+                navController.navigate(R.id.action_productDetailFragment_to_favoritesFragment);
                 return true;
 
             default:
@@ -296,15 +289,59 @@ public class ProductDetailFragment extends BaseCartFragment {
 
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
-        optionsMenu = menu;
-        menu.findItem(R.id.action_search).setVisible(false);
-
-        if (cartSummary == null)
-            setCartCount(getContext().getApplicationContext(), menu, getString(R.string.zero));
-        else
-            setCartCount(getContext().getApplicationContext(), menu, String.valueOf(cartSummary.getItemCount()));
-
         super.onPrepareOptionsMenu(menu);
+        /*MenuItem searchItem = menu.findItem(R.id.action_search);
+        *//*SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setIconifiedByDefault(true);
+        //searchView.setIconified(true);
+        searchView.onActionViewCollapsed();*//*
+
+        *//*if (!searchView.isIconified()) {
+            searchView.setIconified(true);
+           // searchView.
+        }*//*
+        searchItem.setVisible(false);
+*/
+        if (cartSummary == null) {
+            setCartCount(getContext().getApplicationContext(), menu, getString(R.string.zero));
+        } else {
+            setCartCount(getContext().getApplicationContext(), menu, String.valueOf(cartSummary.getItemCount()));
+        }
+
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        /*super.onPrepareOptionsMenu(menu);
+        optionsMenu = menu;
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        *//*SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setIconifiedByDefault(true);
+        //searchView.setIconified(true);
+        searchView.onActionViewCollapsed();*//*
+
+        *//*if (!searchView.isIconified()) {
+            searchView.setIconified(true);
+           // searchView.
+        }*//*
+        searchItem.setVisible(false);*/
+
+        if (cartSummary == null) {
+            setCartCount(getContext().getApplicationContext(), menu, getString(R.string.zero));
+        } else {
+            setCartCount(getContext().getApplicationContext(), menu, String.valueOf(cartSummary.getItemCount()));
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

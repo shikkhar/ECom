@@ -6,12 +6,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,8 +22,8 @@ import com.example.ecom.R;
 import com.example.ecom.model.Address;
 import com.example.ecom.model.DeliveryDetail;
 import com.example.ecom.repository.Repository;
-import com.example.ecom.utils.Event;
 import com.example.ecom.view_models.EditDeliveryDetailViewModel;
+import com.example.ecom.view_models.MainActivityViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +37,9 @@ import static com.example.ecom.ui.DeliveryDetailListFragment.BUNDLE_KEY_DELIVERY
 public class EditDeliveryDetailFragment extends Fragment {
 
     private DeliveryDetail deliveryDetail;
-    private EditDeliveryDetailViewModel viewModel;
+    private EditDeliveryDetailViewModel editDeliveryDetailViewModel;
+    private MainActivityViewModel mainActivityViewModel;
+    private NavController navController;
 
     public EditDeliveryDetailFragment() {
         // Required empty public constructor
@@ -66,7 +69,7 @@ public class EditDeliveryDetailFragment extends Fragment {
     @OnClick(R.id.buttonSaveAddress)
     void onSaveClick() {
         getUpdatedValues();
-        viewModel.updateDeliveryDetails(getUpdatedValues());
+        editDeliveryDetailViewModel.updateDeliveryDetails(getUpdatedValues());
     }
 
     private DeliveryDetail getUpdatedValues() {
@@ -86,12 +89,13 @@ public class EditDeliveryDetailFragment extends Fragment {
 
     @OnClick(R.id.buttonDeleteAddress)
     void onDeleteClick() {
-        viewModel.deleteDeliveryDetail(deliveryDetail);
+        editDeliveryDetailViewModel.deleteDeliveryDetail(deliveryDetail);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         Bundle bundle = getArguments();
         if (bundle != null && bundle.containsKey(BUNDLE_KEY_DELIVERY_DETAIL)) {
             this.deliveryDetail = bundle.getParcelable(BUNDLE_KEY_DELIVERY_DETAIL);
@@ -120,16 +124,42 @@ public class EditDeliveryDetailFragment extends Fragment {
         pincodeEditText.setText(address.getPincode());
         landmarkEditText.setText(address.getLandmark());
 
-        NavController controller = Navigation.findNavController(view);
+        navController = Navigation.findNavController(view);
 
-        viewModel = ViewModelProviders.of(this).get(EditDeliveryDetailViewModel.class);
-        viewModel.setRepository(new Repository());
-        viewModel.getOperationSuccessLiveD().observe(getViewLifecycleOwner(), booleanEvent -> {
+        editDeliveryDetailViewModel = ViewModelProviders.of(this).get(EditDeliveryDetailViewModel.class);
+        editDeliveryDetailViewModel.setRepository(new Repository());
+        editDeliveryDetailViewModel.getOperationSuccessLiveD().observe(getViewLifecycleOwner(), booleanEvent -> {
             Boolean isSuccessful = booleanEvent.getContentIfNotHandled();
-            if(isSuccessful != null && controller != null){
-                controller.navigate(R.id.action_editDeliveryDetailFragment_to_deliveryDetailListFragment);
+            if(isSuccessful != null && navController != null){
+                navController.navigate(R.id.action_editDeliveryDetailFragment_to_deliveryDetailListFragment);
             }
         });
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mainActivityViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
+        mainActivityViewModel.setActionBarTitle(getResources().getString(R.string.title_action_bar_edit_delivery_details));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                navController.popBackStack();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.fragment_cart).setVisible(false);
+        //menu.findItem(R.id.action_search).setVisible(false);
+        menu.findItem(R.id.action_favorite).setVisible(false);
     }
 
 }

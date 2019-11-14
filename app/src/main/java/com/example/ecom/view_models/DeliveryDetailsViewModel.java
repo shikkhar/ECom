@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.android.volley.VolleyError;
 import com.example.ecom.model.DeliveryDetail;
-import com.example.ecom.model.Product;
 import com.example.ecom.repository.Repository;
 import com.example.ecom.utils.VolleySeverRequest;
 import com.google.gson.Gson;
@@ -21,15 +20,22 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * View Model class attached to the lifecycle of Delivery Details List Fragment
+ * Fetches a list of all the saved addresses and exposes them through a live data
+ */
 public class DeliveryDetailsViewModel extends ViewModel {
-
     private static final String TAG = "DeliveryDetailsViewMode";
 
     private MutableLiveData<List<DeliveryDetail>> deliveryDetailLiveD = new MutableLiveData<>();
-    private Repository mRepository = new Repository();
+    private Repository repository;
 
-    public DeliveryDetailsViewModel() {
-        mRepository.getAllDeliveryDetails(new FetchDeliveryDetailsListCallback(deliveryDetailLiveD));
+    public void setRepository(Repository repository){
+        this.repository = repository;
+    }
+
+    public void getAllDeliveryDetails(){
+        repository.getAllDeliveryDetails(new FetchDeliveryDetailsListCallback(deliveryDetailLiveD));
     }
 
     public LiveData<List<DeliveryDetail>> getDeliveryDetailLiveData(){

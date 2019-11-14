@@ -44,6 +44,13 @@ public class Repository {
         //return productList;
     }
 
+    public void getFavorites(VolleySeverRequest.VolleyResponseCallback responseCallback) {
+
+        VolleySeverRequest serverRequest = new VolleySeverRequest(responseCallback);
+        String url = NetworkRequestUrls.FETCH_FAVORITES;
+        serverRequest.makeGetRequest(url, NetworkRequestTags.FETCH_FAVORITES);
+    }
+
     public void getAllDeliveryDetails(VolleySeverRequest.VolleyResponseCallback responseCallback) {
 
         VolleySeverRequest serverRequest = new VolleySeverRequest(responseCallback);
@@ -82,7 +89,7 @@ public class Repository {
         String url = NetworkRequestUrls.FETCH_CART_PRODUCTS;
         serverRequest.makeGetRequest(url, NetworkRequestTags.FETCH_CART_PRODUCTS);
 
-        List<CartProductDetail> cartProductDetailList = new ArrayList<>();
+        /*List<CartProductDetail> cartProductDetailList = new ArrayList<>();
         for (int i = 1; i < 7 ; i++) {
 
             String[] imagePaths = new String[]{"https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
@@ -100,7 +107,7 @@ public class Repository {
             cartProductDetailList.add(cartProductDetail);
         }
 
-        String json = new Gson().toJson(cartProductDetailList);
+        String json = new Gson().toJson(cartProductDetailList);*/
 
         //return cartProductDetailList;
     }
@@ -129,13 +136,13 @@ public class Repository {
 
     }
 
-    public void removeFromCart(VolleySeverRequest.VolleyResponseCallback responseCallback, Product product) {
+    public void removeFromCart(VolleySeverRequest.VolleyResponseCallback responseCallback, long productId) {
 
         VolleySeverRequest serverRequest = new VolleySeverRequest(responseCallback);
         String url = NetworkRequestUrls.ADD_TO_CART;
         HashMap<String, String> params = new HashMap<>();
         params.put("userId", null);
-        params.put("productId", String.valueOf(product.getId()));
+        params.put("productId", String.valueOf(productId));
         serverRequest.makePostRequest(url, params, NetworkRequestTags.REMOVE_FROM_CART);
 
     }

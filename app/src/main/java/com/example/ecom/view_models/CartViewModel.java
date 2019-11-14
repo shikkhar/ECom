@@ -25,60 +25,74 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * View Model class which makes requests to fetch the cart product and
+ * creates a cart summary based on that result
+ */
 public class CartViewModel extends ViewModel {
     private static final String TAG = "CartViewModel";
+    //Live data object that holds all the object present in a user's cart
     private MutableLiveData<List<CartProductDetail>> cartProductListLiveD = new MutableLiveData<>();
+    //Transformation is applied on the cart live data and the cart summary is stored in this live data
     private LiveData cartSummaryLiveD;
+    //used to issue a single event to notify whether the add to cart operation was successful or not
     private MutableLiveData<Event<Boolean>> addToCartResultLiveD = new MutableLiveData<>();
+    //used to issue a single event to notify whether the update cart operation was successful or not
     private MutableLiveData<Event<UpdateOperationResult>> isUpdateSuccessful = new MutableLiveData<>();
-    private Repository mRepository = new Repository();
+    //repository object to make api requests
+    private Repository repository = new Repository();
 
     public CartViewModel() {
         if (cartProductListLiveD.getValue() == null)
-            mRepository.getCartDetails(new FetchCartProductsCallback(cartProductListLiveD));
+            repository.getCartDetails(new FetchCartProductsCallback(cartProductListLiveD));
 
         cartSummaryLiveD = Transformations.map(cartProductListLiveD, cartProducts -> generateCartSummary(cartProducts));
-        //filteredListLiveD = Transformations.map(productListLiveD, products -> createFilteredList(products));
     }
 
+    public void getAllCartDetails(){
+        repository.getCartDetails(new FetchCartProductsCallback(cartProductListLiveD));
+    }
+
+    //This method is called as part of the Transformation applied to the cart live data
     private CartSummary generateCartSummary(List<CartProductDetail> cartProducts) {
         double cartTotal = 0;
         int totalQty = 0;
         double savings = 0;
         for (CartProductDetail cartProduct : cartProducts) {
             Product product = cartProduct.getProduct();
-            cartTotal += product.getFinalPrice();
+            cartTotal += (product.getFinalPrice() * cartProduct.getQuantity());
             totalQty += cartProduct.getQuantity();
             savings += ((product.getOriginalPrice() - product.getFinalPrice()) * cartProduct.getQuantity());
         }
-
         return new CartSummary(cartTotal, totalQty, (int) savings);
     }
 
+    //makes an api request to add a product to the cart
     public void addToCart(Product product, int qty) {
         CartProductDetail cartProductDetail = new CartProductDetail(product, qty);
-        mRepository.addToCart(new AddToCartCallback(cartProductListLiveD, addToCartResultLiveD, cartProductDetail), cartProductDetail);
+        repository.addToCart(new AddToCartCallback(cartProductListLiveD, addToCartResultLiveD, cartProductDetail), cartProductDetail);
     }
 
+    //makes an api request to remove a product from the cart based on its position in the list
     public void removeFromCart(int position) {
         List<CartProductDetail> cartProductDetails = cartProductListLiveD.getValue();
         if (cartProductDetails != null) {
             Product product = cartProductDetails.get(position).getProduct();
-            mRepository.removeFromCart(new RemoveFromCart(cartProductListLiveD, position), product);
+            repository.removeFromCart(new RemoveFromCart(cartProductListLiveD, position), product.getId());
         }
     }
 
+    //makes an api request to update a product from the cart based on its position in the list
     public void updateCart(int position, int qty) {
         List<CartProductDetail> cartProductDetails = cartProductListLiveD.getValue();
         if (cartProductDetails != null) {
             Product product = cartProductDetails.get(position).getProduct();
-            mRepository.updateCart(new UpdateCartCallback(cartProductListLiveD, position, qty), product.getId(), qty);
+            repository.updateCart(new UpdateCartCallback(cartProductListLiveD, position, qty), product.getId(), qty);
         }
-        //mRepository.updateCart(new UpdateCartCallback());
     }
 
     public void updateFavoriteStatus(Product product) {
-        mRepository.updateFavoriteStatus(new CartViewModel.UpdateFavoriteCallback(isUpdateSuccessful, product), product.getId(), product.isFavorite());
+        repository.updateFavoriteStatus(new CartViewModel.UpdateFavoriteCallback(isUpdateSuccessful, product), product.getId(), product.isFavorite());
     }
 
 
@@ -89,10 +103,6 @@ public class CartViewModel extends ViewModel {
     public LiveData<Event<Boolean>> getAddToCartResult() {
         return addToCartResultLiveD;
     }
-
-    /*public void setAddToCartResult(boolean value){
-        addToCartResultLiveD.setValue(value);
-    }*/
 
     public LiveData<CartSummary> getCartSummaryLiveData() {
         return cartSummaryLiveD;
@@ -128,7 +138,6 @@ public class CartViewModel extends ViewModel {
 
             MutableLiveData<List<CartProductDetail>> cartProductListLiveD = weakCartProductListLiveD.get();
             if (cartProductListLiveD != null) {
-                //cartProductListLiveD.setValue(temp);
                 cartProductListLiveD.setValue(cartProductDetailList);
             }
         }
@@ -155,24 +164,8 @@ public class CartViewModel extends ViewModel {
         @Override
         public void onSuccess(JSONObject response) throws JSONException {
 
-           /* String[] imagePaths = new String[]{"https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-                    "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-                    "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-                    "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-                    "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"};
-
-            Product product = new Product("Product 10","Short Description",
-                    "Long Description",
-                    Arrays.asList(imagePaths),"",
-                    100,75, 25);
-
-
-            CartProductDetail cartProductDetail = new CartProductDetail(product, 10);*/
-
-
             MutableLiveData<List<CartProductDetail>> cartProductListLiveD = weakCartProductListLiveD.get();
             if (cartProductListLiveD != null) {
-                //cartProductListLiveD.setValue(temp);
                 boolean productAlreadyExists = false;
                 List<CartProductDetail> cartProductDetailList = cartProductListLiveD.getValue();
                 if (cartProductDetailList != null) {
@@ -229,7 +222,6 @@ public class CartViewModel extends ViewModel {
             //TODO: fire an event to tell that the operation was successful and then reload the cart items.
             MutableLiveData<List<CartProductDetail>> cartProductListLiveD = weakCartProductListLiveD.get();
             if (cartProductListLiveD != null) {
-                //cartProductListLiveD.setValue(temp);
                 List<CartProductDetail> cartProductDetailList = cartProductListLiveD.getValue();
                 cartProductDetailList.get(position).setQuantity(quantity);
                 cartProductListLiveD.setValue(cartProductDetailList);
@@ -258,9 +250,7 @@ public class CartViewModel extends ViewModel {
 
             MutableLiveData<List<CartProductDetail>> cartProductListLiveD = weakCartProductListLiveD.get();
             if (cartProductListLiveD != null) {
-                //cartProductListLiveD.setValue(temp);
                 List<CartProductDetail> cartProductDetailList = cartProductListLiveD.getValue();
-
                 cartProductDetailList.remove(position);
                 cartProductListLiveD.setValue(cartProductDetailList);
             }
@@ -273,7 +263,6 @@ public class CartViewModel extends ViewModel {
     }
 
     private static class UpdateFavoriteCallback implements VolleySeverRequest.VolleyResponseCallback {
-        private WeakReference<MutableLiveData<List<Product>>> weakProductListLiveD;
         private WeakReference<MutableLiveData<Event<UpdateOperationResult>>> weakIsUpdateSuccessful;
         private Product product;
 
@@ -285,13 +274,12 @@ public class CartViewModel extends ViewModel {
         }
 
         @Override
-        public void onSuccess(JSONObject response) throws JSONException {
+        public void onSuccess(JSONObject response){
             MutableLiveData<Event<UpdateOperationResult>> isUpdateSuccessful = weakIsUpdateSuccessful.get();
 
             if (isUpdateSuccessful != null) {
                 isUpdateSuccessful.setValue(new Event<>(new UpdateOperationResult(true, product)));
             }
-
         }
 
         @Override
@@ -300,7 +288,6 @@ public class CartViewModel extends ViewModel {
             MutableLiveData<Event<UpdateOperationResult>> isUpdateSuccessful = weakIsUpdateSuccessful.get();
 
             if (isUpdateSuccessful != null) {
-                //product.setFavorite(!product.isFavorite());
                 isUpdateSuccessful.setValue(new Event<>(new UpdateOperationResult(false, product)));
             }
         }

@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.TaskStackBuilder;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -18,13 +20,22 @@ import android.view.WindowManager;
 
 import com.example.ecom.R;
 import com.example.ecom.utils.CountDrawable;
+import com.example.ecom.view_models.MainActivityViewModel;
 
 public class MainActivity extends AppCompatActivity {
+
+    private MainActivityViewModel mainActivityViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+
+        mainActivityViewModel.getActionBarLiveD().observe(this, title -> {
+            getSupportActionBar().setTitle(title);
+        });
     }
 
     @Override
@@ -47,7 +58,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        //setCartCount(this,menu, "2");
+        /*MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setIconifiedByDefault(true);
+        *///setCartCount(this,menu, "2");
         return true;
     }
 

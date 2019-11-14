@@ -3,6 +3,8 @@ package com.example.ecom.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,6 +24,7 @@ import com.example.ecom.model.DeliveryDetail;
 import com.example.ecom.repository.Repository;
 import com.example.ecom.utils.Event;
 import com.example.ecom.view_models.AddDeliveryDetailViewModel;
+import com.example.ecom.view_models.MainActivityViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +38,8 @@ import static com.example.ecom.ui.DeliveryDetailListFragment.BUNDLE_KEY_DELIVERY
 public class AddDeliveryDetailFragment extends Fragment {
 
     private AddDeliveryDetailViewModel viewModel;
+    private MainActivityViewModel mainActivityViewModel;
+    private NavController navController;
 
     public AddDeliveryDetailFragment() {
         // Required empty public constructor
@@ -80,7 +85,7 @@ public class AddDeliveryDetailFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -94,7 +99,7 @@ public class AddDeliveryDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        NavController navController = Navigation.findNavController(view);
+        navController = Navigation.findNavController(view);
 
         viewModel = ViewModelProviders.of(this).get(AddDeliveryDetailViewModel.class);
         viewModel.setRepository(new Repository());
@@ -110,5 +115,26 @@ public class AddDeliveryDetailFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mainActivityViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
+        mainActivityViewModel.setActionBarTitle(getResources().getString(R.string.title_action_bar_add_delivery_details));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                navController.popBackStack();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.fragment_cart).setVisible(false);
+        //menu.findItem(R.id.action_search).setVisible(false);
+        menu.findItem(R.id.action_favorite).setVisible(false);
     }
 }

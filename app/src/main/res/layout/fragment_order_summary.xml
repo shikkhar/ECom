@@ -62,7 +62,9 @@
                 app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/labelTotalMrp"
-                app:layout_constraintTop_toTopOf="@+id/labelTotalMrp" />
+                app:layout_constraintTop_toTopOf="@+id/labelTotalMrp"
+                android:layout_gravity="end"
+                android:gravity="end" />
 
             <TextView
                 android:id="@+id/labelShippingCharges"
@@ -84,7 +86,9 @@
                 app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/labelShippingCharges"
-                app:layout_constraintTop_toTopOf="@+id/labelShippingCharges" />
+                app:layout_constraintTop_toTopOf="@+id/labelShippingCharges"
+                android:gravity="end"
+                android:layout_gravity="end" />
 
             <TextView
                 android:id="@+id/labelPayableAmount"
@@ -110,7 +114,9 @@
                 app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/labelPayableAmount"
-                app:layout_constraintTop_toTopOf="@+id/labelPayableAmount" />
+                app:layout_constraintTop_toTopOf="@+id/labelPayableAmount"
+                android:gravity="end"
+                android:layout_gravity="end" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineEnd"

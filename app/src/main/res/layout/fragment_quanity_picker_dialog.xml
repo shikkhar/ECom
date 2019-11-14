@@ -19,7 +19,9 @@
         android:textAlignment="viewStart"
         android:textColor="@color/textColorDark"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:gravity="start"
+        android:layout_gravity="start" />
 
     <TextView
         android:id="@+id/textViewNumber0"
@@ -32,7 +34,9 @@
         android:text="0 (delete)"
         android:textAlignment="viewStart"
         android:textColor="@color/textColor"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:gravity="start"
+        android:layout_gravity="start" />
 
     <View
         android:id="@+id/divider0"
@@ -51,7 +55,9 @@
         android:text="1"
         android:textAlignment="viewStart"
         android:textColor="@color/textColor"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:gravity="start"
+        android:layout_gravity="start" />
 
     <View
         android:id="@+id/divider"
@@ -70,7 +76,9 @@
         android:text="2"
         android:textColor="@color/textColor"
         android:textAlignment="viewStart"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:gravity="start"
+        android:layout_gravity="start" />
 
     <View
         android:id="@+id/divider2"
@@ -89,7 +97,9 @@
         android:text="3"
         android:textColor="@color/textColor"
         android:textAlignment="viewStart"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:gravity="start"
+        android:layout_gravity="start" />
 
     <View
         android:id="@+id/divider3"
@@ -108,7 +118,9 @@
         android:paddingBottom="8dp"
         android:text="4"
         android:textAlignment="viewStart"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:gravity="start"
+        android:layout_gravity="start" />
 
     <View
         android:id="@+id/divider4"
@@ -127,7 +139,9 @@
         android:text="5"
         android:textColor="@color/textColor"
         android:textAlignment="viewStart"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:gravity="start"
+        android:layout_gravity="start" />
 
     <View
         android:id="@+id/divider5"
@@ -146,7 +160,9 @@
         android:text="6"
         android:textColor="@color/textColor"
         android:textAlignment="viewStart"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:gravity="start"
+        android:layout_gravity="start" />
 
     <View
         android:id="@+id/divider6"
@@ -165,7 +181,9 @@
         android:text="7"
         android:textColor="@color/textColor"
         android:textAlignment="viewStart"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:gravity="start"
+        android:layout_gravity="start" />
 
     <View
         android:id="@+id/divider7"
@@ -184,7 +202,9 @@
         android:text="8"
         android:textColor="@color/textColor"
         android:textAlignment="viewStart"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:gravity="start"
+        android:layout_gravity="start" />
 
     <View
         android:id="@+id/divider8"
@@ -203,7 +223,9 @@
         android:text="9"
         android:textColor="@color/textColor"
         android:textAlignment="viewStart"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:gravity="start"
+        android:layout_gravity="start" />
 
     <View
         android:id="@+id/divider9"
@@ -222,5 +244,7 @@
         android:text="10"
         android:textColor="@color/textColor"
         android:textAlignment="viewStart"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:gravity="start"
+        android:layout_gravity="start" />
 </LinearLayout>
